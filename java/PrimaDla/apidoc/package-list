@@ -1,0 +1,13 @@
+org.primaresearch.dla.page
+org.primaresearch.dla.page.io
+org.primaresearch.dla.page.io.xml
+org.primaresearch.dla.page.io.xml.sax
+org.primaresearch.dla.page.layout
+org.primaresearch.dla.page.layout.converter
+org.primaresearch.dla.page.layout.logical
+org.primaresearch.dla.page.layout.physical
+org.primaresearch.dla.page.layout.physical.impl
+org.primaresearch.dla.page.layout.physical.shared
+org.primaresearch.dla.page.layout.physical.text
+org.primaresearch.dla.page.layout.physical.text.impl
+org.primaresearch.dla.page.layout.shared
