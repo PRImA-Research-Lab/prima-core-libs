@@ -169,7 +169,7 @@ public abstract class XmlModelAndValidatorProvider {
 
 	/**
 	 * Finds the latest schema version from the list of schema versions (based on version format 'yyyy-mm-dd').
-	 * @return
+	 * @return New format version object
 	 */
 	private XmlFormatVersion findLatestSchemaVersion() {
 	

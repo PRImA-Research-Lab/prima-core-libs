@@ -15,6 +15,9 @@
  */
 package org.primaresearch.dla.page.layout.physical.shared;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Content types for layout regions.
  * 
@@ -49,6 +52,9 @@ public class RegionType extends ContentType {
 	public static final RegionType NoiseRegion 			= new RegionType("NoiseRegion");
 	/** For regions of unknown/undetermined type */
 	public static final RegionType UnknownRegion 		= new RegionType("UnknownRegion");
+	
+	
+	private static Map<String, RegionType> genericTypes = new HashMap<String, RegionType>();
 
 	/**
 	 * Empty constructor (required for GWT)
@@ -63,5 +69,18 @@ public class RegionType extends ContentType {
 	 */
 	protected RegionType(String name) {
 		super(name);
+	}
+	
+	/**
+	 * Returns (and creates+registers if necessary) a generic region type with the specified name
+	 * @param name Type name (e.g. 'MapRegion')
+	 * @return The region type object
+	 */
+	public static RegionType getGenericType(String name) {
+		if (genericTypes.containsKey(name))
+			return genericTypes.get(name);
+		RegionType newType = new RegionType(name);
+		genericTypes.put(name, newType);
+		return newType;
 	}
 }

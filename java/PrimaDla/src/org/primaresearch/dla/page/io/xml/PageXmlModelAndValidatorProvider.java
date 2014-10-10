@@ -90,6 +90,11 @@ public class PageXmlModelAndValidatorProvider extends XmlModelAndValidatorProvid
 								new URL("http://www.loc.gov/standards/alto/alto.xsd"),
 								false);
 
+			//ALTO 3.0
+			addSchemaSource(	new XmlFormatVersion("http://www.loc.gov/standards/alto/ns-v3#"), 
+								new URL("http://www.loc.gov/standards/alto/v3/alto.xsd"),
+								false);
+
 			//HOCR
 			addSchemaSource(	new XmlFormatVersion("HOCR"), 
 								null,

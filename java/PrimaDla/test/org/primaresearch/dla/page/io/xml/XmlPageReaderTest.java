@@ -252,7 +252,7 @@ public class XmlPageReaderTest {
 		//Check sizes and zIndex of layers
 		Layer layer = layers.getLayer(0);
 		assertEquals(1, layer.getSize());
-		assertEquals(1, layer.getZIndex());
+		assertEquals(0, layer.getZIndex());
 		layer = layers.getLayer(1);
 		assertEquals(3, layer.getSize());
 		assertEquals(2, layer.getZIndex());

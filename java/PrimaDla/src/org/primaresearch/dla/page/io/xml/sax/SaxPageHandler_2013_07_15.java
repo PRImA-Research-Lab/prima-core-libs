@@ -195,6 +195,10 @@ public class SaxPageHandler_2013_07_15 extends SaxPageHandler {
 	    else if (DefaultXmlNames.ELEMENT_UnknownRegion.equals(localName)) {
 	    	handleRegion(atts, RegionType.UnknownRegion);
 	    }
+	    else if (localName.endsWith("Region")) {
+	    	//Generic region
+	    	handleRegion(atts, RegionType.getGenericType(localName));
+	    }
 	    else if (DefaultXmlNames.ELEMENT_TextLine.equals(localName)) {
 	    	currentTextLine = null;
 	    	if (currentRegion != null && currentRegion.getType() == RegionType.TextRegion)

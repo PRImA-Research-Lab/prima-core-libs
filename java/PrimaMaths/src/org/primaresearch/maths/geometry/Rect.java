@@ -54,4 +54,8 @@ public class Rect implements Serializable {
 		return bottom-top+1;
 	}
 	
+	public Point getCenter() {
+		return new Point((left+right)/2, (top+bottom)/2);
+	}
+	
 }

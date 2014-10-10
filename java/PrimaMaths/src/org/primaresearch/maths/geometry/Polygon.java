@@ -86,7 +86,7 @@ public class Polygon implements Serializable {
 	
 	/**
 	 * Returns the bounding box of the polygon (the user has to make sure that
-	 * {@link setBoundingBoxOutdated() setBoundingBoxOutdated} is called when points are changed manually).
+	 * {@link #setBoundingBoxOutdated() setBoundingBoxOutdated} is called when points are changed manually).
 	 * 
 	 * @return Rectangle
 	 */

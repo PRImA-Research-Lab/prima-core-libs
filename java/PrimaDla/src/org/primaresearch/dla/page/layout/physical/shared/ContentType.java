@@ -32,6 +32,16 @@ public class ContentType implements Serializable {
 	 */
 	public static final ContentType Page = new ContentType("Page");
 
+	/**
+	 * Content type for the page border
+	 */
+	public static final ContentType Border = new ContentType("Border");
+
+	/**
+	 * Content type for the page print space
+	 */
+	public static final ContentType PrintSpace = new ContentType("PrintSpace");
+
 	private String name;
 	
 	/**

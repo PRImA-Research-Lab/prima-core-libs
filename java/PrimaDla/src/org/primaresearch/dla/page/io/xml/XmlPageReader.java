@@ -278,7 +278,8 @@ public class XmlPageReader implements PageReader {
 		    }
 		    //ALTO
 		    else if ("alto".equals(localName)) {
-				//String str = namespaceURI; //Example: http://www.loc.gov/standards/alto/ns-v2#
+				//String str = namespaceURI; //Examples: http://www.loc.gov/standards/alto/ns-v2#
+		    	//                                       http://www.loc.gov/standards/alto/ns-v3#
 				if (namespaceURI.contains("alto")) {
 					schemaVersion = new XmlFormatVersion(namespaceURI);
 					throw new SAXException(PARSING_COMPLETE);

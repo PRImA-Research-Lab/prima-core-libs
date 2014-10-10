@@ -45,6 +45,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Experimental SAX XML handler to read ALTO XML files.
+ * Can also be used for schema version 3.0 since there were no significant changes.
  * 
  * @author Christian Clausner
  *
@@ -131,7 +132,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	private XmlModelAndValidatorProvider validatorProvider;
 	private XmlFormatVersion schemaVersion;
 	
-	
+	/**
+	 * Constructor 
+	 */
 	public SaxPageHandler_Alto_2_1(XmlModelAndValidatorProvider validatorProvider, XmlFormatVersion schemaVersion) {
 		this.validatorProvider = validatorProvider;
 		this.schemaVersion = schemaVersion;
@@ -143,6 +146,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		return page;
 	}
 	
+	/**
+	 * Creates a new page 
+	 */
 	private void createPageObject() {
     	if (validatorProvider != null && schemaVersion != null) {
     		try {

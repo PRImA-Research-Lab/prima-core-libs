@@ -32,7 +32,7 @@ public class XmlValidationError extends IOError {
 
 	/**
 	 * Returns the location of the error (usually line and column).
-	 * @return
+	 * @return Location text 
 	 */
 	public String getLocation() {
 		return location;
