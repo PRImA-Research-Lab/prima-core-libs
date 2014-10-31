@@ -85,6 +85,11 @@ public class PageXmlModelAndValidatorProvider extends XmlModelAndValidatorProvid
 								new URL("http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml"),
 								false);
 
+			//ALTO 1.1 //Didn't work (Cannot resolve the name 'xlink:simpleLink' )
+			addSchemaSource(	new XmlFormatVersion("http://schema.ccs-gmbh.com/ALTO"), 
+								new URL("http://www.loc.gov/ndnp/alto_1-1-041.xsd"),
+								false);
+
 			//ALTO 2.1
 			addSchemaSource(	new XmlFormatVersion("http://www.loc.gov/standards/alto/ns-v2#"), 
 								new URL("http://www.loc.gov/standards/alto/alto.xsd"),

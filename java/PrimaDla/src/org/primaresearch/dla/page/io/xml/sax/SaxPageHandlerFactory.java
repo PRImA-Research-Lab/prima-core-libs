@@ -45,7 +45,8 @@ public class SaxPageHandlerFactory {
 					return new SaxPageHandler_Hocr();
 				//ALTO
 				else if (((XmlFormatVersion)schemaVersion).toString().equals("http://www.loc.gov/standards/alto/ns-v2#")
-						|| ((XmlFormatVersion)schemaVersion).toString().equals("http://www.loc.gov/standards/alto/ns-v3#"))
+						|| ((XmlFormatVersion)schemaVersion).toString().equals("http://www.loc.gov/standards/alto/ns-v3#")
+						|| ((XmlFormatVersion)schemaVersion).toString().equals("http://schema.ccs-gmbh.com/ALTO")) //1.1
 					return new SaxPageHandler_Alto_2_1(validatorProvider, schemaVersion);
 			}
 			
