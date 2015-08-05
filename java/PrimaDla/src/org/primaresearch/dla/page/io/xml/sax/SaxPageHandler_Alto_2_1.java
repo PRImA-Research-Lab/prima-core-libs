@@ -999,7 +999,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		}
 		
 		if (polygon.getSize() >= 3)
-			currentRegion.setCoords(polygon);
+			if (currentRegion != null) {
+				currentRegion.setCoords(polygon);
+			}	
 	}
 	
 	/**
