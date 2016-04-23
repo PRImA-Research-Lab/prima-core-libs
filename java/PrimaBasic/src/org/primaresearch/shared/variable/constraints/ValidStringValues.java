@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.primaresearch.shared.variable.constraints;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.VariableValue;
@@ -32,7 +32,7 @@ public class ValidStringValues implements VariableConstraint, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	Set<String> validValues = new HashSet<String>();
+	Collection<String> validValues = new LinkedList<String>();
 	
 	public void addValidValue(String value) {
 		validValues.add(value);
@@ -66,7 +66,7 @@ public class ValidStringValues implements VariableConstraint, Serializable {
 		return null;
 	}
 
-	public Set<String> getValidValues() {
+	public Collection<String> getValidValues() {
 		return validValues;
 	}
 	

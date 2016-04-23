@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -207,6 +207,27 @@ public class Polygon implements Serializable {
 		 
 		    return inside_flag != 0;
 		}
+	}
+	
+	/**
+	 * Calculates the perimeter of this polygon
+	 * @return Length (0.0 if not a polygon)
+	 */
+	public double calculateLength() {
+		if (points.size() <= 1)
+			return 0.0;
+		
+		double length = 0.0;
+		Point a = null;
+		Point b = points.get(points.size()-1);
+		for (int i=0; i<points.size(); i++) {
+			a = b;
+			b = points.get(i);
+			if (a == null || b == null)
+				continue;
+			length += a.calculateDistance(b.x, b.y);
+		}
+		return length;
 	}
 	
 	/**

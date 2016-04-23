@@ -1,4 +1,6 @@
+org.primaresearch.cmd
 org.primaresearch.collections
+org.primaresearch.eval
 org.primaresearch.ident
 org.primaresearch.shared
 org.primaresearch.shared.variable

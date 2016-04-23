@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.primaresearch.shared.variable;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.primaresearch.shared.variable.constraints.ValidStringValues;
 
@@ -115,7 +115,7 @@ public class StringVariable extends BaseVariable implements Variable {
 	 * Returns a set of valid values for this string variable.
 	 * @return A set of Strings or null if no constraint has been set for this variable. 
 	 */
-	public Set<String> getValidValues() {
+	public Collection<String> getValidValues() {
 		if (this.constraint == null || !(this.constraint instanceof ValidStringValues))
 			return null;
 		return ((ValidStringValues)this.constraint).getValidValues();

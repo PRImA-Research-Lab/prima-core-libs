@@ -354,11 +354,11 @@ Range: -179.999,180</documentation>
             	<documentation>OCR confidence value (between 0 and 1)</documentation>
             </annotation>
             <simpleType>
-				<restriction base="float">
-					<minExclusive value="0"></minExclusive>
-					<maxExclusive value="1"></maxExclusive>
-				</restriction>
-			</simpleType>
+            	<restriction base="float">
+            		<minInclusive value="0"></minInclusive>
+            		<maxInclusive value="1"></maxInclusive>
+            	</restriction>
+            </simpleType>
 		</attribute>
 	</complexType>
 	<complexType name="ImageRegionType">
@@ -1333,7 +1333,6 @@ It does not contain pagenumber (if not part of running title), marginals, signat
     			proportional font
     		</documentation>
     	</annotation>
-    	<sequence></sequence>
     	<attribute name="fontFamily" type="string">
     		<annotation>
     			<documentation>

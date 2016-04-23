@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -965,6 +965,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	 * Parses a polygon node.
 	 */
 	private void handlePolygonNode(Attributes atts) {
+		if (currentRegion == null)
+			return;
+		
 		int i;
 		
 		//Points
@@ -1006,6 +1009,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	 * Parses an ellipse node.
 	 */
 	private void handleEllipseNode(Attributes atts) {
+		if (currentRegion == null)
+			return;
+		
 		int i;
 		double x=0, y=0, horLength=0, vertLength=0;
 		
@@ -1030,6 +1036,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	 * Parses a circle node.
 	 */
 	private void handleCircleNode(Attributes atts) {
+		if (currentRegion == null)
+			return;
+		
 		int i;
 		double x=0, y=0, radius=0;
 		

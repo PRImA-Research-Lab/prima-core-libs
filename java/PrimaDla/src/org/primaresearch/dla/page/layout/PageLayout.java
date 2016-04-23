@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -487,6 +487,14 @@ public class PageLayout {
 	 * @return List of region objects
 	 */
 	public List<Region> getRegionsSorted() {
+		return getRegionsSorted(false);
+	}
+	
+	/**
+	 * Returns a sorted list of all regions. The sorting is primarily done by reading order and secondarily by y position. 
+	 * @return List of region objects
+	 */
+	public List<Region> getRegionsSorted(boolean includeNestedRegion) {
 		List<Region> sortedRegions = new ArrayList<Region>(this.getRegionCount());
 		
 		List<Region> notInReadingOrder = new ArrayList<Region>();
@@ -499,14 +507,27 @@ public class PageLayout {
 			for (int i=0; i<sortedRegions.size(); i++)
 				idSet.add(sortedRegions.get(i).getId());
 
-			for (int i=0; i<regions.size(); i++) {
-				if (!idSet.contains(regions.getAt(i).getId()))
-					notInReadingOrder.add(regions.getAt(i));
+			if (includeNestedRegion) {
+				for (RegionIterator it = new RegionIterator(this, null, null); it.hasNext(); ) {
+					Region reg = (Region)it.next();
+					if (!idSet.contains(reg.getId()))
+						notInReadingOrder.add(reg);
+				}
+			} else {
+				for (int i=0; i<regions.size(); i++) {
+					if (!idSet.contains(regions.getAt(i).getId()))
+						notInReadingOrder.add(regions.getAt(i));
+				}
 			}
 		}
 		else { //No reading order
-			for (int i=0; i<regions.size(); i++)
-				notInReadingOrder.add(regions.getAt(i));
+			if (includeNestedRegion) {
+				for (RegionIterator it = new RegionIterator(this, null, null); it.hasNext(); ) 
+					notInReadingOrder.add((Region)it.next());
+			} else {
+				for (int i=0; i<regions.size(); i++)
+					notInReadingOrder.add(regions.getAt(i));
+			}
 		}
 		
 		//Sort the remaining regions by y position
