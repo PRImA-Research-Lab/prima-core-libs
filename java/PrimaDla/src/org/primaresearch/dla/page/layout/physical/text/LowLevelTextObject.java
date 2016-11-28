@@ -15,7 +15,9 @@
  */
 package org.primaresearch.dla.page.layout.physical.text;
 
+import org.primaresearch.dla.page.layout.physical.AttributeFactory;
 import org.primaresearch.dla.page.layout.physical.ContentObject;
+import org.primaresearch.dla.page.layout.physical.text.impl.TextContentVariants;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
@@ -35,45 +37,23 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 	
 	private Polygon coords;
 
-	private String textConentUnicode;
-	private String textContentPlain;
-
-	private Double ocrConfidence = null;
-
 	private VariableMap attributes;
-	//private VariableMap textStyle;
 	
 	private LowLevelTextContainer parent;
 	
+	private TextContentVariants textContentVariants;
+
 	
 	protected LowLevelTextObject(IdRegister idRegister, Id id, Polygon coords, 
-								VariableMap attributes, LowLevelTextContainer parent) {
+								VariableMap attributes, LowLevelTextContainer parent,
+								AttributeFactory attrFactory) {
 		this.idRegister = idRegister;
 		this.id = id;
 		this.coords = coords;
 		this.attributes = attributes;
 		//this.textStyle = textStyle;
 		this.parent = parent;
-	}
-
-	@Override
-	public String getText() {
-		return textConentUnicode;
-	}
-
-	@Override
-	public String getPlainText() {
-		return textContentPlain;
-	}
-	
-	@Override
-	public void setText(String text) {
-		textConentUnicode = text;
-	}
-	
-	@Override
-	public void setPlainText(String text) {
-		textContentPlain = text;
+		textContentVariants = new TextContentVariants(attrFactory);
 	}
 
 	@Override
@@ -118,15 +98,6 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 	}
 
 
-	@Override
-	public Double getConfidence() {
-		return ocrConfidence;
-	}
-
-	@Override
-	public void setConfidence(Double confidence) {
-		this.ocrConfidence = confidence;
-	}
 
 	public LowLevelTextContainer getParent() {
 		return parent;
@@ -136,10 +107,84 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 		this.parent = parent;
 	}
 	
-	//@Override
-	//public VariableMap getTextStyle() {
-	//	return textStyle;
-	//}
+	@Override
+	public String getText() {
+		return textContentVariants.getText();
+	}
+
+	@Override
+	public String getPlainText() {
+		return textContentVariants.getPlainText();
+	}
 	
+	@Override
+	public void setText(String text) {
+		textContentVariants.setText(text);
+	}
 	
+	@Override
+	public void setPlainText(String text) {
+		textContentVariants.setPlainText(text);
+	}
+	
+	@Override
+	public String getComments() {
+		return textContentVariants.getComments();
+	}
+
+	@Override
+	public void setComments(String comments) {
+		textContentVariants.setComments(comments);
+	}
+
+	@Override
+	public String getDataType() {
+		return textContentVariants.getDataType();
+	}
+
+	@Override
+	public void setDataType(String datatype) {
+		textContentVariants.setDataType(datatype);
+	}
+
+	@Override
+	public String getDataTypeDetails() {
+		return textContentVariants.getDataTypeDetails();
+	}
+
+	@Override
+	public void setDataTypeDetails(String details) {
+		textContentVariants.setDataTypeDetails(details);
+	}
+
+	@Override
+	public int getTextContentVariantCount() {
+		return textContentVariants.getTextContentVariantCount();
+	}
+
+	@Override
+	public TextContent getTextContentVariant(int index) {
+		return textContentVariants.getTextContentVariant(index);
+	}
+
+	@Override
+	public TextContent addTextContentVariant() {
+		return textContentVariants.addTextContentVariant();
+	}
+
+	@Override
+	public void reomveTextContentVariant(int index) {
+		textContentVariants.reomveTextContentVariant(index);
+	}
+	
+	@Override
+	public Double getConfidence() {
+		return textContentVariants.getConfidence();
+	}
+
+	@Override
+	public void setConfidence(Double confidence) {
+		textContentVariants.setConfidence(confidence);
+	}
+
 }

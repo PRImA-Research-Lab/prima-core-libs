@@ -27,6 +27,7 @@ import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainerImpl;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextObject;
+import org.primaresearch.dla.page.layout.physical.text.TextContent;
 import org.primaresearch.dla.page.layout.physical.text.TextObject;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
@@ -51,10 +52,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	
 	private LowLevelTextContainerImpl textLines = new LowLevelTextContainerImpl();
 
-	private String textConentUnicode;
-	private String textContentPlain;
-	
-	private Double ocrConfidence = null;
+	private TextContentVariants textContentVariants;
 	
 	private ContentFactory contentFactory;
 	
@@ -64,6 +62,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 						RegionContainer parentRegion) {
 		super(idRegister, RegionType.TextRegion, id, coords, attributes, parentRegion);
 		this.contentFactory = contentFactory;
+		textContentVariants = new TextContentVariants(contentFactory.getAttributeFactory());
 	}
 	
 	@Override
@@ -73,22 +72,22 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public String getText() {
-		return textConentUnicode;
+		return textContentVariants.getText();
 	}
 
 	@Override
 	public String getPlainText() {
-		return textContentPlain;
+		return textContentVariants.getPlainText();
 	}
 	
 	@Override
 	public void setText(String text) {
-		textConentUnicode = text;
+		textContentVariants.setText(text);
 	}
 	
 	@Override
 	public void setPlainText(String text) {
-		textContentPlain = text;
+		textContentVariants.setPlainText(text);
 	}
 
 	@Override
@@ -345,19 +344,14 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Double getConfidence() {
-		return ocrConfidence;
+		return textContentVariants.getConfidence();
 	}
 
 	@Override
 	public void setConfidence(Double confidence) {
-		this.ocrConfidence = confidence;
+		textContentVariants.setConfidence(confidence);
 	}
 
-	//@Override
-	//public VariableMap getTextStyle() {
-	//	return textStyle;
-	//}
-	
 	@Override
 	public Boolean isBold() {
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
@@ -484,5 +478,55 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		if (replaceTextContent && !composed.isEmpty())
 			setText(composed);
 		return composed;
+	}
+
+	@Override
+	public String getComments() {
+		return textContentVariants.getComments();
+	}
+
+	@Override
+	public void setComments(String comments) {
+		textContentVariants.setComments(comments);
+	}
+
+	@Override
+	public String getDataType() {
+		return textContentVariants.getDataType();
+	}
+
+	@Override
+	public void setDataType(String datatype) {
+		textContentVariants.setDataType(datatype);
+	}
+
+	@Override
+	public String getDataTypeDetails() {
+		return textContentVariants.getDataTypeDetails();
+	}
+
+	@Override
+	public void setDataTypeDetails(String details) {
+		textContentVariants.setDataTypeDetails(details);
+	}
+
+	@Override
+	public int getTextContentVariantCount() {
+		return textContentVariants.getTextContentVariantCount();
+	}
+
+	@Override
+	public TextContent getTextContentVariant(int index) {
+		return textContentVariants.getTextContentVariant(index);
+	}
+
+	@Override
+	public TextContent addTextContentVariant() {
+		return textContentVariants.addTextContentVariant();
+	}
+
+	@Override
+	public void reomveTextContentVariant(int index) {
+		textContentVariants.reomveTextContentVariant(index);
 	}
 }

@@ -16,6 +16,7 @@
 package org.primaresearch.dla.page.layout.physical;
 
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
+import org.primaresearch.dla.page.layout.physical.text.TextContent;
 import org.primaresearch.shared.variable.VariableMap;
 
 /**
@@ -33,5 +34,9 @@ public interface AttributeFactory {
 	 */
 	public VariableMap createAttributes(ContentType type);
 	
-	
+	/**
+	 * Returns a collection of attributes for text content objects.
+	 * @return Map holding Variables
+	 */
+	public VariableMap createAttributes(TextContent textContent);
 }

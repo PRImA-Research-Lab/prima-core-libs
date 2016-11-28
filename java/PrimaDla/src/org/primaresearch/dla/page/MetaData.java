@@ -36,6 +36,7 @@ public class MetaData implements Serializable {
 	private long created = 0L;
 	private long lastModified = 0L;
 	private String comments = null;
+	private String externalRef = null;
 
 	/**
 	 * Returns the creating person, institution, and/or tool
@@ -116,4 +117,21 @@ public class MetaData implements Serializable {
 	public void setLastModifiedTime(Date d) {
 		lastModified = d.getTime();
 	}
+
+	/**
+	 * External reference of any kind
+	 * @return Reference string (e.g. a file or a URL)
+	 */
+	public String getExternalRef() {
+		return externalRef;
+	}
+
+	/**
+	 * External reference of any kind
+	 * @param externalRef Reference string (e.g. a file or a URL)
+	 */
+	public void setExternalRef(String externalRef) {
+		this.externalRef = externalRef;
+	}
+	
 }

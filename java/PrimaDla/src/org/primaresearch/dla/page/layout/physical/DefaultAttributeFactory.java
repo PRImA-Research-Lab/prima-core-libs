@@ -20,9 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.text.TextContent;
 import org.primaresearch.io.FormatModel;
 import org.primaresearch.shared.variable.BooleanVariable;
 import org.primaresearch.shared.variable.DoubleVariable;
@@ -45,6 +47,7 @@ public class DefaultAttributeFactory implements
 	
 	private static Map<ContentType, List<Variable>> contentTypeAttrMap = null;
 	private static List<Variable> textStyleAttrs = null;
+	private static List<Variable> textEquivAttrs = null;
 	
 	private FormatModel schemaParser = null;
 
@@ -63,7 +66,7 @@ public class DefaultAttributeFactory implements
 	}
 	
 	/**
-	 * Creates map with hard coded types and attributes.
+	 * Creates map with hard-coded types and attributes.
 	 */
 	private static Map<ContentType, List<Variable>> getMap() {
 		if (contentTypeAttrMap == null) {
@@ -76,6 +79,12 @@ public class DefaultAttributeFactory implements
 			contentTypeAttrMap.put(ContentType.Page, vars);
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("type", null));
+			vars.add(new StringVariable("readingDirection", null));
+			vars.add(new StringVariable("textLineOrder", null));
+			vars.add(new StringVariable("primaryLanguage", null));
+			vars.add(new StringVariable("secondaryLanguage", null));
+			vars.add(new StringVariable("primaryScript", null));
+			vars.add(new StringVariable("secondaryScript", null));
 			
 			//Text Region
 			vars = new ArrayList<Variable>();
@@ -209,6 +218,8 @@ public class DefaultAttributeFactory implements
 			//Text line
 			vars = new ArrayList<Variable>();
 			contentTypeAttrMap.put(LowLevelTextType.TextLine, vars);
+			vars.add(new StringVariable("primaryScript", null));
+			vars.add(new StringVariable("secondaryScript", null));
 			vars.add(new StringVariable("primaryLanguage", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
@@ -217,6 +228,8 @@ public class DefaultAttributeFactory implements
 			vars = new ArrayList<Variable>();
 			contentTypeAttrMap.put(LowLevelTextType.Word, vars);
 			vars.add(new StringVariable("language", null));
+			vars.add(new StringVariable("primaryScript", null));
+			vars.add(new StringVariable("secondaryScript", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -225,6 +238,7 @@ public class DefaultAttributeFactory implements
 			contentTypeAttrMap.put(LowLevelTextType.Glyph, vars);
 			vars.add(new BooleanVariable("ligature", null));
 			vars.add(new BooleanVariable("symbol", null));
+			vars.add(new StringVariable("script", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 		}
@@ -238,6 +252,7 @@ public class DefaultAttributeFactory implements
 			textStyleAttrs.add(new StringVariable("bgColour", null));
 			textStyleAttrs.add(new BooleanVariable("reverseVideo", null));
 			textStyleAttrs.add(new DoubleVariable("fontSize", null));
+			textStyleAttrs.add(new DoubleVariable("xHeight", null));
 			textStyleAttrs.add(new IntegerVariable("kerning", null));
 			textStyleAttrs.add(new StringVariable("fontFamily", null));
 			textStyleAttrs.add(new BooleanVariable("serif", null));
@@ -253,6 +268,19 @@ public class DefaultAttributeFactory implements
 		}
 		return textStyleAttrs;
 	}
+	
+	private List<Variable> getTextEquivList() {
+		if (textEquivAttrs == null) {
+			textEquivAttrs = new ArrayList<Variable>();
+			textEquivAttrs.add(new IntegerVariable(DefaultXmlNames.ATTR_index, null));
+			textEquivAttrs.add(new StringVariable(DefaultXmlNames.ATTR_comments, null));
+			textEquivAttrs.add(new DoubleVariable(DefaultXmlNames.ATTR_conf, null));
+			textEquivAttrs.add(new StringVariable(DefaultXmlNames.ATTR_dataType, null));
+			textEquivAttrs.add(new StringVariable(DefaultXmlNames.ATTR_dataTypeDetails, null));
+		}
+		return textEquivAttrs;
+	}
+
 
 	@Override
 	public VariableMap createAttributes(ContentType type) {
@@ -283,10 +311,17 @@ public class DefaultAttributeFactory implements
 			}
 		}
 		
-		//Text style
+		//Text style 
 		if (type instanceof LowLevelTextType || RegionType.TextRegion.equals(type)) {
 			createTextStyleAttributes(varMap);
 		}
+		return varMap;
+	}
+	
+	@Override
+	public VariableMap createAttributes(TextContent textContent) {
+		VariableMap varMap = new VariableMap();
+		createTextEquivAttributes(varMap);
 		return varMap;
 	}
 	
@@ -307,6 +342,30 @@ public class DefaultAttributeFactory implements
 		//Hard coded
 		else {
 			List<Variable> list = getTextStyleList(); 
+			if (list != null) {
+				for (int i=0; i<list.size(); i++)
+					varMap.add(list.get(i).clone());
+			}
+		}
+	}
+	
+	private void createTextEquivAttributes(VariableMap varMap) {
+		//Dynamic 
+		if (schemaParser != null) {
+			Map<String, VariableMap> typeAttrTemplates = schemaParser.getTypeAttributeTemplates();
+			if (typeAttrTemplates != null) {
+				String schemaTypeName = "TextEquivType";
+				//varMap.setType(schemaTypeName);
+				VariableMap template = typeAttrTemplates.get(schemaTypeName);
+				if (template != null) {
+					for (int i=0; i<template.getSize(); i++)
+						varMap.add(template.get(i).clone());
+				}
+			}
+		} 
+		//Hard coded
+		else {
+			List<Variable> list = getTextEquivList(); 
 			if (list != null) {
 				for (int i=0; i<list.size(); i++)
 					varMap.add(list.get(i).clone());

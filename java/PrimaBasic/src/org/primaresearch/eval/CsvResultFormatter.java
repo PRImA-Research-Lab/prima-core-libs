@@ -20,6 +20,12 @@ import java.util.List;
 import org.primaresearch.shared.variable.Variable;
 import org.primaresearch.shared.variable.VariableMap;
 
+/**
+ * Helper class to output or format data in comma-separated values (CSV) format
+ * 
+ * @author Christian Clausner
+ *
+ */
 public class CsvResultFormatter {
 
 	/**
@@ -77,7 +83,9 @@ public class CsvResultFormatter {
 						System.out.print(",");
 					if (values != null) {
 						Variable var = values.get(i);
+						System.out.print("\"");
 						System.out.print(var.getValue() != null ? var.getValue().toString() : "");
+						System.out.print("\"");
 					}
 				}
 			}

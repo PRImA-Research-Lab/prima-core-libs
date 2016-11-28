@@ -16,6 +16,7 @@
 package org.primaresearch.dla.page.layout.physical.text.impl;
 
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
+import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
@@ -36,9 +37,9 @@ import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
  */
 public class Glyph extends LowLevelTextObject {
 
-	protected Glyph(IdRegister idRegister, Id id, Polygon coords, VariableMap attributes, 
+	protected Glyph(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, VariableMap attributes, 
 					LowLevelTextContainer parentWord) {
-		super(idRegister, id, coords, attributes, parentWord);
+		super(idRegister, id, coords, attributes, parentWord, contentFactory != null ? contentFactory.getAttributeFactory() : null);
 	}
 
 	@Override

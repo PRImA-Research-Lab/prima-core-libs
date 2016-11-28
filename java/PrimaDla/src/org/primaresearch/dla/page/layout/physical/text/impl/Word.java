@@ -49,7 +49,7 @@ public class Word extends LowLevelTextObject implements LowLevelTextContainer {
 	
 	protected Word(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, VariableMap attributes, 
 				 LowLevelTextContainer parentLine) {
-		super(idRegister, id, coords, attributes, parentLine);
+		super(idRegister, id, coords, attributes, parentLine, contentFactory.getAttributeFactory());
 		this.contentFactory = contentFactory;
 	}
 

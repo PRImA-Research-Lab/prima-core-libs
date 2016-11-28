@@ -29,8 +29,6 @@ import org.primaresearch.dla.page.io.FileInput;
 import org.primaresearch.dla.page.io.FileTarget;
 import org.primaresearch.dla.page.io.PageReader;
 import org.primaresearch.dla.page.io.PageWriter;
-import org.primaresearch.dla.page.io.xml.PageXmlInputOutput;
-import org.primaresearch.dla.page.io.xml.XmlPageWriter;
 import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
@@ -47,12 +45,16 @@ import org.primaresearch.shared.variable.StringVariable;
 
 public class XmlPageWriterTest {
 	private static File xmlAllFeaturesFile = null;
+	private static File xmlAllFeaturesFile2013 = null;
+	private static File xmlLanguageAndOcrConfidenceFile = null;
 	private static File xmlAllFeaturesPageFileMod = null;
 	private static File xmlPageFile = null;
 	private static File xmlPage2013File = null;
 	private static File legacyPageFile = null;
 	private static File emptyDocumentOutputFile = null;
 	private static File allFeaturesOutputFile = null;
+	private static File allFeatures2013OutputFile = null;
+	private static File languageAndOcrConfidenceOutputFile = null;
 	private static File outputFileMod = null;
 	private static File pageOutputFile = null;
 	private static File page2013OutputFile = null;
@@ -60,10 +62,12 @@ public class XmlPageWriterTest {
 	private static File fromScratchLegacyOutputFile = null;
 	private static File fromScratchOutputFile = null;
 	private static Page pageAllFeatures = null;
+	private static Page pageAllFeatures2013 = null;
 	private static Page pageMod = null;
 	private static Page page = null;
 	private static Page page2013 = null;
 	private static Page legacyPage = null;
+	private static Page pageLanguageAndOcrConfidence = null;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
@@ -89,6 +93,21 @@ public class XmlPageWriterTest {
 		pageAllFeatures = reader.read(new FileInput(xmlAllFeaturesFile));
 		if (pageAllFeatures == null)
 			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile.getPath());
+		
+		//All features file 2013 schema
+		allFeatures2013OutputFile = new File("c:/junit/allFeatures2013Output.xml");
+		if (allFeatures2013OutputFile.exists()) {
+			if (!allFeatures2013OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ allFeatures2013OutputFile.getPath());
+		}
+
+		xmlAllFeaturesFile2013 = new File("c:/junit/allFeatures2013.xml");
+		if (!xmlAllFeaturesFile2013.exists())
+			throw new Exception("Page XML file not found: "+ xmlAllFeaturesFile2013.getPath());
+		
+		pageAllFeatures2013 = reader.read(new FileInput(xmlAllFeaturesFile2013));
+		if (pageAllFeatures2013 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2013.getPath());
 
 		//Normal page file
 		pageOutputFile = new File("c:/junit/pageOutput.xml");
@@ -170,6 +189,22 @@ public class XmlPageWriterTest {
 			if (!fromScratchOutputFile.delete())
 				throw new Exception("Old output file could not be deleted: "+ fromScratchOutputFile.getPath());
 		}
+		
+		//Page file with primary and secondary region attribute as well as OCR confidence
+		xmlLanguageAndOcrConfidenceFile = new File("c:/junit/languagesAndOcrConfidence.xml");
+		if (!xmlLanguageAndOcrConfidenceFile.exists())
+			throw new Exception("Page XML file not found: "+ xmlLanguageAndOcrConfidenceFile.getPath());
+
+		reader = PageXmlInputOutput.getReader();
+		pageLanguageAndOcrConfidence = reader.read(new FileInput(xmlLanguageAndOcrConfidenceFile));
+		if (pageLanguageAndOcrConfidence == null)
+			throw new Exception("Page XML could not be opened: "+ xmlLanguageAndOcrConfidenceFile.getPath());
+		
+		languageAndOcrConfidenceOutputFile = new File("c:/junit/languagesAndOcrConfidence_Output.xml");
+		if (languageAndOcrConfidenceOutputFile.exists()) {
+			if (!languageAndOcrConfidenceOutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ languageAndOcrConfidenceOutputFile.getPath());
+		}
 	}
 
 	@Test
@@ -217,6 +252,32 @@ public class XmlPageWriterTest {
 			} 
 			assertTrue(allFeaturesOutputFile.exists());
 			
+			//File with new features of 2016 schema
+			//TODO
+		} catch(Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testWrite2013() {
+		try {
+			//Valid
+			PageWriter writer;
+			try {
+				writer = PageXmlInputOutput.getWriter((XmlFormatVersion)pageAllFeatures2013.getFormatVersion());
+			} catch (UnsupportedSchemaVersionException e) {
+				fail(e.getMessage());
+				return;
+			}
+	
+			try {
+				writer.write(pageAllFeatures2013, new FileTarget(allFeatures2013OutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			} 
+			assertTrue(allFeatures2013OutputFile.exists());
+			
 			//File with new features of 2013 schema
 			try {
 				writer.write(page2013, new FileTarget(page2013OutputFile));
@@ -224,6 +285,7 @@ public class XmlPageWriterTest {
 				e.printStackTrace();
 			}
 			assertTrue(page2013OutputFile.exists());
+
 		} catch(Exception exc) {
 			exc.printStackTrace();
 		}
@@ -435,6 +497,66 @@ public class XmlPageWriterTest {
 		assertTrue(legagyOutputFile.exists());
 	}
 
+	@Test
+	public void testWriteLanguageAndOcrConfidence() {
+		try {
+			
+			//Make sure everything has been loaded correctly from the example file
+			assertTrue("Page file with languages and OCR confidence has a region", pageLanguageAndOcrConfidence.getLayout().getRegionCount() > 0);
+			Region region = pageLanguageAndOcrConfidence.getLayout().getRegion(0);
+			
+			assertTrue("Region is of type text", region instanceof TextRegion);
+			
+			TextRegion textRegion = (TextRegion)region;
+			
+			assertTrue("Primary language German", "German".equals(textRegion.getPrimaryLanguage()));
+			assertTrue("Secondary language English", "English".equals(textRegion.getSecondaryLanguage()));
+			assertTrue("OCR confidence 0.5", textRegion.getConfidence() == 0.5);
+						
+			//Get writer for latest format
+			PageWriter writer;
+			try {
+				writer = PageXmlInputOutput.getWriterForLastestXmlFormat();
+			} catch (UnsupportedSchemaVersionException e) {
+				fail(e.getMessage());
+				return;
+			}
 
+			//Write
+			try {
+				writer.write(pageLanguageAndOcrConfidence, new FileTarget(languageAndOcrConfidenceOutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			} 
+			assertTrue(languageAndOcrConfidenceOutputFile.exists());
+			
+			//Load the file we just saved
+			PageReader reader = PageXmlInputOutput.getReader();
+			Page loadedPage = reader.read(new FileInput(languageAndOcrConfidenceOutputFile));
+			assertTrue("Load save XML file with language and OCR confidence", loadedPage != null);
+			
+			// Check the content
+			region = loadedPage.getLayout().getRegion(0);
+			
+			assertTrue("Loaded region is of type text", region instanceof TextRegion);
+			
+			textRegion = (TextRegion)region;
+			
+			assertTrue("Loaded Primary language German", "German".equals(textRegion.getPrimaryLanguage()));
+			assertTrue("Loaded Secondary language English", "English".equals(textRegion.getSecondaryLanguage()));
+			assertTrue("Loaded OCR confidence 0.5", textRegion.getConfidence() == 0.5);
+			
+			
+			
+			//VariableConstraint constraint = textRegion.getAttributes().get("primaryLanguage").getConstraint();
+			//ValidStringValues validValuesConstriant = (ValidStringValues)constraint;
+			//Collection<String> allValues = validValuesConstriant.getValidValues();
+			//String firstValue = allValues.iterator().next();
+			//int i=0;
+			
+		} catch(Exception exc) {
+			exc.printStackTrace();
+		}
+	}
 
 }

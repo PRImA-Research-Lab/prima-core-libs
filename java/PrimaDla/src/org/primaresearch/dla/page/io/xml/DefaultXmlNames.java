@@ -31,7 +31,7 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ELEMENT_TextRegion		= "TextRegion";
 	public static final String ELEMENT_ImageRegion		= "ImageRegion";
 	public static final String ELEMENT_LineDrawingRegion	= "LineDrawingRegion";
-	public static final String ELEMENT_GraphicRegion		= "GraphicRegion";
+	public static final String ELEMENT_GraphicRegion	= "GraphicRegion";
 	public static final String ELEMENT_TableRegion		= "TableRegion";
 	public static final String ELEMENT_ChartRegion		= "ChartRegion";
 	public static final String ELEMENT_SeparatorRegion	= "SeparatorRegion";
@@ -87,9 +87,11 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_orientation			= "orientation";
 	public static final String ATTR_readingOrientation	= "readingOrientation";
 	public static final String ATTR_readingDirection	= "readingDirection";
+	public static final String ATTR_textLineOrder		= "textLineOrder";
 	public static final String ATTR_leading				= "leading";
 	public static final String ATTR_kerning				= "kerning";
 	public static final String ATTR_fontSize			= "fontSize";
+	public static final String ATTR_xHeight				= "xHeight";
 	public static final String ATTR_type				= "type";
 	public static final String ATTR_textColour			= "textColour";
 	public static final String ATTR_bgColour			= "bgColour";
@@ -99,7 +101,8 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_secondaryLanguage	= "secondaryLanguage";
 	public static final String ATTR_language			= "language";
 	public static final String ATTR_primaryScript		= "primaryScript";
-	public static final String ATTR_secondaryScript	= "secondaryScript";
+	public static final String ATTR_secondaryScript		= "secondaryScript";
+	public static final String ATTR_script				= "script";
 	public static final String ATTR_colourDepth		= "colourDepth";
 	public static final String ATTR_embText			= "embText";
 	public static final String ATTR_penColour		= "penColour";
@@ -129,6 +132,9 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_superscript		= "superscript";
 	public static final String ATTR_smallCaps		= "smallCaps";
 	public static final String ATTR_letterSpaced	= "letterSpaced";
+	public static final String ATTR_dataType		= "dataType";
+	public static final String ATTR_dataTypeDetails	= "dataTypeDetails";
+	public static final String ATTR_externalRef		= "externalRef";
 	
 	@Override
 	public String getXmlName(ContentType type) {

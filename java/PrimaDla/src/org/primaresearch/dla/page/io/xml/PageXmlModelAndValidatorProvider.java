@@ -80,6 +80,11 @@ public class PageXmlModelAndValidatorProvider extends XmlModelAndValidatorProvid
 					getClass().getResource("/org/primaresearch/dla/page/io/xml/schema/2013-07-15_pagecontent.xsd"),
 					true);
 
+			//2016-07-15
+			addSchemaSource(	new XmlFormatVersion("2016-07-15"), 
+					getClass().getResource("/org/primaresearch/dla/page/io/xml/schema/2016-07-15_pagecontent.xsd"),
+					true);
+
 			//Abbyy FineReader 10
 			addSchemaSource(	new XmlFormatVersion("http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml"), 
 								new URL("http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml"),

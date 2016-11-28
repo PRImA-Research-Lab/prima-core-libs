@@ -53,7 +53,7 @@ public class TextLine extends LowLevelTextObject
 	protected TextLine(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, 
 						VariableMap attributes, //VariableMap textStyle, 
 						LowLevelTextContainer parentRegion) {
-		super(idRegister, id, coords, attributes, parentRegion);
+		super(idRegister, id, coords, attributes, parentRegion, contentFactory.getAttributeFactory());
 		this.contentFactory = contentFactory;
 	}
 	

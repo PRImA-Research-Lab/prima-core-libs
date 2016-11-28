@@ -367,7 +367,8 @@ public class XmlPageWriter_2013_07_15 implements XmlPageWriter {
 		addAttribute(regionNode, DefaultXmlNames.ATTR_id, contentObj.getId().toString());
 
 		//Attributes
-		addContentObjectAttributes(regionNode, model.filterAttributes(contentObj.getAttributes(), contentObj.getAttributes().getName()));
+		//addContentObjectAttributes(regionNode, model.filterAttributes(contentObj.getAttributes(), contentObj.getAttributes().getName()));
+		addContentObjectAttributes(regionNode, model.filterAttributes(contentObj.getAttributes(), contentObj.getAttributes().getType()));
 		
 		//Coords
 		addCoords(regionNode, contentObj.getCoords());

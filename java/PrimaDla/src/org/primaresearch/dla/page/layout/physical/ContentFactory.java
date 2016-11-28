@@ -65,6 +65,14 @@ public class ContentFactory {
 		this.attributeFactory = attributeFactory;
 	}
 
+	/**
+	 * Returns the attribute factory used for this content factory.
+	 * @return Attribute factory implementation
+	 */
+	public AttributeFactory getAttributeFactory() {
+		return attributeFactory;
+	}
+
 	private TextRegion createTextRegion() {
 		Id id;
 		try {
@@ -106,7 +114,7 @@ public class ContentFactory {
 		Id id;
 		try {
 			id = idRegister.generateId("c");
-			Glyph ret = new GlyphItem(	idRegister, id, new Polygon(), createAttributes(LowLevelTextType.Glyph), 
+			Glyph ret = new GlyphItem(this, idRegister, id, new Polygon(), createAttributes(LowLevelTextType.Glyph), 
 					null);
 			return ret;
 		} catch (InvalidIdException e) {
@@ -234,10 +242,10 @@ public class ContentFactory {
 	
 	//Extend class to get access to protected constructor.
 	private static class GlyphItem extends Glyph {
-		protected GlyphItem(IdRegister idRegister, Id id, Polygon coords, 
+		protected GlyphItem(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, 
 							VariableMap attributes, 
 							LowLevelTextContainer parentRegion) {
-			super(idRegister, id, coords, attributes, parentRegion);
+			super(contentFactory, idRegister, id, coords, attributes, parentRegion);
 		}
 	}
 	

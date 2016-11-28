@@ -72,7 +72,7 @@ public class ConverterHubTest {
 		assertEquals(1, messages.size());
 		assertNull(textType.getValue());
 		
-		//Convert from 2013-07-15 to 2010-03-19
+		//Convert from 2016-07-15 to 2010-03-19
 		page = new Page();
 		layout =	page.getLayout();
 		

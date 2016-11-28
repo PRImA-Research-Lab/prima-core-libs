@@ -140,6 +140,7 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		private SimpleType currentSimpleType = null;
 		private String currentType = null;
 		private Map<String,String> inheritenceMap = new HashMap<String,String>(); //[Child type, Parent type]
+		private String pendingAttributeWithInlineType = null;
 		
 		
 		/**
@@ -168,9 +169,25 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		    	addAttribute(attrName, atts);
 		    }
 		    else if ("simpleType".equals(localName)) {
-		    	String name = atts.getValue("name");
-		    	currentSimpleType = new SimpleType(name);
-		    	simpleTypes.put(name, currentSimpleType);
+		    	
+		    	//Inline simpleType?
+		    	if (pendingAttributeWithInlineType != null) {
+			    	String name = pendingAttributeWithInlineType+"Type";
+			    	currentSimpleType = new SimpleType(name);
+			    	simpleTypes.put(name, currentSimpleType);
+			    	
+					Map<String, String> attsWithPendingType = pendingSimpleType.get(currentAttributeMap.getType());
+					if (attsWithPendingType == null) {
+						attsWithPendingType = new HashMap<String, String>();
+						pendingSimpleType.put(currentAttributeMap.getType(), attsWithPendingType);
+					}
+					attsWithPendingType.put(pendingAttributeWithInlineType, pendingAttributeWithInlineType+"Type");
+		    	}
+		    	else {
+			    	String name = atts.getValue("name");
+			    	currentSimpleType = new SimpleType(name);
+			    	simpleTypes.put(name, currentSimpleType);
+		    	}
 		    }
 		    else if ("restriction".equals(localName)) {
 		    	handleRestriction(atts);
@@ -210,6 +227,9 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		    }
 		    else if ("schema".equals(localName)) {
 		    	processInheritanceMap();
+		    }
+		    else if ("attribute".equals(localName)) {
+		    	pendingAttributeWithInlineType = null;
 		    }
 		}
 		
@@ -256,8 +276,11 @@ public class DefaultSchemaParser implements SchemaModelParser {
 			if (currentAttributeMap == null)
 				return;
 			String type = atts.getValue("type");
-			if (type == null)
+			if (type == null) //This can happen if the type is defined inline within the attribute
+			{
+				pendingAttributeWithInlineType = name;
 				return;
+			}
 			Variable attr = null;
 			if ("int".equals(type))
 				attr = new IntegerVariable(name,null);

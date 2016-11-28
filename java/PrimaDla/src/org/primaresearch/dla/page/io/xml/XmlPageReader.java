@@ -200,8 +200,9 @@ public class XmlPageReader implements PageReader {
 	private void parse(InputSource input, PageErrorHandler errorHandler) throws UnsupportedFormatVersionException {
 		//Validation?
 		if (validatorProvider != null) {
+			InputStream inputStream = null;
 			try {
-		    	InputStream inputStream = getInputStream(input);
+		    	inputStream = getInputStream(input);
 		    	if (inputStream == null)
 		    		return;
 				schemaVersionParser.parse(inputStream, schemaVersionHandler);
@@ -218,14 +219,23 @@ public class XmlPageReader implements PageReader {
 					e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}			
 		}
 		
+		InputStream inputStream = null;
 	    try{
 	    	XMLReader reader = mainParser.getXMLReader();
 	    	reader.setErrorHandler(errorHandler);
 	    	reader.setContentHandler(pageHandler);
-	    	InputStream inputStream = getInputStream(input);
+	    	inputStream = getInputStream(input);
 	    	if (inputStream == null)
 	    		return;
 	    	org.xml.sax.InputSource saxInput = new org.xml.sax.InputSource(inputStream);
@@ -233,9 +243,16 @@ public class XmlPageReader implements PageReader {
 	    	reader.parse(saxInput);
 	    } catch (Throwable t) {
 	    	t.printStackTrace();
-	    }
+	    } finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
-	
 
 	
 	/**

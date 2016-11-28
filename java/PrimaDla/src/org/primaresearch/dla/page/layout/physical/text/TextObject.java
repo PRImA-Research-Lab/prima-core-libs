@@ -22,38 +22,32 @@ package org.primaresearch.dla.page.layout.physical.text;
  * @author Christian Clausner
  *
  */
-public interface TextObject {
+public interface TextObject extends TextContent {
+	
+	/**
+	 * Returns the number of text content variants.
+	 * @return Count >= 1
+	 */
+	public int getTextContentVariantCount();
+	
+	/**
+	 * Returns the text content variant for the given index
+	 * @return Text content object
+	 */
+	public TextContent getTextContentVariant(int index);
+	
+	/**
+	 * Adds a new text content variant
+	 * @return The new text content object
+	 */
+	public TextContent addTextContentVariant();
+	
+	/**
+	 * Removes the text content variant at the given index, if there are two or more variants.
+	 * One text content variant has to exist at all times.	 
+	 */
+	public void reomveTextContentVariant(int index);
 
-	/**
-	 * Returns the Unicode text. 
-	 */
-	public String getText();
-	
-	/**
-	 * Returns the plain text.
-	 */
-	public String getPlainText();
-	
-	/**
-	 * Sets the Unicode text.
-	 */
-	public void setText(String text);
-	
-	/**
-	 * Sets the plain text.
-	 */
-	public void setPlainText(String text);
-	
-	/**
-	 * Returns the OCR confidence for the text content.
-	 */
-	public Double getConfidence();
-	
-	/**
-	 * Sets the OCR confidence for the text content.
-	 */
-	public void setConfidence(Double confidence);
-	
 	/**
 	 * Bold text?
 	 * @return <code>true</code> for bold text, <code>false</code> for normal text, or <code>null</code> if not set. 
