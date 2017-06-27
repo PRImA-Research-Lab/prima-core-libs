@@ -76,6 +76,17 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ELEMENT_Relation			= "Relation";
 	public static final String ELEMENT_TextStyle		= "TextStyle";
 
+	public static final String ELEMENT_Graphemes		= "Graphemes";
+	public static final String ELEMENT_Grapheme			= "Grapheme";
+	public static final String ELEMENT_GraphemeGroup	= "GraphemeGroup";
+	public static final String ELEMENT_NonPrintingChar	= "NonPrintingChar";
+	
+	public static final String ELEMENT_UserDefined		= "UserDefined";
+	public static final String ELEMENT_UserAttribute	= "UserAttribute";
+	
+	public static final String ELEMENT_Roles			= "Roles";
+	public static final String ELEMENT_TableCellRole	= "TableCellRole";
+
 	
 	public static final String ATTR_pcGtsId				= "pcGtsId";
 	public static final String ATTR_imageFilename		= "imageFilename";
@@ -135,6 +146,17 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_dataType		= "dataType";
 	public static final String ATTR_dataTypeDetails	= "dataTypeDetails";
 	public static final String ATTR_externalRef		= "externalRef";
+	public static final String ATTR_charType		= "charType";
+	public static final String ATTR_name			= "name";
+	public static final String ATTR_description		= "description";
+	public static final String ATTR_value			= "value";
+	public static final String ATTR_rowIndex		= "rowIndex";
+	public static final String ATTR_columnIndex		= "columnIndex";
+	public static final String ATTR_rowSpan			= "rowSpan";
+	public static final String ATTR_colSpan			= "colSpan";
+	public static final String ATTR_continuation	= "continuation";
+	public static final String ATTR_mergeWithNextRule		= "mergeWithNextRule";
+	public static final String ATTR_mergeWithNextRuleData	= "mergeWithNextRuleData";
 	
 	@Override
 	public String getXmlName(ContentType type) {
@@ -170,6 +192,12 @@ public class DefaultXmlNames implements XmlNameProvider {
 			return ELEMENT_Word;
 		if (type == LowLevelTextType.Glyph)
 			return ELEMENT_Glyph;
+		if (type == LowLevelTextType.Grapheme)
+			return ELEMENT_Grapheme;
+		if (type == LowLevelTextType.GraphemeGroup)
+			return ELEMENT_GraphemeGroup;
+		if (type == LowLevelTextType.NonPrintingCharacter)
+			return ELEMENT_NonPrintingChar;
 		return type.getName();
 	}
 }

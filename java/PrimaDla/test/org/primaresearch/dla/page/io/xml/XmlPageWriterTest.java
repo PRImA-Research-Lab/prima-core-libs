@@ -44,27 +44,33 @@ import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.StringVariable;
 
 public class XmlPageWriterTest {
-	private static File xmlAllFeaturesFile = null;
+	private static File xmlAllFeaturesFile2017 = null;
+	private static File xmlAllFeaturesFile2016 = null;
 	private static File xmlAllFeaturesFile2013 = null;
 	private static File xmlLanguageAndOcrConfidenceFile = null;
 	private static File xmlAllFeaturesPageFileMod = null;
-	private static File xmlPageFile = null;
+	private static File xmlPage2017File = null;
+	private static File xmlPage2016File = null;
 	private static File xmlPage2013File = null;
 	private static File legacyPageFile = null;
 	private static File emptyDocumentOutputFile = null;
-	private static File allFeaturesOutputFile = null;
+	private static File allFeatures2017OutputFile = null;
+	private static File allFeatures2016OutputFile = null;
 	private static File allFeatures2013OutputFile = null;
 	private static File languageAndOcrConfidenceOutputFile = null;
 	private static File outputFileMod = null;
-	private static File pageOutputFile = null;
+	private static File page2017OutputFile = null;
+	private static File page2016OutputFile = null;
 	private static File page2013OutputFile = null;
 	private static File legagyOutputFile = null;
 	private static File fromScratchLegacyOutputFile = null;
 	private static File fromScratchOutputFile = null;
-	private static Page pageAllFeatures = null;
+	private static Page pageAllFeatures2017 = null;
+	private static Page pageAllFeatures2016 = null;
 	private static Page pageAllFeatures2013 = null;
 	private static Page pageMod = null;
-	private static Page page = null;
+	private static Page page2017 = null;
+	private static Page page2016 = null;
 	private static Page page2013 = null;
 	private static Page legacyPage = null;
 	private static Page pageLanguageAndOcrConfidence = null;
@@ -78,21 +84,36 @@ public class XmlPageWriterTest {
 				throw new Exception("Old output file could not be deleted: "+ emptyDocumentOutputFile.getPath());
 		}
 
-		//All features file
-		allFeaturesOutputFile = new File("c:/junit/allFeaturesOutput.xml");
-		if (allFeaturesOutputFile.exists()) {
-			if (!allFeaturesOutputFile.delete())
-				throw new Exception("Old output file could not be deleted: "+ allFeaturesOutputFile.getPath());
+		//All features file 2017
+		allFeatures2017OutputFile = new File("c:/junit/allFeatures2017Output.xml");
+		if (allFeatures2017OutputFile.exists()) {
+			if (!allFeatures2017OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ allFeatures2017OutputFile.getPath());
 		}
 
-		xmlAllFeaturesFile = new File("c:/junit/allFeatures.xml");
-		if (!xmlAllFeaturesFile.exists())
-			throw new Exception("Page XML file not found: "+ xmlAllFeaturesFile.getPath());
+		xmlAllFeaturesFile2017 = new File("c:/junit/allFeatures2017.xml");
+		if (!xmlAllFeaturesFile2017.exists())
+			throw new Exception("Page XML file not found: "+ xmlAllFeaturesFile2017.getPath());
 		
 		PageReader reader = PageXmlInputOutput.getReader();
-		pageAllFeatures = reader.read(new FileInput(xmlAllFeaturesFile));
-		if (pageAllFeatures == null)
-			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile.getPath());
+		pageAllFeatures2017 = reader.read(new FileInput(xmlAllFeaturesFile2017));
+		if (pageAllFeatures2017 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2017.getPath());
+		
+		//All features file 2016 schema
+		allFeatures2016OutputFile = new File("c:/junit/allFeatures2016Output.xml");
+		if (allFeatures2016OutputFile.exists()) {
+			if (!allFeatures2016OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ allFeatures2016OutputFile.getPath());
+		}
+
+		xmlAllFeaturesFile2016 = new File("c:/junit/allFeatures2016.xml");
+		if (!xmlAllFeaturesFile2016.exists())
+			throw new Exception("Page XML file not found: "+ xmlAllFeaturesFile2016.getPath());
+		
+		pageAllFeatures2016 = reader.read(new FileInput(xmlAllFeaturesFile2016));
+		if (pageAllFeatures2016 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2016.getPath());
 		
 		//All features file 2013 schema
 		allFeatures2013OutputFile = new File("c:/junit/allFeatures2013Output.xml");
@@ -109,20 +130,35 @@ public class XmlPageWriterTest {
 		if (pageAllFeatures2013 == null)
 			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2013.getPath());
 
-		//Normal page file
-		pageOutputFile = new File("c:/junit/pageOutput.xml");
-		if (pageOutputFile.exists()) {
-			if (!pageOutputFile.delete())
-				throw new Exception("Old output file could not be deleted: "+ pageOutputFile.getPath());
+		//Normal page 2017 file
+		page2017OutputFile = new File("c:/junit/page_2017-07-15_Output.xml");
+		if (page2017OutputFile.exists()) {
+			if (!page2017OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ page2017OutputFile.getPath());
 		}
 
-		xmlPageFile = new File("c:/junit/page.xml");
-		if (!xmlPageFile.exists())
-			throw new Exception("Page XML file not found: "+ xmlPageFile.getPath());
+		xmlPage2017File = new File("c:/junit/page_2017-07-15.xml");
+		if (!xmlPage2017File.exists())
+			throw new Exception("Page XML file not found: "+ xmlPage2017File.getPath());
 		
-		page = reader.read(new FileInput(xmlPageFile));
-		if (page == null)
-			throw new Exception("Page XML could not be opened: "+ xmlPageFile.getPath());
+		page2017 = reader.read(new FileInput(xmlPage2017File));
+		if (page2017 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlPage2017File.getPath());
+		
+		//2016 schema page file
+		page2016OutputFile = new File("c:/junit/page_2016-07-15_Output.xml");
+		if (page2016OutputFile.exists()) {
+			if (!page2016OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ page2016OutputFile.getPath());
+		}
+
+		xmlPage2016File = new File("c:/junit/page_2016-07-15.xml");
+		if (!xmlPage2016File.exists())
+			throw new Exception("Page XML file not found: "+ xmlPage2016File.getPath());
+		
+		page2016 = reader.read(new FileInput(xmlPage2016File));
+		if (page2016 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlPage2016File.getPath());
 
 		//2013 schema page file (new features of 2013 schema)
 		page2013OutputFile = new File("c:/junit/page_2013-07-15_Output.xml");
@@ -234,31 +270,69 @@ public class XmlPageWriterTest {
 	}
 
 	@Test
-	public void testWrite() {
+	public void testWrite2017() {
 		try {
 			//Valid
 			PageWriter writer;
 			try {
-				writer = PageXmlInputOutput.getWriterForLastestXmlFormat();
+				writer = PageXmlInputOutput.getWriter((XmlFormatVersion)pageAllFeatures2017.getFormatVersion());
 			} catch (UnsupportedSchemaVersionException e) {
 				fail(e.getMessage());
 				return;
 			}
 	
 			try {
-				writer.write(pageAllFeatures, new FileTarget(allFeaturesOutputFile));
+				writer.write(pageAllFeatures2017, new FileTarget(allFeatures2017OutputFile));
 			} catch (UnsupportedFormatVersionException e) {
 				e.printStackTrace();
 			} 
-			assertTrue(allFeaturesOutputFile.exists());
+			assertTrue(allFeatures2017OutputFile.exists());
 			
-			//File with new features of 2016 schema
-			//TODO
+			//File with new features of 2017 schema
+			try {
+				writer.write(page2017, new FileTarget(page2017OutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			}
+			assertTrue(page2017OutputFile.exists());
+
 		} catch(Exception exc) {
 			exc.printStackTrace();
 		}
 	}
 
+	@Test
+	public void testWrite2016() {
+		try {
+			//Valid
+			PageWriter writer;
+			try {
+				writer = PageXmlInputOutput.getWriter((XmlFormatVersion)pageAllFeatures2016.getFormatVersion());
+			} catch (UnsupportedSchemaVersionException e) {
+				fail(e.getMessage());
+				return;
+			}
+	
+			try {
+				writer.write(pageAllFeatures2016, new FileTarget(allFeatures2016OutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			} 
+			assertTrue(allFeatures2016OutputFile.exists());
+			
+			//File with new features of 2016 schema
+			try {
+				writer.write(page2016, new FileTarget(page2016OutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			}
+			assertTrue(page2016OutputFile.exists());
+
+		} catch(Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+	
 	@Test
 	public void testWrite2013() {
 		try {
@@ -308,30 +382,30 @@ public class XmlPageWriterTest {
 			return;
 		}
 		try {
-			assertTrue(writer.write(pageAllFeatures, new FileTarget(allFeaturesOutputFile)));
+			assertTrue(writer.write(pageAllFeatures2017, new FileTarget(allFeatures2017OutputFile)));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
 
 		//Valid2
 		try {
-			assertTrue(writer.write(page, new FileTarget(pageOutputFile)));
+			assertTrue(writer.write(page2017, new FileTarget(page2017OutputFile)));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
 
 		//Invalid
 		// Add an invalid attribute to a region
-		pageAllFeatures.getLayout().getRegion(0).getAttributes().add(new StringVariable("kerning", new StringValue("not a number")));
+		pageAllFeatures2017.getLayout().getRegion(0).getAttributes().add(new StringVariable("kerning", new StringValue("not a number")));
 		// Save and validate
 		try {
-			assertFalse(writer.write(pageAllFeatures, new FileTarget(allFeaturesOutputFile)));
+			assertFalse(writer.write(pageAllFeatures2017, new FileTarget(allFeatures2017OutputFile)));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
 		// Validate only
 		try {
-			assertFalse(writer.validate(pageAllFeatures));
+			assertFalse(writer.validate(pageAllFeatures2017));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}

@@ -16,6 +16,7 @@
 package org.primaresearch.dla.page.layout.physical.impl;
 
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
+import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.dla.page.layout.physical.RegionContainer;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.ident.Id;
@@ -37,9 +38,9 @@ import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
  */
 public class ChartRegion extends RegionImpl {
 
-	public ChartRegion(IdRegister idRegister, RegionType type, Id id,
+	public ChartRegion(IdRegister idRegister, ContentFactory contentFactory, RegionType type, Id id,
 			Polygon coords, VariableMap attributes, RegionContainer parentRegion) {
-		super(idRegister, type, id, coords, attributes, parentRegion);
+		super(idRegister, contentFactory, type, id, coords, attributes, parentRegion);
 	}
 
 	public String getChartType() {

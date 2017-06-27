@@ -82,4 +82,29 @@ public interface TextContent extends AttributeContainer {
 	 * For example a regular expression
 	 */
 	public void setDataTypeDetails(String details);
+	
+	/**
+	 * Returns the rule that is to be applied when merging this text content with the next (e.g. paragraph).
+	 * One of: no-whitespace, add-space, add-tab, add-line-break, add-custom, remove-last, remove-multiple, remove-all
+	 */
+	//public String getMergeWithNextRule();
+
+	/**
+	 * Sets the rule that is to be applied when merging this text content with the next (e.g. paragraph).
+	 * One of: no-whitespace, add-space, add-tab, add-line-break, add-custom, remove-last, remove-multiple, remove-all or <code>null</code>
+	 */
+	//public void setMergeWithNextRule(String rule);
+	
+	/**
+	 * Returns data for a custom 'merge with next' rule.
+	 * For example the number of characters to be removed or a custom string to be added when merging texts.
+	 */
+	//public String getMergeWithNextRuleData();
+
+	/**
+	 * Sets data for a custom 'merge with next' rule.
+	 * For example the number of characters to be removed or a custom string to be added when merging texts.
+	 */
+	//public void setMergeWithNextRuleData(String data);
+
 }

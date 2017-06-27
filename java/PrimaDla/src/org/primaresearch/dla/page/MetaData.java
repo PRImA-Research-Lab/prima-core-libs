@@ -20,6 +20,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.primaresearch.shared.variable.VariableMap;
+
 /**
  * Class for document metadata such as creation date, comments, ... 
  * 
@@ -37,6 +39,24 @@ public class MetaData implements Serializable {
 	private long lastModified = 0L;
 	private String comments = null;
 	private String externalRef = null;
+
+	private VariableMap userDefinedAttributes = null;
+
+	/**
+	 * User-defined attributes (text, int, decimal or boolean)
+	 * @return Variable map or <code>null</code>
+	 */
+	public VariableMap getUserDefinedAttributes() {
+		return userDefinedAttributes;
+	}
+	
+	/**
+	 *  User-defined attributes (text, int, decimal or boolean)
+	 * @param attrs Variable map
+	 */
+	public void setUserDefinedAttributes(VariableMap attrs) {
+		userDefinedAttributes = attrs;
+	}
 
 	/**
 	 * Returns the creating person, institution, and/or tool

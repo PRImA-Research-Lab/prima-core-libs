@@ -39,6 +39,8 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 
 	private VariableMap attributes;
 	
+	private VariableMap userDefinedAttributes = null;
+
 	private LowLevelTextContainer parent;
 	
 	private TextContentVariants textContentVariants;
@@ -156,6 +158,27 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 	public void setDataTypeDetails(String details) {
 		textContentVariants.setDataTypeDetails(details);
 	}
+	
+	/*@Override
+	public String getMergeWithNextRule() {
+		return textContentVariants.getMergeWithNextRule();
+	}
+
+	@Override
+	public void setMergeWithNextRule(String rule) {
+		textContentVariants.setMergeWithNextRule(rule);		
+	}
+
+	@Override
+	public String getMergeWithNextRuleData() {
+		return textContentVariants.getMergeWithNextRuleData();
+	}
+
+	@Override
+	public void setMergeWithNextRuleData(String data) {
+		textContentVariants.setMergeWithNextRuleData(data);		
+	}*/
+
 
 	@Override
 	public int getTextContentVariantCount() {
@@ -186,5 +209,22 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 	public void setConfidence(Double confidence) {
 		textContentVariants.setConfidence(confidence);
 	}
+
+	/**
+	 * User-defined attributes (text, int, decimal or boolean)
+	 * @return Variable map or <code>null</code>
+	 */
+	public VariableMap getUserDefinedAttributes() {
+		return userDefinedAttributes;
+	}
+	
+	/**
+	 *  User-defined attributes (text, int, decimal or boolean)
+	 * @param attrs Variable map
+	 */
+	public void setUserDefinedAttributes(VariableMap attrs) {
+		userDefinedAttributes = attrs;
+	}
+
 
 }

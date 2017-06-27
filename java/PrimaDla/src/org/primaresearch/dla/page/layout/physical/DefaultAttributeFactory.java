@@ -22,8 +22,10 @@ import java.util.Map;
 
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
+import org.primaresearch.dla.page.layout.physical.shared.LogicalType;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.shared.RoleType;
 import org.primaresearch.dla.page.layout.physical.text.TextContent;
 import org.primaresearch.io.FormatModel;
 import org.primaresearch.shared.variable.BooleanVariable;
@@ -100,6 +102,7 @@ public class DefaultAttributeFactory implements
 			vars.add(new StringVariable("primaryScript", null));
 			vars.add(new StringVariable("secondaryScript", null));
 			vars.add(new StringVariable("production", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 			
@@ -110,6 +113,7 @@ public class DefaultAttributeFactory implements
 			vars.add(new StringVariable("colourDepth", null));
 			vars.add(new StringVariable("bgColour", null));
 			vars.add(new BooleanVariable("embText", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -120,6 +124,7 @@ public class DefaultAttributeFactory implements
 			vars.add(new StringVariable("penColour", null));
 			vars.add(new StringVariable("bgColour", null));
 			vars.add(new BooleanVariable("embText", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -130,6 +135,7 @@ public class DefaultAttributeFactory implements
 			vars.add(new StringVariable("type", null));
 			vars.add(new IntegerVariable("numColours", null));
 			vars.add(new BooleanVariable("embText", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -154,6 +160,7 @@ public class DefaultAttributeFactory implements
 			vars.add(new IntegerVariable("numColours", null));
 			vars.add(new StringVariable("bgColour", null));
 			vars.add(new BooleanVariable("embText", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -162,6 +169,7 @@ public class DefaultAttributeFactory implements
 			contentTypeAttrMap.put(RegionType.SeparatorRegion, vars);
 			vars.add(new DoubleVariable("orientation", null));
 			vars.add(new StringVariable("colour", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -178,6 +186,7 @@ public class DefaultAttributeFactory implements
 			contentTypeAttrMap.put(RegionType.AdvertRegion, vars);
 			vars.add(new DoubleVariable("orientation", null));
 			vars.add(new StringVariable("bgColour", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 			
@@ -186,6 +195,7 @@ public class DefaultAttributeFactory implements
 			contentTypeAttrMap.put(RegionType.ChemRegion, vars);
 			vars.add(new DoubleVariable("orientation", null));
 			vars.add(new StringVariable("bgColour", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 			
@@ -194,12 +204,14 @@ public class DefaultAttributeFactory implements
 			contentTypeAttrMap.put(RegionType.MusicRegion, vars);
 			vars.add(new DoubleVariable("orientation", null));
 			vars.add(new StringVariable("bgColour", null));
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 			
 			//Noise Region
 			vars = new ArrayList<Variable>();
 			contentTypeAttrMap.put(RegionType.NoiseRegion, vars);
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 			
@@ -212,6 +224,7 @@ public class DefaultAttributeFactory implements
 			//Unknown Region
 			vars = new ArrayList<Variable>();
 			contentTypeAttrMap.put(RegionType.UnknownRegion, vars);
+			vars.add(new StringVariable("continuation", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
 
@@ -241,6 +254,50 @@ public class DefaultAttributeFactory implements
 			vars.add(new StringVariable("script", null));
 			vars.add(new StringVariable("custom", null));
 			vars.add(new StringVariable("comments", null));
+
+			//Grapheme
+			vars = new ArrayList<Variable>();
+			contentTypeAttrMap.put(LowLevelTextType.Grapheme, vars);
+			vars.add(new BooleanVariable("ligature", null));
+			vars.add(new BooleanVariable("charType", null));
+			vars.add(new StringVariable("index", null));
+			vars.add(new StringVariable("custom", null));
+			vars.add(new StringVariable("comments", null));
+
+			//Grapheme Group
+			vars = new ArrayList<Variable>();
+			contentTypeAttrMap.put(LowLevelTextType.GraphemeGroup, vars);
+			vars.add(new BooleanVariable("ligature", null));
+			vars.add(new BooleanVariable("charType", null));
+			vars.add(new StringVariable("index", null));
+			vars.add(new StringVariable("custom", null));
+			vars.add(new StringVariable("comments", null));
+
+			//Non-printing character
+			vars = new ArrayList<Variable>();
+			contentTypeAttrMap.put(LowLevelTextType.NonPrintingCharacter, vars);
+			vars.add(new BooleanVariable("ligature", null));
+			vars.add(new BooleanVariable("charType", null));
+			vars.add(new StringVariable("index", null));
+			vars.add(new StringVariable("custom", null));
+			vars.add(new StringVariable("comments", null));
+			
+			//Reading order group
+			vars = new ArrayList<Variable>();
+			contentTypeAttrMap.put(LogicalType.ReadingOrderGroup, vars);
+			vars.add(new StringVariable("caption", null));
+			vars.add(new StringVariable("type", null));
+			vars.add(new StringVariable("continuation", null));
+			vars.add(new StringVariable("custom", null));
+			vars.add(new StringVariable("comments", null));
+
+			//Table cell role
+			vars = new ArrayList<Variable>();
+			contentTypeAttrMap.put(RoleType.TableCellRole, vars);
+			vars.add(new IntegerVariable("rowIndex", null));
+			vars.add(new IntegerVariable("columnIndex", null));
+			vars.add(new IntegerVariable("rowSpan", null));
+			vars.add(new IntegerVariable("colSpan", null));
 		}
 		return contentTypeAttrMap;
 	}
@@ -250,6 +307,8 @@ public class DefaultAttributeFactory implements
 			textStyleAttrs = new ArrayList<Variable>();
 			textStyleAttrs.add(new StringVariable("textColour", null));
 			textStyleAttrs.add(new StringVariable("bgColour", null));
+			textStyleAttrs.add(new StringVariable("textColourRgb", null));
+			textStyleAttrs.add(new StringVariable("bgColourRgb", null));
 			textStyleAttrs.add(new BooleanVariable("reverseVideo", null));
 			textStyleAttrs.add(new DoubleVariable("fontSize", null));
 			textStyleAttrs.add(new DoubleVariable("xHeight", null));
@@ -281,7 +340,6 @@ public class DefaultAttributeFactory implements
 		return textEquivAttrs;
 	}
 
-
 	@Override
 	public VariableMap createAttributes(ContentType type) {
 		
@@ -312,7 +370,8 @@ public class DefaultAttributeFactory implements
 		}
 		
 		//Text style 
-		if (type instanceof LowLevelTextType || RegionType.TextRegion.equals(type)) {
+		if (LowLevelTextType.TextLine.equals(type) || LowLevelTextType.Word.equals(type) || LowLevelTextType.Glyph.equals(type) 
+				|| RegionType.TextRegion.equals(type)) {
 			createTextStyleAttributes(varMap);
 		}
 		return varMap;
@@ -412,8 +471,18 @@ public class DefaultAttributeFactory implements
 			return "WordType";
 		else if (LowLevelTextType.Glyph.equals(type))
 			return "GlyphType";
+		else if (LowLevelTextType.Grapheme.equals(type))
+			return "GraphemeType";
+		else if (LowLevelTextType.GraphemeGroup.equals(type))
+			return "GraphemeGroupType";
+		else if (LowLevelTextType.NonPrintingCharacter.equals(type))
+			return "NonPrintingCharType";
 		else if (ContentType.Page.equals(type))
 			return "PageType";
+		else if (LogicalType.ReadingOrderGroup.equals(type))
+			return "OrderedGroupType";
+		else if (RoleType.TableCellRole.equals(type))
+			return "TableCellRoleType";
 		return null;
 	}
 

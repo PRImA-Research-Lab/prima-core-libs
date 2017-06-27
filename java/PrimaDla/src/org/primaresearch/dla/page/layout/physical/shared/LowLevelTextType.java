@@ -29,6 +29,12 @@ public class LowLevelTextType extends ContentType {
 	public static final LowLevelTextType Word 	= new LowLevelTextType("Word");
 	/** Type for glyph objects */
 	public static final LowLevelTextType Glyph 	= new LowLevelTextType("Glyph");
+	/** Type for grapheme objects */
+	public static final LowLevelTextType Grapheme 	= new LowLevelTextType("Grapheme");
+	/** Type for grapheme groups */
+	public static final LowLevelTextType GraphemeGroup 	= new LowLevelTextType("GraphemeGroup");
+	/** Type for non-printing character objects */
+	public static final LowLevelTextType NonPrintingCharacter 	= new LowLevelTextType("NonPrintingCharacter");
 
 	/**
 	 * Empty constructor (required for GWT)

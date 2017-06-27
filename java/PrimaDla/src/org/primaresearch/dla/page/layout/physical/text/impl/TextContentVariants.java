@@ -149,6 +149,27 @@ public class TextContentVariants implements TextContent {
 		return textContentVariants.get(0).getAttributes();
 	}
 
+	/*@Override
+	public String getMergeWithNextRule() {
+		return textContentVariants.get(0).getMergeWithNextRule();
+	}
+
+	@Override
+	public void setMergeWithNextRule(String rule) {
+		textContentVariants.get(0).setMergeWithNextRule(rule);		
+	}
+
+	@Override
+	public String getMergeWithNextRuleData() {
+		return textContentVariants.get(0).getMergeWithNextRuleData();
+	}
+
+	@Override
+	public void setMergeWithNextRuleData(String data) {
+		textContentVariants.get(0).setMergeWithNextRuleData(data);		
+	}*/
+
+
 	
 	/**
 	 * TextContent implementation representing one version / variant of a page layout object's text content.
@@ -258,9 +279,43 @@ public class TextContentVariants implements TextContent {
 				e.printStackTrace();
 			}
 		}
+		
+		/*@Override
+		public String getMergeWithNextRule() {
+			if (getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRule) == null || getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRule).getValue() == null)
+				return null;
+			return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRule).getValue()).val;
+		}
+
+		@Override
+		public void setMergeWithNextRule(String rule) {
+			try {
+				getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRule).setValue(VariableValue.createValueObject(rule));
+			} catch (WrongVariableTypeException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public String getMergeWithNextRuleData() {
+			if (getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRuleData).getValue() == null)
+				return null;
+			return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRuleData).getValue()).val;
+		}
+
+		@Override
+		public void setMergeWithNextRuleData(String data) {
+			try {
+				getAttributes().get(DefaultXmlNames.ATTR_mergeWithNextRuleData).setValue(VariableValue.createValueObject(data));
+			} catch (WrongVariableTypeException e) {
+				e.printStackTrace();
+			}
+		}*/
+
 
 		
 	}
+
 
 
 

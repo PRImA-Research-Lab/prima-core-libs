@@ -125,7 +125,7 @@ public class PageXmlInputOutput implements FormatModelSource {
 		//if (validation) {
 			XmlModelAndValidatorProvider validatorProvider = getValidatorProvider();
 			if (validatorProvider != null) {
-				validator = validatorProvider.getValidator(new XmlFormatVersion("2016-07-15"));
+				validator = validatorProvider.getValidator(new XmlFormatVersion("2017-07-15"));
 			}
 		//}
 		return new XmlPageWriter_2016_07_15(validator);
@@ -144,7 +144,10 @@ public class PageXmlInputOutput implements FormatModelSource {
 		if (validatorProvider != null) {
 			validator = validatorProvider.getValidator(schemaVersion);
 		}
-	
+
+		if (new XmlFormatVersion("2017-07-15").equals(schemaVersion))
+			return new XmlPageWriter_2017_07_15(validator);
+
 		if (new XmlFormatVersion("2016-07-15").equals(schemaVersion))
 			return new XmlPageWriter_2016_07_15(validator);
 

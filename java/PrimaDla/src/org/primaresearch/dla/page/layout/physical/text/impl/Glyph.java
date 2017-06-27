@@ -15,14 +15,20 @@
  */
 package org.primaresearch.dla.page.layout.physical.text.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextObject;
+import org.primaresearch.dla.page.layout.physical.text.graphemes.GraphemeElement;
+import org.primaresearch.dla.page.layout.physical.text.graphemes.GraphemeGroup;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
+import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.shared.variable.BooleanValue;
 import org.primaresearch.shared.variable.VariableMap;
@@ -37,9 +43,53 @@ import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
  */
 public class Glyph extends LowLevelTextObject {
 
+	private List<GraphemeElement> graphemes = null;
+	private ContentFactory contentFactory;
+
 	protected Glyph(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, VariableMap attributes, 
 					LowLevelTextContainer parentWord) {
 		super(idRegister, id, coords, attributes, parentWord, contentFactory != null ? contentFactory.getAttributeFactory() : null);
+		this.contentFactory = contentFactory;
+	}
+
+	/**
+	 * Checks if this glyph has graphemes
+	 */
+	public boolean hasGraphemes() {
+		return graphemes != null && !graphemes.isEmpty();
+	}
+	
+	/**
+	 * Returns a list of all graphemes of this glyph. Creates an empty list, if no list exists yet. 
+	 * @return List (might be empty)
+	 */
+	public List<GraphemeElement> getGraphemes() {
+		if (graphemes == null)
+			graphemes = new ArrayList<GraphemeElement>();
+		return graphemes;
+	}
+	
+	/**
+	 * Creates a new grapheme, grapheme group, or non-printing character object and adds it to this glyph
+	 * @param id Preferred ID for the grapheme element (not guaranteed, check the returned line for the actual ID)
+	 * @param group Optional group to add the new element to (set to <code>null</code> to add it to the glyph)
+	 * @return New grapheme element
+	 */
+	public GraphemeElement createGraphemeElement(String id, LowLevelTextType type, GraphemeGroup group) {
+		GraphemeElement obj = (GraphemeElement)contentFactory.createGraphemeElement(type);
+		obj.setParent(this);
+		if (id != null) {
+			try {
+				obj.setId(id);
+			} catch (InvalidIdException e) {
+				e.printStackTrace();
+			}
+		}
+		if (group != null) //Add to group
+			group.addMember(obj);
+		else //Add to glyph
+			getGraphemes().add(obj);
+		return obj;
 	}
 
 	@Override

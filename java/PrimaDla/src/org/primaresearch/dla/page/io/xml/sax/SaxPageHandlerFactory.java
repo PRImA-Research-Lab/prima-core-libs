@@ -57,9 +57,11 @@ public class SaxPageHandlerFactory {
 				return new SaxPageHandler_2010_03_19(validatorProvider, schemaVersion);
 			else if (schemaVersion.isOlderThan(new XmlFormatVersion("2016-07-15")))
 				return new SaxPageHandler_2013_07_15(validatorProvider, schemaVersion);
+			else if (schemaVersion.isOlderThan(new XmlFormatVersion("2017-07-15")))
+				return new SaxPageHandler_2016_07_15(validatorProvider, schemaVersion);
 		}
 		
 		//Latest schema
-		return new SaxPageHandler_2016_07_15(validatorProvider, schemaVersion);
+		return new SaxPageHandler_2017_07_15(validatorProvider, schemaVersion);
 	}
 }

@@ -30,10 +30,17 @@ import org.primaresearch.dla.page.layout.physical.impl.NoiseRegion;
 import org.primaresearch.dla.page.layout.physical.impl.RegionImpl;
 import org.primaresearch.dla.page.layout.physical.impl.SeparatorRegion;
 import org.primaresearch.dla.page.layout.physical.impl.TableRegion;
+import org.primaresearch.dla.page.layout.physical.role.RegionRole;
+import org.primaresearch.dla.page.layout.physical.role.TableCellRole;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.shared.RoleType;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
+import org.primaresearch.dla.page.layout.physical.text.graphemes.Grapheme;
+import org.primaresearch.dla.page.layout.physical.text.graphemes.GraphemeElement;
+import org.primaresearch.dla.page.layout.physical.text.graphemes.GraphemeGroup;
+import org.primaresearch.dla.page.layout.physical.text.graphemes.NonPrintingCharacter;
 import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
@@ -122,6 +129,42 @@ public class ContentFactory {
 		return null;
 	}
 
+	private Grapheme createGrapheme() {
+		Id id;
+		try {
+			id = idRegister.generateId("a");
+			Grapheme ret = new GraphemeItem(this, idRegister, id, new Polygon(), createAttributes(LowLevelTextType.Grapheme), 
+					null);
+			return ret;
+		} catch (InvalidIdException e) {
+		} 
+		return null;
+	}
+
+	private GraphemeGroup createGraphemeGroup() {
+		Id id;
+		try {
+			id = idRegister.generateId("b");
+			GraphemeGroup ret = new GraphemeGroupItem(this, idRegister, id, createAttributes(LowLevelTextType.GraphemeGroup), 
+					null);
+			return ret;
+		} catch (InvalidIdException e) {
+		} 
+		return null;
+	}
+
+	private NonPrintingCharacter createNonPrintingCharacter() {
+		Id id;
+		try {
+			id = idRegister.generateId("i");
+			NonPrintingCharacter ret = new NonPrintingCharacterItem(this, idRegister, id, createAttributes(LowLevelTextType.NonPrintingCharacter), 
+					null);
+			return ret;
+		} catch (InvalidIdException e) {
+		} 
+		return null;
+	}
+
 	/**
 	 * Creates a new content object of the given type
 	 * @param type Content type (e.g. text region)
@@ -141,7 +184,7 @@ public class ContentFactory {
 
 		if (LowLevelTextType.Glyph.equals(type))
 			return createGlyph();
-		
+
 		//All other regions
 		if (type instanceof RegionType) {
 			Id id = null;
@@ -151,33 +194,59 @@ public class ContentFactory {
 			} 
 			Region ret = null;
 			if (RegionType.ImageRegion.equals(type))
-				ret = new ImageRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new ImageRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.GraphicRegion.equals(type))
-				ret = new GraphicRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new GraphicRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.LineDrawingRegion.equals(type))
-				ret = new LineDrawingRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new LineDrawingRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.ChartRegion.equals(type))
-				ret = new ChartRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new ChartRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.SeparatorRegion.equals(type))
-				ret = new SeparatorRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new SeparatorRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.MathsRegion.equals(type))
-				ret = new MathsRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new MathsRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.AdvertRegion.equals(type))
-				ret = new AdvertRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new AdvertRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.ChemRegion.equals(type))
-				ret = new ChemRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new ChemRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.MusicRegion.equals(type))
-				ret = new MusicRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new MusicRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.TableRegion.equals(type))
-				ret = new TableRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new TableRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			//else if (type == RegionType.FrameRegion)
 			//	ret = new FrameRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else if (RegionType.NoiseRegion.equals(type))
-				ret = new NoiseRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new NoiseRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			else //Generic
-				ret = new RegionItem(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+				ret = new RegionItem(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
 			return ret;
 		}
+		return null;
+	}
+	
+	/**
+	 * Creates a new grapheme element object of the given type
+	 * @param type Content type (e.g. LowLeveltextType.Grapheme)
+	 * @return The new object or <code>null</code> if the type is not supported
+	 */
+	public GraphemeElement createGraphemeElement(ContentType type) {
+		if (LowLevelTextType.Grapheme.equals(type))
+			return createGrapheme();
+		if (LowLevelTextType.GraphemeGroup.equals(type))
+			return createGraphemeGroup();
+		if (LowLevelTextType.NonPrintingCharacter.equals(type))
+			return createNonPrintingCharacter();
+		return null;
+	}
+	
+	/**
+	 * Creates a region role (e.g. table cell)
+	 * @param type Type of role (e.g. table cell)
+	 * @return The role object or <code>null</code> if the type is not supported
+	 */
+	public RegionRole createRegionRole(RoleType type) {
+		if (RoleType.TableCellRole.equals(type))
+			return new TableCellRole(attributeFactory);
 		return null;
 	}
 	
@@ -248,12 +317,39 @@ public class ContentFactory {
 			super(contentFactory, idRegister, id, coords, attributes, parentRegion);
 		}
 	}
-	
+
+	//Extend class to get access to protected constructor.
+	private static class GraphemeItem extends Grapheme {
+		protected GraphemeItem(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, 
+							VariableMap attributes, 
+							Glyph parent) {
+			super(idRegister, id, coords, attributes, parent, contentFactory.attributeFactory);
+		}
+	}
+
+	//Extend class to get access to protected constructor.
+	private static class GraphemeGroupItem extends GraphemeGroup {
+		protected GraphemeGroupItem(ContentFactory contentFactory, IdRegister idRegister, Id id, 
+							VariableMap attributes, 
+							Glyph parent) {
+			super(idRegister, id, attributes, parent, contentFactory.attributeFactory);
+		}
+	}
+
+	//Extend class to get access to protected constructor.
+	private static class NonPrintingCharacterItem extends NonPrintingCharacter {
+		protected NonPrintingCharacterItem(ContentFactory contentFactory, IdRegister idRegister, Id id, 
+							VariableMap attributes, 
+							Glyph parent) {
+			super(idRegister, id, attributes, parent, contentFactory.attributeFactory);
+		}
+	}
+
 	//Extend class to get access to protected constructor.
 	private static class RegionItem extends RegionImpl {
-		protected RegionItem(IdRegister idRegister,  RegionType type, Id id, Polygon coords, VariableMap attributes,
+		protected RegionItem(IdRegister idRegister, ContentFactory contentFactory, RegionType type, Id id, Polygon coords, VariableMap attributes,
 				RegionContainer parentRegion) {
-			super(idRegister, type, id, coords, attributes, parentRegion);
+			super(idRegister, contentFactory, type, id, coords, attributes, parentRegion);
 		}
 	}
 	

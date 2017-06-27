@@ -56,13 +56,23 @@ public class ConverterHub {
 		addConverter(new Converter_2010_01_12_to_2009_03_16());
 		addConverter(new Converter_2013_07_15_to_2010_03_19());
 		addConverter(new Converter_2016_07_15_to_2013_07_15());
+		addConverter(new Converter_2017_07_15_to_2016_07_15());
 		// Old to new
+		addConverter(new Converter_2016_07_15_to_2017_07_15());
 		addConverter(new Converter_2013_07_15_to_2016_07_15());
 		addConverter(new Converter_2009_03_16_to_2016_07_15());
 		
 		
 		//TODO If more schemas are added, we could dynamically create chain converters.
 		
+		//2010-03-19 to 2017-07-15
+		ChainConverter chain_2010_03_19_to_2017_07_15 = new ChainConverter();
+		chain_2010_03_19_to_2017_07_15.addConverter(new Converter_2010_03_19_to_2010_01_12()); //This goes from medium to old to new (not great!)
+		chain_2010_03_19_to_2017_07_15.addConverter(new Converter_2010_01_12_to_2009_03_16());
+		chain_2010_03_19_to_2017_07_15.addConverter(new Converter_2009_03_16_to_2016_07_15());
+		chain_2010_03_19_to_2017_07_15.addConverter(new Converter_2016_07_15_to_2017_07_15());
+		addConverter(chain_2010_03_19_to_2017_07_15);
+
 		//2010-03-19 to 2016-07-15
 		ChainConverter chain_2010_03_19_to_2016_07_15 = new ChainConverter();
 		chain_2010_03_19_to_2016_07_15.addConverter(new Converter_2010_03_19_to_2010_01_12()); //This goes from medium to old to new (not great!)
@@ -109,6 +119,36 @@ public class ConverterHub {
 		chain_2016_07_15_to_2010_03_19.addConverter(new Converter_2016_07_15_to_2013_07_15());
 		chain_2016_07_15_to_2010_03_19.addConverter(new Converter_2013_07_15_to_2010_03_19());
 		addConverter(chain_2016_07_15_to_2010_03_19);
+		
+		//2017-07-15 to 2009-03-16
+		ChainConverter chain_2017_07_15_to_2009_03_16 = new ChainConverter();
+		chain_2017_07_15_to_2009_03_16.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2017_07_15_to_2009_03_16.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		chain_2017_07_15_to_2009_03_16.addConverter(new Converter_2013_07_15_to_2010_03_19());
+		chain_2017_07_15_to_2009_03_16.addConverter(new Converter_2010_03_19_to_2010_01_12());
+		chain_2017_07_15_to_2009_03_16.addConverter(new Converter_2010_01_12_to_2009_03_16());
+		addConverter(chain_2017_07_15_to_2009_03_16);
+
+		//2017-07-15 to 2010-01-12
+		ChainConverter chain_2017_07_15_to_2010_01_12 = new ChainConverter();
+		chain_2017_07_15_to_2010_01_12.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2017_07_15_to_2010_01_12.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		chain_2017_07_15_to_2010_01_12.addConverter(new Converter_2013_07_15_to_2010_03_19());
+		chain_2017_07_15_to_2010_01_12.addConverter(new Converter_2010_03_19_to_2010_01_12());
+		addConverter(chain_2017_07_15_to_2010_01_12);
+
+		//2017-07-15 to 2010-03-19
+		ChainConverter chain_2017_07_15_to_2010_03_19 = new ChainConverter();
+		chain_2017_07_15_to_2010_03_19.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2017_07_15_to_2010_03_19.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		chain_2017_07_15_to_2010_03_19.addConverter(new Converter_2013_07_15_to_2010_03_19());
+		addConverter(chain_2017_07_15_to_2010_03_19);
+
+		//2017-07-15 to 2013-07-15
+		ChainConverter chain_2017_07_15_to_2013_07_15 = new ChainConverter();
+		chain_2017_07_15_to_2013_07_15.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2017_07_15_to_2013_07_15.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		addConverter(chain_2017_07_15_to_2013_07_15);
 	}
 	
 	/**

@@ -19,19 +19,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.PageLayout;
+import org.primaresearch.dla.page.layout.physical.AttributeContainer;
 import org.primaresearch.dla.page.layout.physical.ContentFactory;
+import org.primaresearch.dla.page.layout.physical.shared.LogicalType;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.ident.Identifiable;
+import org.primaresearch.shared.variable.StringValue;
+import org.primaresearch.shared.variable.VariableMap;
+import org.primaresearch.shared.variable.VariableValue;
+import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 
 /**
  * A logical group within a page layout (e.g. a reading order group). Groups can also be GroupMemebers.
  * 
  * @author Christian Clausner
  */
-public class Group implements GroupMember, Identifiable {
+public class Group implements GroupMember, Identifiable, AttributeContainer {
 
 	private PageLayout layout;
 	private IdRegister idRegister;
@@ -39,10 +46,13 @@ public class Group implements GroupMember, Identifiable {
 	private boolean canHaveGroupsAsChildren;
 	private Group parentGroup;
 	private Id id;
-	private String caption;
+	private Id regionRef = null;
 	private boolean ordered;
 	private List<GroupMember> members = new ArrayList<GroupMember>();
 	
+	private VariableMap attributes;
+	private VariableMap userDefinedAttributes = null;
+
 	/**
 	 * Constructor
 	 * @param layout Page layout the group belongs to
@@ -59,6 +69,11 @@ public class Group implements GroupMember, Identifiable {
 		this.id = id;
 		this.parentGroup = parentGroup;
 		this.canHaveGroupsAsChildren = canHaveGroupsAsChildren;
+		try {
+			this.attributes = contentFactory.getAttributeFactory().createAttributes(LogicalType.ReadingOrderGroup);
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
 	}
 	
 	/**
@@ -72,19 +87,53 @@ public class Group implements GroupMember, Identifiable {
 	public Id getId() {
 		return id;
 	}
+	
+	/**
+	 * Returns the ID of an optional referenced region. Intended to model parent regions containing nested regions.
+	 * The linked parent region doubles as reading order group. Only nested regions should be allowed as group members.
+	 */
+	public Id getRegionRef() {
+		return regionRef;
+	}
+
+	/**
+	 * Sets the ID of an optional referenced region. Intended to model parent regions containing nested regions.
+	 * The linked parent region doubles as reading order group. Only nested regions should be allowed as group members.
+	 */
+	public void setRegionRef(Id regionRef) {
+		this.regionRef = regionRef;
+	}
+
+	/**
+	 * Sets the ID of an optional referenced region. Intended to model parent regions containing nested regions.
+	 * The linked parent region doubles as reading order group. Only nested regions should be allowed as group members.
+	 */
+	public void setRegionRef(String regionRef) {
+		try {
+			this.regionRef = contentFactory.getIdRegister().getId(regionRef);
+		} catch (InvalidIdException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Returns the caption (display name)
 	 */
 	public String getCaption() {
-		return caption;
+		if (getAttributes().get(DefaultXmlNames.ATTR_caption) != null && getAttributes().get(DefaultXmlNames.ATTR_caption).getValue() != null)
+			return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_caption).getValue()).val;
+		return null;
 	}
 
 	/**
 	 * Sets the caption (display name)
 	 */
 	public void setCaption(String caption) {
-		this.caption = caption;
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_caption).setValue(VariableValue.createValueObject(caption));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -247,5 +296,26 @@ public class Group implements GroupMember, Identifiable {
 			idRegister.unregisterId(((Group)member).getId());
 		return removed;
 	}
+
+	@Override
+	public VariableMap getAttributes() {
+		return attributes;
+	}
+
+	/**
+	 * User-defined attributes (text, int, decimal or boolean)
+	 * @return Variable map or <code>null</code>
+	 */
+	public VariableMap getUserDefinedAttributes() {
+		return userDefinedAttributes;
+	}
 	
+	/**
+	 *  User-defined attributes (text, int, decimal or boolean)
+	 * @param attrs Variable map
+	 */
+	public void setUserDefinedAttributes(VariableMap attrs) {
+		userDefinedAttributes = attrs;
+	}
+
 }

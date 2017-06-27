@@ -44,7 +44,7 @@ public class Word extends LowLevelTextObject implements LowLevelTextContainer {
 
 	private LowLevelTextContainerImpl glyphs = new LowLevelTextContainerImpl();
 
-	ContentFactory contentFactory;
+	private ContentFactory contentFactory;
 
 	
 	protected Word(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, VariableMap attributes, 

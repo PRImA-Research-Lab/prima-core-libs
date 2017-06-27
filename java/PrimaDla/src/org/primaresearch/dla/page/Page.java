@@ -52,6 +52,8 @@ public class Page implements AttributeContainer {
 
 	private VariableMap attributes;
 	
+	private VariableMap userDefinedAttributes = null;
+	
 	private List<AlternativeImage> alternativeImages;
 	
 	private MeasurementUnit measurementUnit = MeasurementUnit.PIXEL;
@@ -169,6 +171,22 @@ public class Page implements AttributeContainer {
 	@Override
 	public VariableMap getAttributes() {
 		return attributes;
+	}
+	
+	/**
+	 * User-defined attributes (text, int, decimal or boolean)
+	 * @return Variable map or <code>null</code>
+	 */
+	public VariableMap getUserDefinedAttributes() {
+		return userDefinedAttributes;
+	}
+	
+	/**
+	 *  User-defined attributes (text, int, decimal or boolean)
+	 * @param attrs Variable map
+	 */
+	public void setUserDefinedAttributes(VariableMap attrs) {
+		userDefinedAttributes = attrs;
 	}
 	
 	/**

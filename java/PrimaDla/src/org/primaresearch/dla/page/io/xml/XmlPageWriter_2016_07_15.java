@@ -426,9 +426,9 @@ public class XmlPageWriter_2016_07_15 implements XmlPageWriter {
 			
 			TextContent textContent = textObj.getTextContentVariant(i);
 			
-			if (	(textContent.getText() == null || textContent.getText().isEmpty())
-					&& 	(textContent.getPlainText() == null || textContent.getPlainText().isEmpty()))
-					continue;
+			//if (	(textContent.getText() == null || textContent.getText().isEmpty())
+			//		&& 	(textContent.getPlainText() == null || textContent.getPlainText().isEmpty()))
+			//		continue;
 			
 			Element textEquiv = doc.createElementNS(getNamespace(), DefaultXmlNames.ELEMENT_TextEquiv);
 			parent.appendChild(textEquiv);

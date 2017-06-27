@@ -60,7 +60,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	protected TextRegion(ContentFactory contentFactory, IdRegister idRegister, Id id, Polygon coords, 
 						VariableMap attributes, //VariableMap textStyle,
 						RegionContainer parentRegion) {
-		super(idRegister, RegionType.TextRegion, id, coords, attributes, parentRegion);
+		super(idRegister, contentFactory, RegionType.TextRegion, id, coords, attributes, parentRegion);
 		this.contentFactory = contentFactory;
 		textContentVariants = new TextContentVariants(contentFactory.getAttributeFactory());
 	}
@@ -509,6 +509,26 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	public void setDataTypeDetails(String details) {
 		textContentVariants.setDataTypeDetails(details);
 	}
+	
+	/*@Override
+	public String getMergeWithNextRule() {
+		return textContentVariants.getMergeWithNextRule();
+	}
+
+	@Override
+	public void setMergeWithNextRule(String rule) {
+		textContentVariants.setMergeWithNextRule(rule);		
+	}
+
+	@Override
+	public String getMergeWithNextRuleData() {
+		return textContentVariants.getMergeWithNextRuleData();
+	}
+
+	@Override
+	public void setMergeWithNextRuleData(String data) {
+		textContentVariants.setMergeWithNextRuleData(data);		
+	}*/
 
 	@Override
 	public int getTextContentVariantCount() {
