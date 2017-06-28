@@ -873,11 +873,11 @@ public class SaxPageHandler_2017_07_15 extends SaxPageHandler {
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_description)) >= 0)
 			description = atts.getValue(i);
 		//Type
-		else if ((i = atts.getIndex(DefaultXmlNames.ATTR_type)) >= 0)
+		if ((i = atts.getIndex(DefaultXmlNames.ATTR_type)) >= 0)
 			datatype = atts.getValue(i);
 		//Value
-		else if ((i = atts.getIndex(DefaultXmlNames.ATTR_value)) >= 0)
-			datatype = atts.getValue(i);
+		if ((i = atts.getIndex(DefaultXmlNames.ATTR_value)) >= 0)
+			value = atts.getValue(i);
 		
 		//Add attribute
 		try {
