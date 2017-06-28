@@ -314,7 +314,7 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 		addTextElement(metaDataNode, DefaultXmlNames.ELEMENT_Comments, metaData.getComments());
 		
 		//User-defined attributes
-		addUserDefinedAttributes(metaDataNode, metaData.getUserDefinedAttributes());
+		addUserDefinedAttributes(metaDataNode, metaData.getUserDefinedAttributes(false));
 	}
 	
 	private void addPage(Element parent) {
@@ -371,7 +371,7 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 		addRelations(pageNode, layout.getRelations());
 		
 		//User-defined attributes
-		addUserDefinedAttributes(pageNode, page.getUserDefinedAttributes());
+		addUserDefinedAttributes(pageNode, page.getUserDefinedAttributes(false));
 
 		//Regions
 		for (int i=0; i<layout.getRegionCount(); i++) {
@@ -399,7 +399,7 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 		//Region user-defined attrs here (for text line / word / glyph further down)
 		if (contentObj instanceof Region) {
 			//User-defined attributes
-			addUserDefinedAttributes(regionNode, ((Region)contentObj).getUserDefinedAttributes());
+			addUserDefinedAttributes(regionNode, ((Region)contentObj).getUserDefinedAttributes(false));
 		}
 		
 		//Roles
@@ -454,7 +454,7 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 		//Text line / word / glyph user-defined attrs
 		if (contentObj instanceof LowLevelTextObject) {
 			//User-defined attributes
-			addUserDefinedAttributes(regionNode, ((LowLevelTextObject)contentObj).getUserDefinedAttributes());
+			addUserDefinedAttributes(regionNode, ((LowLevelTextObject)contentObj).getUserDefinedAttributes(false));
 		}
 
 	}
@@ -765,12 +765,15 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 		if (attributes == null || attributes.getSize() == 0)
 			return;
 		
+		Element attrContainerNode = doc.createElementNS(getNamespace(), DefaultXmlNames.ELEMENT_UserDefined);
+		parent.appendChild(attrContainerNode);
+		
 		for (int i=0; i<attributes.getSize(); i++) {
 			Variable v = attributes.get(i);
 
 			//Create node
 			Element attrNode = doc.createElementNS(getNamespace(), DefaultXmlNames.ELEMENT_UserAttribute);
-			parent.appendChild(attrNode);
+			attrContainerNode.appendChild(attrNode);
 			
 			//Name
 			addAttribute(attrNode, DefaultXmlNames.ATTR_name, v.getName() != null ? v.getName() : "");

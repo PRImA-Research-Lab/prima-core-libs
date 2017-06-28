@@ -212,9 +212,12 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 
 	/**
 	 * User-defined attributes (text, int, decimal or boolean)
+	 * @param createIfNotExists Set to true if to create an empty variable map if none exists yet.
 	 * @return Variable map or <code>null</code>
 	 */
-	public VariableMap getUserDefinedAttributes() {
+	public VariableMap getUserDefinedAttributes(boolean createIfNotExists) {
+		if (userDefinedAttributes == null && createIfNotExists)
+			userDefinedAttributes = new VariableMap();
 		return userDefinedAttributes;
 	}
 	

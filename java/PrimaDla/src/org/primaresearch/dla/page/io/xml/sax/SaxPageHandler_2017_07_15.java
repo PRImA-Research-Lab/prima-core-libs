@@ -355,20 +355,20 @@ public class SaxPageHandler_2017_07_15 extends SaxPageHandler {
 	    }
 	    else if (DefaultXmlNames.ELEMENT_UserDefined.equals(localName)) {
 	    	if (currentGlyph != null)
-	    		currentUserDefinedAttributes = currentGlyph.getUserDefinedAttributes();
+	    		currentUserDefinedAttributes = currentGlyph.getUserDefinedAttributes(true);
 	    	else if (currentWord != null)
-	    		currentUserDefinedAttributes = currentWord.getUserDefinedAttributes();
+	    		currentUserDefinedAttributes = currentWord.getUserDefinedAttributes(true);
 	    	else if (currentTextLine != null)
-	    		currentUserDefinedAttributes = currentTextLine.getUserDefinedAttributes();
+	    		currentUserDefinedAttributes = currentTextLine.getUserDefinedAttributes(true);
 	    	else if (currentLogicalGroup != null)
 	    		currentUserDefinedAttributes = currentLogicalGroup.getUserDefinedAttributes();
 	    	else if (currentRegion != null)
-	    		currentUserDefinedAttributes = currentRegion.getUserDefinedAttributes();
+	    		currentUserDefinedAttributes = currentRegion.getUserDefinedAttributes(true);
 	    	else {
 	    		if (handlingMetadata && metaData != null)
-	    			currentUserDefinedAttributes = metaData.getUserDefinedAttributes();
+	    			currentUserDefinedAttributes = metaData.getUserDefinedAttributes(true);
 	    		else
-	    			currentUserDefinedAttributes = page.getUserDefinedAttributes();
+	    			currentUserDefinedAttributes = page.getUserDefinedAttributes(true);
 	    	}
 	    }
 	    else if (DefaultXmlNames.ELEMENT_Metadata.equals(localName)) {

@@ -32,9 +32,10 @@ public interface Region extends ContentObject, RegionContainer {
 
 	/**
 	 * User-defined attributes (text, int, decimal or boolean)
+	 * @param createIfNotExists Set to true if to create an empty variable map if none exists yet.
 	 * @return Variable map or <code>null</code>
 	 */
-	public VariableMap getUserDefinedAttributes();
+	public VariableMap getUserDefinedAttributes(boolean createIfNotExists);
 	
 	/**
 	 *  User-defined attributes (text, int, decimal or boolean)
