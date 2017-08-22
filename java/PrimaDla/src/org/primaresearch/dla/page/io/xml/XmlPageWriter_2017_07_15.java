@@ -780,7 +780,7 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 			
 			//Description
 			if (v.getDescription() != null && !v.getDescription().isEmpty())
-				addAttribute(attrNode, DefaultXmlNames.ATTR_description, v.getName() != null ? v.getName() : "");
+				addAttribute(attrNode, DefaultXmlNames.ATTR_description, v.getDescription());
 
 			//Type
 			if (v instanceof StringVariable)
