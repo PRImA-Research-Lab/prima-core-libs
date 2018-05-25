@@ -417,17 +417,24 @@ public class SaxPageHandler_Hocr extends SaxPageHandler {
 	 */
 	private Polygon parseCoords(String coordsString) {
 		Polygon ret = null;
-		String parts[] = coordsString.split(" ");
-		if (parts.length == 5) {
-			ret = new Polygon();
-			int x1 = new Integer(parts[1]);
-			int y1 = new Integer(parts[2]);
-			int x2 = new Integer(parts[3]);
-			int y2 = new Integer(parts[4]);
-			ret.addPoint(x1,y1);
-			ret.addPoint(x2,y1);
-			ret.addPoint(x2,y2);
-			ret.addPoint(x1,y2);
+		String toplevelParts[] = coordsString.split(";");
+		for (int i=0; i<toplevelParts.length; i++) {
+		
+			if (toplevelParts[i].startsWith("bbox")) {
+				String parts[] = toplevelParts[i].split(" ");
+				if (parts.length == 5) {
+					ret = new Polygon();
+					int x1 = new Integer(parts[1]);
+					int y1 = new Integer(parts[2]);
+					int x2 = new Integer(parts[3]);
+					int y2 = new Integer(parts[4]);
+					ret.addPoint(x1,y1);
+					ret.addPoint(x2,y1);
+					ret.addPoint(x2,y2);
+					ret.addPoint(x1,y2);
+				}
+				break;
+			}
 		}
 		return ret;
 	}
