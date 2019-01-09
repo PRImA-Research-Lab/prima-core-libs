@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ public class ConverterHubTest {
 		assertEquals(1, messages.size());
 		assertNull(textType.getValue());
 		
-		//Convert from 2016-07-15 to 2010-03-19
+		//Convert from 2018-07-15 to 2010-03-19
 		page = new Page();
 		layout =	page.getLayout();
 		

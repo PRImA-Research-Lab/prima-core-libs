@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,11 @@ import org.primaresearch.dla.page.layout.logical.ReadingOrder;
 import org.primaresearch.dla.page.layout.physical.impl.AdvertRegion;
 import org.primaresearch.dla.page.layout.physical.impl.ChartRegion;
 import org.primaresearch.dla.page.layout.physical.impl.ChemRegion;
+import org.primaresearch.dla.page.layout.physical.impl.CustomRegion;
 import org.primaresearch.dla.page.layout.physical.impl.GraphicRegion;
 import org.primaresearch.dla.page.layout.physical.impl.ImageRegion;
 import org.primaresearch.dla.page.layout.physical.impl.LineDrawingRegion;
+import org.primaresearch.dla.page.layout.physical.impl.MapRegion;
 import org.primaresearch.dla.page.layout.physical.impl.MathsRegion;
 import org.primaresearch.dla.page.layout.physical.impl.MusicRegion;
 import org.primaresearch.dla.page.layout.physical.impl.NoiseRegion;
@@ -45,6 +47,8 @@ import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
+import org.primaresearch.dla.page.metadata.MetadataItem;
+import org.primaresearch.dla.page.metadata.impl.MetadataItemImpl;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
@@ -80,13 +84,13 @@ public class ContentFactory {
 		return attributeFactory;
 	}
 
-	private TextRegion createTextRegion() {
+	private TextRegion createTextRegion(RegionContainer parent) {
 		Id id;
 		try {
 			id = idRegister.generateId("r");
 			TextRegion ret = new TextRegionItem(this, id, new Polygon(), 
 					createAttributes(RegionType.TextRegion),
-					null);
+					parent);
 			return ret;
 		} catch (InvalidIdException e) {
 		} 
@@ -170,11 +174,60 @@ public class ContentFactory {
 	 * @param type Content type (e.g. text region)
 	 * @return The new object or <code>null</code> if the type is not supported
 	 */
+	public ContentObject createContent(RegionType type, RegionContainer parent) {
+		//Text regions are special
+		if (RegionType.TextRegion.equals(type))
+			return createTextRegion(parent);
+
+		Id id = null;
+		try {
+			id = idRegister.generateId("r");
+		} catch (InvalidIdException e) {
+		} 
+		Region ret = null;
+		if (RegionType.ImageRegion.equals(type))
+			ret = new ImageRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.GraphicRegion.equals(type))
+			ret = new GraphicRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.LineDrawingRegion.equals(type))
+			ret = new LineDrawingRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.ChartRegion.equals(type))
+			ret = new ChartRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.SeparatorRegion.equals(type))
+			ret = new SeparatorRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.MathsRegion.equals(type))
+			ret = new MathsRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.AdvertRegion.equals(type))
+			ret = new AdvertRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.ChemRegion.equals(type))
+			ret = new ChemRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.MusicRegion.equals(type))
+			ret = new MusicRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.MapRegion.equals(type))
+			ret = new MapRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.TableRegion.equals(type))
+			ret = new TableRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		//else if (type == RegionType.FrameRegion)
+		//	ret = new FrameRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
+		else if (RegionType.NoiseRegion.equals(type))
+			ret = new NoiseRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else if (RegionType.CustomRegion.equals(type))
+			ret = new CustomRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		else //Generic (unknown)
+			ret = new RegionItem(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), parent);
+		return ret;
+	}
+	
+	/**
+	 * Creates a new content object of the given type
+	 * @param type Content type (e.g. text region)
+	 * @return The new object or <code>null</code> if the type is not supported
+	 */
 	public ContentObject createContent(ContentType type) {
 		
 		//Text regions are special
 		if (RegionType.TextRegion.equals(type))
-			return createTextRegion();
+			return createTextRegion(null);
 		
 		if (LowLevelTextType.TextLine.equals(type))
 			return createTextLine();
@@ -187,39 +240,7 @@ public class ContentFactory {
 
 		//All other regions
 		if (type instanceof RegionType) {
-			Id id = null;
-			try {
-				id = idRegister.generateId("r");
-			} catch (InvalidIdException e) {
-			} 
-			Region ret = null;
-			if (RegionType.ImageRegion.equals(type))
-				ret = new ImageRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.GraphicRegion.equals(type))
-				ret = new GraphicRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.LineDrawingRegion.equals(type))
-				ret = new LineDrawingRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.ChartRegion.equals(type))
-				ret = new ChartRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.SeparatorRegion.equals(type))
-				ret = new SeparatorRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.MathsRegion.equals(type))
-				ret = new MathsRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.AdvertRegion.equals(type))
-				ret = new AdvertRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.ChemRegion.equals(type))
-				ret = new ChemRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.MusicRegion.equals(type))
-				ret = new MusicRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.TableRegion.equals(type))
-				ret = new TableRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			//else if (type == RegionType.FrameRegion)
-			//	ret = new FrameRegion(idRegister, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else if (RegionType.NoiseRegion.equals(type))
-				ret = new NoiseRegion(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			else //Generic
-				ret = new RegionItem(idRegister, this, (RegionType)type, id, new Polygon(), createAttributes(type), null);
-			return ret;
+			return createContent((RegionType)type, null);
 		}
 		return null;
 	}
@@ -270,6 +291,14 @@ public class ContentFactory {
 	 */
 	public Layers createLayers(PageLayout layout) {
 		return new Layers(layout, idRegister, this);
+	}
+	
+	/**
+	 * Creates item for additional metadata
+	 * @return
+	 */
+	public MetadataItem createMetadataItem() {
+		return new MetadataItemImpl(attributeFactory);
 	}
 	
 	/**

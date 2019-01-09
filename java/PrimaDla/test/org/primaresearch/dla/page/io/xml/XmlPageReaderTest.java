@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.primaresearch.dla.page.MetaData;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.FileInput;
 import org.primaresearch.dla.page.io.xml.PageXmlInputOutput;
@@ -44,6 +43,7 @@ import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.XmlModelAndValidatorProvider.NoSchemasException;
 import org.primaresearch.shared.variable.DoubleValue;
@@ -52,6 +52,7 @@ import org.primaresearch.shared.variable.Variable;
 import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 
 public class XmlPageReaderTest {
+	File xmlPage2018File;
 	File xmlPage2017File;
 	File xmlPage2016File;
 	File xmlPageModFile;
@@ -63,6 +64,10 @@ public class XmlPageReaderTest {
 
 	@Before
 	public void setUp() throws Exception {
+		xmlPage2018File = new File("c:/junit/page_2018-07-15.xml");
+		if (!xmlPage2018File.exists())
+			throw new Exception("Page XML file not found: "+ xmlPage2018File.getPath());
+
 		xmlPage2017File = new File("c:/junit/page_2017-07-15.xml");
 		if (!xmlPage2017File.exists())
 			throw new Exception("Page XML file not found: "+ xmlPage2017File.getPath());
@@ -94,6 +99,79 @@ public class XmlPageReaderTest {
 		schema_2013_07_15_File = new File("c:/junit/page_2013-07-15.xml");
 		if (!schema_2013_07_15_File.exists())
 			throw new Exception("Page XML file not found: "+ schema_2013_07_15_File.getPath());
+	}
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testRead2018() {
+		XmlPageReader reader = PageXmlInputOutput.getReader();
+		
+		Page page = null;
+		try {
+			page = reader.read(new FileInput(xmlPage2018File));
+		} catch (UnsupportedFormatVersionException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(page);
+		
+		//Meta data
+		MetaData metaData = page.getMetaData();
+		assertNotNull(metaData);
+		
+		assertEquals("TestCreator", metaData.getCreator());
+		assertEquals("TestComments", metaData.getComments());
+		
+		//Layout
+		PageLayout layout = page.getLayout();
+		assertNotNull(layout);
+		
+		//Check width and height
+		assertEquals(1000, layout.getWidth());
+		assertEquals(500, layout.getHeight());
+		
+		//Border and print space
+		assertNotNull(layout.getBorder());
+		assertEquals(4, layout.getBorder().getCoords().getSize());
+		assertNotNull(layout.getPrintSpace());
+		assertEquals(4, layout.getPrintSpace().getCoords().getSize());
+		
+		//Regions
+		assertEquals(11, layout.getRegionCount());
+		
+		//Low level text objects
+		for (int i=0; i<layout.getRegionCount(); i++) {
+			//Text region?
+			if (layout.getRegion(i).getType() == RegionType.TextRegion) {
+				
+				//Id
+				assertEquals("r1", layout.getRegion(i).getId().toString());
+				
+				//Attributes
+				TextObject textObj = (TextObject)layout.getRegion(i);
+				ContentObject contentObject = layout.getRegion(i);
+				assertEquals(((DoubleValue)contentObject.getAttributes().get("fontSize").getValue()).val, 10.0, 0.01);
+				
+				//Text
+				assertEquals("Test", ((TextObject)layout.getRegion(i)).getText());
+				
+				//Children
+				assertEquals(((TextRegion)layout.getRegion(i)).getTextObjectCount(), 1);
+				
+				TextLine line = (TextLine)((TextRegion)layout.getRegion(i)).getTextObject(0);
+				
+				assertEquals(line.getTextObjectCount(), 1);
+				
+				Word word = (Word)(line.getTextObject(0));
+
+				assertEquals(word.getTextObjectCount(), 1);
+				
+				Glyph glyph = (Glyph)word.getTextObject(0);
+				
+				assertEquals(6, glyph.getGraphemes().size());
+				break;
+			}
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -167,9 +245,6 @@ public class XmlPageReaderTest {
 				break;
 			}
 		}
-		
-		
-		//fail("Not yet implemented");
 	}
 
 	@SuppressWarnings("unused")

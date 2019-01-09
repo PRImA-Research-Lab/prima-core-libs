@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -161,6 +161,9 @@ public interface Variable extends Serializable {
 	 */
 	@SuppressWarnings("serial")
 	public static class WrongVariableTypeException extends Exception {
+		public WrongVariableTypeException() {
+			//Only fot GWT
+		}
 		public WrongVariableTypeException(String msg) {
 			super(msg);
 		}

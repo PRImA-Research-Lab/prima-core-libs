@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.primaresearch.dla.page.MetaData;
+import org.primaresearch.dla.page.AlternativeImage;
 import org.primaresearch.dla.page.Page;
-import org.primaresearch.dla.page.Page.AlternativeImage;
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.GeometricObjectImpl;
 import org.primaresearch.dla.page.layout.PageLayout;
@@ -49,6 +48,7 @@ import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
 import org.primaresearch.dla.page.layout.shared.GeometricObject;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.ident.Identifiable;
 import org.primaresearch.io.xml.XmlFormatVersion;
@@ -667,7 +667,7 @@ public class SaxPageHandler_2016_07_15 extends SaxPageHandler {
 				ContentObject obj2 = contentObjects.get(id2);
 				
 				if (obj1 != null && obj2 != null) {
-					ContentObjectRelation relation = new ContentObjectRelation(obj1, obj2, type);
+					ContentObjectRelation relation = relations.addRelation(obj1, obj2, type, "rel1");
 					relation.setCustomField(custom);
 					relation.setComments(comments);
 					relations.addRelation(relation);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,12 @@
 package org.primaresearch.dla.page.layout.logical;
 
 import org.primaresearch.dla.page.layout.physical.ContentObject;
+import org.primaresearch.ident.Id;
+import org.primaresearch.ident.IdRegister;
+import org.primaresearch.ident.IdRegister.InvalidIdException;
+import org.primaresearch.ident.Identifiable;
+import org.primaresearch.labels.HasLabels;
+import org.primaresearch.labels.Labels;
 
 /**
  * Represents a relation between two page content objects (e.g. parent-child relation).
@@ -23,13 +29,16 @@ import org.primaresearch.dla.page.layout.physical.ContentObject;
  * @author Christian Clausner
  *
  */
-public class ContentObjectRelation {
+public class ContentObjectRelation implements Identifiable, HasLabels {
 
 	private ContentObject object1;
 	private ContentObject object2;
 	private RelationType relationType;
 	private String customField;
 	private String comments;
+	private Id id;
+	private IdRegister idRegister;
+	transient private Labels labels;
 
 	/**
 	 * Constructor
@@ -38,10 +47,12 @@ public class ContentObjectRelation {
 	 * @param object2 Page content object two
 	 * @param relation Relation between object one and object two
 	 */
-	public ContentObjectRelation(ContentObject object1, ContentObject object2, RelationType relation) {
+	public ContentObjectRelation(ContentObject object1, ContentObject object2, RelationType relation, Id id, IdRegister idRegister) {
 		this.object1 = object1;
 		this.object2 = object2;
 		this.relationType = relation;
+		this.id = id;
+		this.idRegister = idRegister;
 	}
 	
 	public ContentObject getObject1() {
@@ -87,6 +98,37 @@ public class ContentObjectRelation {
 	}
 
 
+	@Override
+	public Id getId() {
+		return id;
+	}
+
+
+	@Override
+	public IdRegister getIdRegister() {
+		return idRegister;
+	}
+
+	@Override
+	public void setId(String id) throws InvalidIdException {
+		this.id = idRegister.registerId(id, this.id);
+	}
+	
+	@Override
+	public void setId(Id id) throws InvalidIdException {
+		idRegister.registerId(id, this.id);
+		this.id = id;
+	}
+	
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+
+	@Override
+	public void setLabels(Labels labels) {
+		this.labels = labels;		
+	}
 
 
 	/**
@@ -128,4 +170,6 @@ public class ContentObjectRelation {
 			return id;
 		}
 	}
+
+
 }

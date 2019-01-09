@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +37,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Validator;
 
-import org.primaresearch.dla.page.MetaData;
+import org.primaresearch.dla.page.AlternativeImage;
 import org.primaresearch.dla.page.Page;
-import org.primaresearch.dla.page.Page.AlternativeImage;
 import org.primaresearch.dla.page.io.FileTarget;
 import org.primaresearch.dla.page.io.OutputTarget;
 import org.primaresearch.dla.page.layout.PageLayout;
@@ -68,6 +67,7 @@ import org.primaresearch.dla.page.layout.physical.text.graphemes.GraphemeGroup;
 import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.shared.GeometricObject;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.io.FormatModel;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.IOError;
@@ -340,7 +340,7 @@ public class XmlPageWriter_2017_07_15 implements XmlPageWriter {
 				Element node = doc.createElementNS(getNamespace(), DefaultXmlNames.ELEMENT_AlternativeImage);
 				pageNode.appendChild(node);
 				addAttribute(node, DefaultXmlNames.ATTR_filename, img.getFilename());
-				if (!img.getComments().isEmpty())
+				if (img.getComments() != null && !img.getComments().isEmpty())
 					addAttribute(node, DefaultXmlNames.ATTR_comments, img.getComments());
 			}
 		}

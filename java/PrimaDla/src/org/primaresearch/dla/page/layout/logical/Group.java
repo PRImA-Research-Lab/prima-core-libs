@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.ident.Identifiable;
+import org.primaresearch.labels.HasLabels;
+import org.primaresearch.labels.Labels;
 import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.VariableMap;
 import org.primaresearch.shared.variable.VariableValue;
@@ -38,7 +40,7 @@ import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
  * 
  * @author Christian Clausner
  */
-public class Group implements GroupMember, Identifiable, AttributeContainer {
+public class Group implements GroupMember, Identifiable, AttributeContainer, HasLabels {
 
 	private PageLayout layout;
 	private IdRegister idRegister;
@@ -52,6 +54,8 @@ public class Group implements GroupMember, Identifiable, AttributeContainer {
 	
 	private VariableMap attributes;
 	private VariableMap userDefinedAttributes = null;
+	
+	transient private Labels labels;
 
 	/**
 	 * Constructor
@@ -318,4 +322,14 @@ public class Group implements GroupMember, Identifiable, AttributeContainer {
 		userDefinedAttributes = attrs;
 	}
 
+
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+
+	@Override
+	public void setLabels(Labels labels) {
+		this.labels = labels;		
+	}
 }

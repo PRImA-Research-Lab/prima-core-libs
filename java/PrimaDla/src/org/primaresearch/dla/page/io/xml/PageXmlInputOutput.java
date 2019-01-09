@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -125,10 +125,10 @@ public class PageXmlInputOutput implements FormatModelSource {
 		//if (validation) {
 			XmlModelAndValidatorProvider validatorProvider = getValidatorProvider();
 			if (validatorProvider != null) {
-				validator = validatorProvider.getValidator(new XmlFormatVersion("2017-07-15"));
+				validator = validatorProvider.getValidator(new XmlFormatVersion("2018-07-15"));
 			}
 		//}
-		return new XmlPageWriter_2016_07_15(validator);
+		return new XmlPageWriter_2018_07_15(validator);
 	}
 	
 	/**
@@ -144,6 +144,8 @@ public class PageXmlInputOutput implements FormatModelSource {
 		if (validatorProvider != null) {
 			validator = validatorProvider.getValidator(schemaVersion);
 		}
+		if (new XmlFormatVersion("2018-07-15").equals(schemaVersion))
+			return new XmlPageWriter_2018_07_15(validator);
 
 		if (new XmlFormatVersion("2017-07-15").equals(schemaVersion))
 			return new XmlPageWriter_2017_07_15(validator);

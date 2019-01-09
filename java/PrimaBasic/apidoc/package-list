@@ -2,6 +2,7 @@ org.primaresearch.cmd
 org.primaresearch.collections
 org.primaresearch.eval
 org.primaresearch.ident
+org.primaresearch.labels
 org.primaresearch.shared
 org.primaresearch.shared.variable
 org.primaresearch.shared.variable.constraints

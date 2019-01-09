@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.primaresearch.dla.page.AlternativeImage;
 import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.RegionContainer;
@@ -30,6 +31,7 @@ import org.primaresearch.dla.page.layout.physical.shared.RoleType;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
+import org.primaresearch.labels.Labels;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.shared.variable.VariableMap;
 
@@ -57,7 +59,12 @@ public abstract class RegionImpl implements Region {
 	
 	private Map<RoleType, RegionRole> roles = null;
 	
+	transient private Labels labels;
+	
 	private ContentFactory contentFactory;
+	
+	transient private List<AlternativeImage> alternativeImages;
+
 	
 	/**
 	 * Constructor
@@ -206,4 +213,26 @@ public abstract class RegionImpl implements Region {
 			return;
 		roles.remove(type);
 	}
+	
+
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+
+	@Override
+	public void setLabels(Labels labels) {
+		this.labels = labels;		
+	}
+	
+	/**
+	 * Returns a list of alternative images that are associated with this region
+	 * @return List with image objects
+	 */
+	public List<AlternativeImage> getAlternativeImages() {
+		if (alternativeImages == null)
+			alternativeImages = new ArrayList<AlternativeImage>();
+		return alternativeImages;
+	}
+
 }

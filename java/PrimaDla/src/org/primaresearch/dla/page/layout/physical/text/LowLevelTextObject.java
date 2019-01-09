@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,17 @@
  */
 package org.primaresearch.dla.page.layout.physical.text;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.primaresearch.dla.page.AlternativeImage;
 import org.primaresearch.dla.page.layout.physical.AttributeFactory;
 import org.primaresearch.dla.page.layout.physical.ContentObject;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextContentVariants;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
+import org.primaresearch.labels.Labels;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.shared.variable.VariableMap;
 
@@ -44,6 +49,10 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 	private LowLevelTextContainer parent;
 	
 	private TextContentVariants textContentVariants;
+
+	transient private Labels labels;
+	
+	transient private List<AlternativeImage> alternativeImages;
 
 	
 	protected LowLevelTextObject(IdRegister idRegister, Id id, Polygon coords, 
@@ -230,4 +239,23 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 	}
 
 
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+
+	@Override
+	public void setLabels(Labels labels) {
+		this.labels = labels;		
+	}
+	
+	/**
+	 * Returns a list of alternative images that are associated with this region
+	 * @return List with image objects
+	 */
+	public List<AlternativeImage> getAlternativeImages() {
+		if (alternativeImages == null)
+			alternativeImages = new ArrayList<AlternativeImage>();
+		return alternativeImages;
+	}
 }

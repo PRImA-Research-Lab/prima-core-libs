@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
  * @author Christian Clausner
  */
 public class TableRegion extends RegionImpl {
+	
+	private TableGrid grid = null;
 
 	public TableRegion(IdRegister idRegister, ContentFactory contentFactory, RegionType type, Id id,
 			Polygon coords, VariableMap attributes, RegionContainer parentRegion) {
@@ -127,4 +129,13 @@ public class TableRegion extends RegionImpl {
 		}
 	}
 
+	public TableGrid getGrid() {
+		return grid;
+	}
+
+	public void setGrid(TableGrid grid) {
+		this.grid = grid;
+	}
+
+	
 }

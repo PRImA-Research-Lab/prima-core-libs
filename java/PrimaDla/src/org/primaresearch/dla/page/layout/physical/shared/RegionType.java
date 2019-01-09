@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,10 +48,14 @@ public class RegionType extends ContentType {
 	public static final RegionType ChemRegion 			= new RegionType("ChemRegion");
 	/** For musical notations */
 	public static final RegionType MusicRegion 			= new RegionType("MusicRegion");
+	/** For maps */
+	public static final RegionType MapRegion 			= new RegionType("MapRegion");
 	/** For noise on the page */
 	public static final RegionType NoiseRegion 			= new RegionType("NoiseRegion");
 	/** For regions of unknown/undetermined type */
 	public static final RegionType UnknownRegion 		= new RegionType("UnknownRegion");
+	/** For regions of custom type */
+	public static final RegionType CustomRegion 		= new RegionType("CustomRegion");
 	
 	
 	private static Map<String, RegionType> genericTypes = new HashMap<String, RegionType>();

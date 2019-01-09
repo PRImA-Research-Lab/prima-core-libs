@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.primaresearch.dla.page;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,15 @@ import org.primaresearch.dla.page.layout.physical.AttributeFactory;
 import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.dla.page.layout.physical.DefaultAttributeFactory;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.ident.XmlIdRegister;
 import org.primaresearch.io.FormatModel;
 import org.primaresearch.io.FormatVersion;
+import org.primaresearch.labels.HasLabels;
+import org.primaresearch.labels.Labels;
 import org.primaresearch.shared.variable.VariableMap;
 
 /**
@@ -40,23 +44,26 @@ import org.primaresearch.shared.variable.VariableMap;
  * 
  * @author Christian Clausner
  */
-public class Page implements AttributeContainer {
+public class Page implements AttributeContainer, HasLabels, Serializable {
 
-	private PageLayout layout;
-	private ContentFactory contentFactory;
-	private IdRegister idRegister;
-	private MetaData metaData;
+	private static final long serialVersionUID = 1L;
+	transient private PageLayout layout;
+	transient private ContentFactory contentFactory;
+	transient private IdRegister idRegister;
+	transient private MetaData metaData;
 	private String imageFilename;
-	private Id gtsId = null;
-	private FormatVersion formatVersion = null;
+	transient private Id gtsId = null;
+	transient private FormatVersion formatVersion = null;
 
 	private VariableMap attributes;
 	
 	private VariableMap userDefinedAttributes = null;
 	
-	private List<AlternativeImage> alternativeImages;
+	transient private Labels labels = null;
 	
-	private MeasurementUnit measurementUnit = MeasurementUnit.PIXEL;
+	transient private List<AlternativeImage> alternativeImages;
+	
+	transient private MeasurementUnit measurementUnit = MeasurementUnit.PIXEL;
 
 
 	/**
@@ -121,7 +128,7 @@ public class Page implements AttributeContainer {
 		AttributeFactory attrFactory = createAttributeFactory(formatModel);
 		contentFactory = new ContentFactory(idRegister, attrFactory);
 		layout = new PageLayout(contentFactory);
-		metaData = new MetaData();
+		metaData = new MetaData(contentFactory);
 		attributes = attrFactory.createAttributes(ContentType.Page);
 	}
 
@@ -205,34 +212,6 @@ public class Page implements AttributeContainer {
 
 
 	/**
-	 * Alternative document page image (e.g. black-and-white or grey level)
-	 * 
-	 * @author Christian Clausner
-	 *
-	 */
-	public static final class AlternativeImage {
-		private String filename;
-		private String comments;
-		
-		public AlternativeImage(String filename) {
-			this.filename = filename;
-		}
-		
-		public String getFilename() {
-			return filename;
-		}
-		public void setFilename(String filename) {
-			this.filename = filename;
-		}
-		public String getComments() {
-			return comments;
-		}
-		public void setComments(String comments) {
-			this.comments = comments;
-		}
-	}
-	
-	/**
 	 * Returns the measurement unit for coordinates
 	 * @return Current unit
 	 */
@@ -247,8 +226,7 @@ public class Page implements AttributeContainer {
 	public void setMeasurementUnit(MeasurementUnit unit) {
 		this.measurementUnit = unit;
 	}
-	
-	
+		
 
 
 	/**
@@ -285,5 +263,17 @@ public class Page implements AttributeContainer {
 				return false;
 			return name.equals(((MeasurementUnit)other).getName());
 		}
+	}
+
+
+
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+
+	@Override
+	public void setLabels(Labels labels) {
+		this.labels = labels;		
 	}
 }

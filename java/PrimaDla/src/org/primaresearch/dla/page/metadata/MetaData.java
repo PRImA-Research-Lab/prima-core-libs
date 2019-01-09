@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.primaresearch.dla.page;
+package org.primaresearch.dla.page.metadata;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.shared.variable.VariableMap;
 
 /**
@@ -39,9 +42,17 @@ public class MetaData implements Serializable {
 	private long lastModified = 0L;
 	private String comments = null;
 	private String externalRef = null;
+	
+	private List<MetadataItem> metadataItems = new LinkedList<MetadataItem>();
 
 	private VariableMap userDefinedAttributes = null;
+	
+	private ContentFactory contentFactory;
 
+	public MetaData(ContentFactory contentFactory) {
+		this.contentFactory = contentFactory;
+	}
+	
 	/**
 	 * User-defined attributes (text, int, decimal or boolean)
 	 * @param createIfNotExists Set to true if to create an empty variable map if none exists yet.
@@ -156,5 +167,22 @@ public class MetaData implements Serializable {
 	public void setExternalRef(String externalRef) {
 		this.externalRef = externalRef;
 	}
+
+	/**
+	 * Additional metadata
+	 * @return List
+	 */
+	public List<MetadataItem> getMetadataItems() {
+		return metadataItems;
+	}
 	
+	/**
+	 * Creates a new metadata item and adds it to the list of items
+	 * @return
+	 */
+	public MetadataItem addMetadataItem() {
+		MetadataItem item = contentFactory.createMetadataItem();
+		metadataItems.add(item);
+		return item;
+	}
 }

@@ -7,12 +7,14 @@ import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
 import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
+import org.primaresearch.labels.Labels;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.shared.variable.VariableMap;
 
 public class Grapheme extends GraphemeElementImpl implements GraphemeElement, ContentObject {
 
 	private Polygon coords;
+	private Labels labels;
 
 	/**
 	 * Constructor
@@ -48,6 +50,14 @@ public class Grapheme extends GraphemeElementImpl implements GraphemeElement, Co
 		return false;
 	}
 	
-	
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+
+	@Override
+	public void setLabels(Labels labels) {
+		this.labels = labels;		
+	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,14 @@ import java.io.Serializable;
  * @author Christian Clausner
  *
  */
-public class Dimension implements Serializable {
+public class Dimension implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 	public int width = 0;
 	public int height = 0;
+	
+	//Empty constructor for GWT
+	public Dimension() {
+		
+	}
 }

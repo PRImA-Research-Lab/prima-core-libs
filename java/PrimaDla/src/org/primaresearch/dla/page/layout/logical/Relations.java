@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.primaresearch.dla.page.layout.logical.ContentObjectRelation.RelationType;
+import org.primaresearch.dla.page.layout.physical.ContentObject;
 import org.primaresearch.ident.Id;
+import org.primaresearch.ident.IdRegister;
+import org.primaresearch.ident.IdRegister.InvalidIdException;
 
 /**
  * Container class for relations between content objects.
@@ -32,6 +36,11 @@ import org.primaresearch.ident.Id;
 public class Relations {
 
 	private Map<Id,Map<Id,ContentObjectRelation>> relations = new HashMap<Id,Map<Id,ContentObjectRelation>>();
+	private IdRegister idRegister;
+	
+	public Relations(IdRegister idRegister) {
+		this.idRegister = idRegister;
+	}
 
 	/**
 	 * Checks if there are relations in this container
@@ -39,6 +48,26 @@ public class Relations {
 	 */
 	public boolean isEmpty() {
 		return relations.isEmpty();
+	}
+	
+	public ContentObjectRelation addRelation(ContentObject obj1, ContentObject obj2, RelationType type, String relationId) {
+		
+		try {
+			ContentObjectRelation rel;
+			rel = new ContentObjectRelation(obj1, obj2, type, idRegister.registerOrCreateNewId(relationId), idRegister);
+
+			Map<Id,ContentObjectRelation> targetMap = relations.get(rel.getObject1().getId());
+			if (targetMap == null) {
+				targetMap = new HashMap<Id,ContentObjectRelation>();
+				relations.put(rel.getObject1().getId(), targetMap);
+			}
+			targetMap.put(rel.getObject2().getId(), rel);
+
+			return rel;
+		} catch (InvalidIdException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

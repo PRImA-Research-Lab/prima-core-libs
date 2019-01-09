@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,10 +42,14 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ELEMENT_AdvertRegion		= "AdvertRegion";
 	public static final String ELEMENT_ChemRegion		= "ChemRegion";
 	public static final String ELEMENT_MusicRegion		= "MusicRegion";
+	public static final String ELEMENT_MapRegion		= "MapRegion";
+	public static final String ELEMENT_CustomRegion		= "CustomRegion";
 
 	public static final String ELEMENT_Border			= "Border";
 	public static final String ELEMENT_ReadingOrder		= "ReadingOrder";
 	public static final String ELEMENT_RegionRef		= "RegionRef";
+	public static final String ELEMENT_SourceRegionRef		= "SourceRegionRef";
+	public static final String ELEMENT_TargetRegionRef		= "TargetRegionRef";
 	public static final String ELEMENT_UnorderedGroup	= "UnorderedGroup";
 	public static final String ELEMENT_OrderedGroup				= "OrderedGroup";
 	public static final String ELEMENT_RegionRefIndexed			= "RegionRefIndexed";
@@ -66,6 +70,7 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ELEMENT_Baseline			= "Baseline";
 
 	public static final String ELEMENT_Metadata			= "Metadata";
+	public static final String ELEMENT_MetadataItem		= "MetadataItem";
 	public static final String ELEMENT_Creator			= "Creator";
 	public static final String ELEMENT_Created			= "Created";
 	public static final String ELEMENT_LastChange		= "LastChange";
@@ -86,7 +91,11 @@ public class DefaultXmlNames implements XmlNameProvider {
 	
 	public static final String ELEMENT_Roles			= "Roles";
 	public static final String ELEMENT_TableCellRole	= "TableCellRole";
+	public static final String ELEMENT_Grid				= "Grid";
+	public static final String ELEMENT_GridPoints		= "GridPoints";
 
+	public static final String ELEMENT_Labels			= "Labels";
+	public static final String ELEMENT_Label			= "Label";
 	
 	public static final String ATTR_pcGtsId				= "pcGtsId";
 	public static final String ATTR_imageFilename		= "imageFilename";
@@ -150,14 +159,26 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_name			= "name";
 	public static final String ATTR_description		= "description";
 	public static final String ATTR_value			= "value";
+	public static final String ATTR_date			= "date";
 	public static final String ATTR_rowIndex		= "rowIndex";
 	public static final String ATTR_columnIndex		= "columnIndex";
 	public static final String ATTR_rowSpan			= "rowSpan";
 	public static final String ATTR_colSpan			= "colSpan";
+	public static final String ATTR_header			= "header";
+
 	public static final String ATTR_continuation	= "continuation";
 	public static final String ATTR_mergeWithNextRule		= "mergeWithNextRule";
 	public static final String ATTR_mergeWithNextRuleData	= "mergeWithNextRuleData";
+
+	public static final String ATTR_imageXResolution			= "imageXResolution";
+	public static final String ATTR_imageYResolution			= "imageXResolution";
+	public static final String ATTR_ATTR_imageResolutionUnit	= "ATTR_imageResolutionUnit";
 	
+	public static final String ATTR_prefix			= "prefix";
+	public static final String ATTR_externalId		= "externalId";
+	public static final String ATTR_externalModel	= "externalModel";
+
+
 	@Override
 	public String getXmlName(ContentType type) {
 		if (type == RegionType.ChartRegion)

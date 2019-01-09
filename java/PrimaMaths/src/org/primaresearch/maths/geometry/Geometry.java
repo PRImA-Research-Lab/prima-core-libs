@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.primaresearch.maths.geometry;
 
-import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 /**
  * Helper class for different calculations
@@ -23,7 +23,16 @@ import java.awt.geom.Point2D;
  * @author Christian Clausner
  *
  */
-public class Geometry {
+public class Geometry implements Serializable {
+
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Empty constructor for GWT
+	 */
+	public Geometry() {		
+	}
 
 	/**
 	 * Calculates the intersection point of the linear functions defined by the 4 given points.
@@ -36,7 +45,7 @@ public class Geometry {
 	 * @return Intersection point or <code>null</code>.
 	 *
 	 */
-	public static Point2D.Double getInterceptionPointOfTwoLines(double ax1, double ay1, double ax2, double ay2, 
+	public static PointD getInterceptionPointOfTwoLines(double ax1, double ay1, double ax2, double ay2, 
 													double bx1, double by1, double bx2, double by2)	{
 		double dividend = ((bx2-bx1)*(ay1-by1) - (by2-by1)*(ax1-bx1));
 		double divisor = ((by2-by1)*(ax2-ax1) - (bx2-bx1)*(ay2-ay1));
@@ -46,7 +55,7 @@ public class Geometry {
 
 		double ua =  dividend / divisor;
 
-		Point2D.Double intersect = new Point2D.Double(ax1 + ua*(ax2-ax1), ay1 + ua*(ay2-ay1));
+		PointD intersect = new PointD(ax1 + ua*(ax2-ax1), ay1 + ua*(ay2-ay1));
 
 		return intersect;
 	}

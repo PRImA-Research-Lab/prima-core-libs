@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import org.primaresearch.dla.page.MetaData;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.xml.PageXmlInputOutput;
 import org.primaresearch.dla.page.layout.PageLayout;
@@ -28,6 +27,7 @@ import org.primaresearch.dla.page.layout.physical.text.LowLevelTextObject;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.maths.geometry.Polygon;
 import org.xml.sax.Attributes;
@@ -48,6 +48,8 @@ public class SaxPageHandler_Hocr extends SaxPageHandler {
 	private static final String ELEMENT_div 	= "div";
 	private static final String ELEMENT_p 		= "p";
 	private static final String ELEMENT_span 	= "span";
+	//private static final String ELEMENT_strong 	= "strong";
+	//private static final String ELEMENT_em 		= "em";
 
 	private static final String ATTR_name 		= "name";
 	private static final String ATTR_content 	= "content";

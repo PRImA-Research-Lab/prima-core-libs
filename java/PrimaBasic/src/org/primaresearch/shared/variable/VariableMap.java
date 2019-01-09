@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,9 @@ public class VariableMap implements Serializable {
 	private String name = null;
 	
 	private VariableComparator sortIndexComparator = null;
+	
+	public VariableMap() {
+	}
 	
 	/**
 	 * Creates a deep copy of this map.

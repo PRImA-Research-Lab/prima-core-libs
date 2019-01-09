@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ public class PageLayout {
 	 * @return Region object
 	 */
 	public Region createRegion(RegionType type, String id, RegionContainer parentRegion) {
-		Region reg = (Region)contentFactory.createContent(type);
+		Region reg = (Region)contentFactory.createContent(type, parentRegion);
 		if (id != null) {
 			try {
 				reg.setId(id);
@@ -279,7 +279,7 @@ public class PageLayout {
 				//Check if the given ID matches
 				try {
 					if (obj.getId().equals(contentFactory.getIdRegister().getId(id)))
-						return new ContentObjectRelation((ContentObject)parent, obj, RelationType.ParentChildRelation);
+						return new ContentObjectRelation((ContentObject)parent, obj, RelationType.ParentChildRelation, null, null);
 				} catch (InvalidIdException e) {
 					return null;
 				}
@@ -566,7 +566,7 @@ public class PageLayout {
 	 */
 	public Relations getRelations() {
 		if (relations == null)
-			relations = new Relations();
+			relations = new Relations(contentFactory.getIdRegister());
 		return relations;
 	}
 	

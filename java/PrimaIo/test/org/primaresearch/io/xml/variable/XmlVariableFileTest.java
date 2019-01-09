@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class XmlVariableFileTest {
 	public void test() {
 		
 		//Output file
-		File outputFile = new File("e:\\temp\\debug\\XmlVariableFileTest.xml");
+		File outputFile = new File("d:\\temp\\debug\\XmlVariableFileTest.xml");
 		if (outputFile.exists())
 			assertTrue(outputFile.delete());
 		

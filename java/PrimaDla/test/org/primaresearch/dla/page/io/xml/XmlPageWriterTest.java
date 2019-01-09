@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import java.io.File;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.primaresearch.dla.page.MetaData;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.FileInput;
 import org.primaresearch.dla.page.io.FileTarget;
@@ -34,6 +33,7 @@ import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.dla.page.layout.physical.text.impl.DefaultTextRegionTypes;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.XmlFormatVersion;
@@ -44,31 +44,37 @@ import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.StringVariable;
 
 public class XmlPageWriterTest {
+	private static File xmlAllFeaturesFile2018 = null;
 	private static File xmlAllFeaturesFile2017 = null;
 	private static File xmlAllFeaturesFile2016 = null;
 	private static File xmlAllFeaturesFile2013 = null;
 	private static File xmlLanguageAndOcrConfidenceFile = null;
 	private static File xmlAllFeaturesPageFileMod = null;
+	private static File xmlPage2018File = null;
 	private static File xmlPage2017File = null;
 	private static File xmlPage2016File = null;
 	private static File xmlPage2013File = null;
 	private static File legacyPageFile = null;
 	private static File emptyDocumentOutputFile = null;
+	private static File allFeatures2018OutputFile = null;
 	private static File allFeatures2017OutputFile = null;
 	private static File allFeatures2016OutputFile = null;
 	private static File allFeatures2013OutputFile = null;
 	private static File languageAndOcrConfidenceOutputFile = null;
 	private static File outputFileMod = null;
+	private static File page2018OutputFile = null;
 	private static File page2017OutputFile = null;
 	private static File page2016OutputFile = null;
 	private static File page2013OutputFile = null;
 	private static File legagyOutputFile = null;
 	private static File fromScratchLegacyOutputFile = null;
 	private static File fromScratchOutputFile = null;
+	private static Page pageAllFeatures2018 = null;
 	private static Page pageAllFeatures2017 = null;
 	private static Page pageAllFeatures2016 = null;
 	private static Page pageAllFeatures2013 = null;
 	private static Page pageMod = null;
+	private static Page page2018 = null;
 	private static Page page2017 = null;
 	private static Page page2016 = null;
 	private static Page page2013 = null;
@@ -84,6 +90,22 @@ public class XmlPageWriterTest {
 				throw new Exception("Old output file could not be deleted: "+ emptyDocumentOutputFile.getPath());
 		}
 
+		//All features file 2018
+		allFeatures2018OutputFile = new File("c:/junit/allFeatures2018Output.xml");
+		if (allFeatures2018OutputFile.exists()) {
+			if (!allFeatures2018OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ allFeatures2018OutputFile.getPath());
+		}
+
+		xmlAllFeaturesFile2018 = new File("c:/junit/allFeatures2018.xml");
+		if (!xmlAllFeaturesFile2018.exists())
+			throw new Exception("Page XML file not found: "+ xmlAllFeaturesFile2018.getPath());
+		
+		PageReader reader = PageXmlInputOutput.getReader();
+		pageAllFeatures2018 = reader.read(new FileInput(xmlAllFeaturesFile2018));
+		if (pageAllFeatures2018 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2018.getPath());
+
 		//All features file 2017
 		allFeatures2017OutputFile = new File("c:/junit/allFeatures2017Output.xml");
 		if (allFeatures2017OutputFile.exists()) {
@@ -95,7 +117,7 @@ public class XmlPageWriterTest {
 		if (!xmlAllFeaturesFile2017.exists())
 			throw new Exception("Page XML file not found: "+ xmlAllFeaturesFile2017.getPath());
 		
-		PageReader reader = PageXmlInputOutput.getReader();
+		reader = PageXmlInputOutput.getReader();
 		pageAllFeatures2017 = reader.read(new FileInput(xmlAllFeaturesFile2017));
 		if (pageAllFeatures2017 == null)
 			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2017.getPath());
@@ -129,6 +151,21 @@ public class XmlPageWriterTest {
 		pageAllFeatures2013 = reader.read(new FileInput(xmlAllFeaturesFile2013));
 		if (pageAllFeatures2013 == null)
 			throw new Exception("Page XML could not be opened: "+ xmlAllFeaturesFile2013.getPath());
+
+		//Normal page 2018 file
+		page2018OutputFile = new File("c:/junit/page_2018-07-15_Output.xml");
+		if (page2018OutputFile.exists()) {
+			if (!page2018OutputFile.delete())
+				throw new Exception("Old output file could not be deleted: "+ page2018OutputFile.getPath());
+		}
+
+		xmlPage2018File = new File("c:/junit/page_2018-07-15.xml");
+		if (!xmlPage2018File.exists())
+			throw new Exception("Page XML file not found: "+ xmlPage2018File.getPath());
+		
+		page2018 = reader.read(new FileInput(xmlPage2018File));
+		if (page2018 == null)
+			throw new Exception("Page XML could not be opened: "+ xmlPage2018File.getPath());
 
 		//Normal page 2017 file
 		page2017OutputFile = new File("c:/junit/page_2017-07-15_Output.xml");
@@ -268,6 +305,38 @@ public class XmlPageWriterTest {
 			exc.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testWrite2018() {
+		try {
+			//Valid
+			PageWriter writer;
+			try {
+				writer = PageXmlInputOutput.getWriter((XmlFormatVersion)pageAllFeatures2018.getFormatVersion());
+			} catch (UnsupportedSchemaVersionException e) {
+				fail(e.getMessage());
+				return;
+			}
+	
+			try {
+				writer.write(pageAllFeatures2018, new FileTarget(allFeatures2018OutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			} 
+			assertTrue(allFeatures2018OutputFile.exists());
+			
+			//File with new features of 2018schema
+			try {
+				writer.write(page2018, new FileTarget(page2018OutputFile));
+			} catch (UnsupportedFormatVersionException e) {
+				e.printStackTrace();
+			}
+			assertTrue(page2018OutputFile.exists());
+
+		} catch(Exception exc) {
+			exc.printStackTrace();
+		}
+	}
 
 	@Test
 	public void testWrite2017() {
@@ -382,34 +451,33 @@ public class XmlPageWriterTest {
 			return;
 		}
 		try {
-			assertTrue(writer.write(pageAllFeatures2017, new FileTarget(allFeatures2017OutputFile)));
+			assertTrue(writer.write(pageAllFeatures2018, new FileTarget(allFeatures2018OutputFile)));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
 
 		//Valid2
 		try {
-			assertTrue(writer.write(page2017, new FileTarget(page2017OutputFile)));
+			assertTrue(writer.write(page2018, new FileTarget(page2018OutputFile)));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
 
 		//Invalid
 		// Add an invalid attribute to a region
-		pageAllFeatures2017.getLayout().getRegion(0).getAttributes().add(new StringVariable("kerning", new StringValue("not a number")));
+		pageAllFeatures2018.getLayout().getRegion(0).getAttributes().add(new StringVariable("kerning", new StringValue("not a number")));
 		// Save and validate
 		try {
-			assertFalse(writer.write(pageAllFeatures2017, new FileTarget(allFeatures2017OutputFile)));
+			assertFalse(writer.write(pageAllFeatures2018, new FileTarget(allFeatures2018OutputFile)));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
 		// Validate only
 		try {
-			assertFalse(writer.validate(pageAllFeatures2017));
+			assertFalse(writer.validate(pageAllFeatures2018));
 		} catch (UnsupportedFormatVersionException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	@Test

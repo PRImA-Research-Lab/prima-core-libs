@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.primaresearch.ident.IdRegister.InvalidIdException;
 public class ReadingOrder {
 
 	private Group root;
+	private Double confidence;
 	
 	/**
 	 * Constructor
@@ -63,4 +64,22 @@ public class ReadingOrder {
 			return root.containsRegionRef(regionId);
 		return false;
 	}
+
+	/**
+	 * Reading order recognition confidence
+	 * @return 0.0..1.0
+	 */
+	public Double getConfidence() {
+		return confidence;
+	}
+
+	/**
+	 * Reading order recognition confidence
+	 * @param confidence 0.0..1.0
+	 */
+	public void setConfidence(Double confidence) {
+		this.confidence = confidence;
+	}
+	
+	
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package org.primaresearch.dla.page.layout.physical;
 
+import java.util.List;
+
+import org.primaresearch.dla.page.AlternativeImage;
 import org.primaresearch.dla.page.layout.physical.role.RegionRole;
 import org.primaresearch.dla.page.layout.physical.shared.RoleType;
 import org.primaresearch.shared.variable.VariableMap;
@@ -69,4 +72,10 @@ public interface Region extends ContentObject, RegionContainer {
 	 * @param type The type of role (e.g. table cell)
 	 */
 	public void removeRole(RoleType type);
+	
+	/**
+	 * Returns a list of alternative images that are associated with this region
+	 * @return List with image objects
+	 */
+	public List<AlternativeImage> getAlternativeImages();
 }

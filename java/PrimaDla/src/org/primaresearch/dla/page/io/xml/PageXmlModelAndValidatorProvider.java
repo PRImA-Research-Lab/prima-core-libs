@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,6 +88,11 @@ public class PageXmlModelAndValidatorProvider extends XmlModelAndValidatorProvid
 			//2017-07-15
 			addSchemaSource(	new XmlFormatVersion("2017-07-15"), 
 					getClass().getResource("/org/primaresearch/dla/page/io/xml/schema/2017-07-15_pagecontent.xsd"),
+					true);
+
+			//2018-07-15
+			addSchemaSource(	new XmlFormatVersion("2018-07-15"), 
+					getClass().getResource("/org/primaresearch/dla/page/io/xml/schema/2018-07-15_pagecontent.xsd"),
 					true);
 
 			//Abbyy FineReader 10

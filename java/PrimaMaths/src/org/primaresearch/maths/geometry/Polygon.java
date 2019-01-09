@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,16 @@ import java.util.List;
 public class Polygon implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Point> points = new ArrayList<Point>();
 	
 	private Rect boundingBox = null;
+	
+	private Double confidence = null;
+	
+	public Polygon() {
+		
+	}
 	
 	/**
 	 * Returns the number of points of this polygon.
@@ -241,4 +247,22 @@ public class Polygon implements Serializable {
 		}
 		return copy;
 	}
+
+	/**
+	 * E.g. polygon recognition confidence
+	 * @return 0.0..1.0
+	 */
+	public Double getConfidence() {
+		return confidence;
+	}
+
+	/**
+	 * E.g. polygon recognition confidence
+	 * @param confidence 0.0..1.0
+	 */
+	public void setConfidence(Double confidence) {
+		this.confidence = confidence;
+	}
+	
+	
 }

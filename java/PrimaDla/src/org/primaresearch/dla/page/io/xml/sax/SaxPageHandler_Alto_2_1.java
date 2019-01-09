@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.primaresearch.dla.page.MetaData;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.Page.MeasurementUnit;
 import org.primaresearch.dla.page.layout.GeometricObjectImpl;
@@ -35,6 +34,7 @@ import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.io.xml.XmlFormatVersion;
 import org.primaresearch.io.xml.XmlModelAndValidatorProvider;
@@ -522,9 +522,14 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		TextRegion region = (TextRegion)currentRegion;
 		
 		//Rotation
-		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0)
-			region.setOrientation(Double.parseDouble(atts.getValue(i)));
-		
+		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0) {
+			//ALTO's rotation is the counter-clockwise angle of the content within a block. PAGE's orientation is the clockwise angle to correct rotation/skew. Therefore the value is the same
+			region.setOrientation(-Double.parseDouble(atts.getValue(i))); 
+			if (region.getOrientation() > 180.0)
+				region.setOrientation(region.getOrientation() - 360.0);
+			if (region.getOrientation() <= -180.0)
+				region.setOrientation(region.getOrientation() + 360.0);
+		}
 		//Language
 		if ((i = atts.getIndex(ATTR_LANG)) >= 0) {
 			String language = altoToPrimaLanguage(atts.getValue(i));
@@ -650,8 +655,14 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		ImageRegion region = (ImageRegion)currentRegion;
 		
 		//Rotation
-		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0)
-			region.setOrientation(Double.parseDouble(atts.getValue(i)));
+		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0) {
+			//ALTO's rotation is the counter-clockwise angle of the content within a block. PAGE's orientation is the clockwise angle to correct rotation/skew. Therefore the value is the same
+			region.setOrientation(-Double.parseDouble(atts.getValue(i))); 
+			if (region.getOrientation() > 180.0)
+				region.setOrientation(region.getOrientation() - 360.0);
+			if (region.getOrientation() <= -180.0)
+				region.setOrientation(region.getOrientation() + 360.0);
+		}
 	}
 	
 	private void handleGraphicsBlock(Attributes atts) {
@@ -659,8 +670,14 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		SeparatorRegion region = (SeparatorRegion)currentRegion;
 		
 		//Rotation
-		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0)
-			region.setOrientation(Double.parseDouble(atts.getValue(i)));
+		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0) {
+			//ALTO's rotation is the counter-clockwise angle of the content within a block. PAGE's orientation is the clockwise angle to correct rotation/skew. Therefore the value is the same
+			region.setOrientation(-Double.parseDouble(atts.getValue(i))); 
+			if (region.getOrientation() > 180.0)
+				region.setOrientation(region.getOrientation() - 360.0);
+			if (region.getOrientation() <= -180.0)
+				region.setOrientation(region.getOrientation() + 360.0);
+		}
 	}
 	
 	private String altoToPrimaLanguage(String altoLanguageValue) {
@@ -773,7 +790,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		if ("ml".equals(altoLanguageValue)) return "Malayalam";
 		if ("mt".equals(altoLanguageValue)) return "Maltese";
 		if ("gv".equals(altoLanguageValue)) return "Manx";
-		if ("mi".equals(altoLanguageValue)) return "MÄ?ori";
+		if ("mi".equals(altoLanguageValue)) return "MÄori";
 		if ("mr".equals(altoLanguageValue)) return "Marathi";
 		if ("mh".equals(altoLanguageValue)) return "Marshallese";
 		if ("mn".equals(altoLanguageValue)) return "Mongolian";
@@ -793,7 +810,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		if ("or".equals(altoLanguageValue)) return "Oriya";
 		if ("om".equals(altoLanguageValue)) return "Oromo";
 		if ("os".equals(altoLanguageValue)) return "Ossetian";
-		if ("pi".equals(altoLanguageValue)) return "PÄ?li";
+		if ("pi".equals(altoLanguageValue)) return "PÄli";
 		if ("pa".equals(altoLanguageValue)) return "Panjabi";
 		if ("ps".equals(altoLanguageValue)) return "Pashto";
 		if ("fa".equals(altoLanguageValue)) return "Persian";

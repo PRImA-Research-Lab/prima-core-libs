@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Validator;
 
-import org.primaresearch.dla.page.MetaData;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.FileTarget;
 import org.primaresearch.dla.page.io.OutputTarget;
@@ -51,6 +50,7 @@ import org.primaresearch.dla.page.layout.physical.ContentObject;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
 import org.primaresearch.dla.page.layout.physical.text.TextObject;
 import org.primaresearch.dla.page.layout.shared.GeometricObject;
+import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.IOError;
 import org.primaresearch.io.xml.XmlValidator;

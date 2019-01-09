@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 PRImA Research Lab, University of Salford, United Kingdom
+ * Copyright 2019 PRImA Research Lab, University of Salford, United Kingdom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,14 @@
  */
 package org.primaresearch.dla.page.layout.physical.shared;
 
+import java.io.Serializable;
+
 /**
  * Content types for region roles (table cell etc.).
  * 
  * @author Christian Clausner
  */
-public class RoleType extends ContentType {
+public class RoleType extends ContentType implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/** Type for table cell roles */
@@ -29,7 +31,7 @@ public class RoleType extends ContentType {
 	/**
 	 * Empty constructor (required for GWT)
 	 */
-	protected RoleType() {
+	public RoleType() {
 		super();
 	}
 	
