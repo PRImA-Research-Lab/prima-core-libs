@@ -46,6 +46,7 @@ public class SaxPageHandlerFactory {
 				//ALTO
 				else if (((XmlFormatVersion)schemaVersion).toString().equals("http://www.loc.gov/standards/alto/ns-v2#")
 						|| ((XmlFormatVersion)schemaVersion).toString().equals("http://www.loc.gov/standards/alto/ns-v3#")
+						|| ((XmlFormatVersion)schemaVersion).toString().equals("http://www.loc.gov/standards/alto/ns-v4#")
 						|| ((XmlFormatVersion)schemaVersion).toString().equals("http://schema.ccs-gmbh.com/ALTO")) //1.1
 					return new SaxPageHandler_Alto_2_1(validatorProvider, schemaVersion);
 			}
@@ -59,9 +60,11 @@ public class SaxPageHandlerFactory {
 				return new SaxPageHandler_2013_07_15(validatorProvider, schemaVersion);
 			else if (schemaVersion.isOlderThan(new XmlFormatVersion("2017-07-15")))
 				return new SaxPageHandler_2016_07_15(validatorProvider, schemaVersion);
+			else if (schemaVersion.isOlderThan(new XmlFormatVersion("2018-07-15")))
+				return new SaxPageHandler_2017_07_15(validatorProvider, schemaVersion);
 		}
 		
 		//Latest schema
-		return new SaxPageHandler_2017_07_15(validatorProvider, schemaVersion);
+		return new SaxPageHandler_2018_07_15(validatorProvider, schemaVersion);
 	}
 }

@@ -42,6 +42,11 @@ public class ContentType implements Serializable {
 	 */
 	public static final ContentType PrintSpace = new ContentType("PrintSpace");
 
+	/**
+	 * Content type for the metadata item
+	 */
+	public static final ContentType MetadataItem = new ContentType("MetadataItem");
+
 	private String name;
 	
 	/**

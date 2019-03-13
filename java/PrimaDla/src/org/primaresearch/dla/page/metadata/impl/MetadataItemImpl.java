@@ -17,6 +17,7 @@ package org.primaresearch.dla.page.metadata.impl;
 
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.AttributeFactory;
+import org.primaresearch.dla.page.layout.physical.shared.ContentType;
 import org.primaresearch.dla.page.layout.physical.shared.RoleType;
 import org.primaresearch.dla.page.metadata.MetadataItem;
 import org.primaresearch.labels.Labels;
@@ -42,7 +43,7 @@ public class MetadataItemImpl implements MetadataItem {
 	 * @param attrFactory
 	 */
 	public MetadataItemImpl(AttributeFactory attrFactory) {
-		attributes = attrFactory.createAttributes(RoleType.TableCellRole);
+		attributes = attrFactory.createAttributes(ContentType.MetadataItem);
 	}
 	
 	@Override

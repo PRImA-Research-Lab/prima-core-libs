@@ -66,6 +66,13 @@ public class ConverterHub {
 		
 		
 		//TODO If more schemas are added, we could dynamically create chain converters.
+		
+		//2009-03-16 to 2018-07-15
+		ChainConverter chain_2009_03_16_to_2018_07_15 = new ChainConverter();
+		chain_2009_03_16_to_2018_07_15.addConverter(new Converter_2009_03_16_to_2016_07_15()); //This goes from medium to old to new (not great!)
+		chain_2009_03_16_to_2018_07_15.addConverter(new Converter_2016_07_15_to_2017_07_15());
+		chain_2009_03_16_to_2018_07_15.addConverter(new Converter_2017_07_15_to_2018_07_15());
+		addConverter(chain_2009_03_16_to_2018_07_15);
 
 		//2010-03-19 to 2018-07-15
 		ChainConverter chain_2010_03_19_to_2018_07_15 = new ChainConverter();

@@ -298,6 +298,13 @@ public class DefaultAttributeFactory implements
 			vars.add(new IntegerVariable("columnIndex", null));
 			vars.add(new IntegerVariable("rowSpan", null));
 			vars.add(new IntegerVariable("colSpan", null));
+
+			//Table cell role
+			vars = new ArrayList<Variable>();
+			contentTypeAttrMap.put(ContentType.MetadataItem, vars);
+			vars.add(new IntegerVariable("type", null));
+			vars.add(new IntegerVariable("name", null));
+			vars.add(new IntegerVariable("value", null));
 		}
 		return contentTypeAttrMap;
 	}
@@ -483,6 +490,8 @@ public class DefaultAttributeFactory implements
 			return "OrderedGroupType";
 		else if (RoleType.TableCellRole.equals(type))
 			return "TableCellRoleType";
+		else if (ContentType.MetadataItem.equals(type))
+			return "MetadataItemType";
 		return null;
 	}
 
