@@ -135,7 +135,7 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		
 		private Map<String, VariableMap> typeAttrMap = new HashMap<String, VariableMap>(); // Map [type name, attribute templates]
 		private Map<String, Map<String, String>> pendingSimpleType = new HashMap<String, Map<String, String>>();
-		private Map<String, SimpleType> simpleTypes = new HashMap<String, SimpleType>();
+		private Map<String, Map<String, SimpleType>> simpleTypes = new HashMap<String, Map<String, SimpleType>>(); //Map [scope, Map[name, type]]
 		private VariableMap currentAttributeMap = null; 
 		private SimpleType currentSimpleType = null;
 		private String currentType = null;
@@ -174,7 +174,14 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		    	if (pendingAttributeWithInlineType != null) {
 			    	String name = pendingAttributeWithInlineType+"Type";
 			    	currentSimpleType = new SimpleType(name);
-			    	simpleTypes.put(name, currentSimpleType);
+			    	
+			    	Map<String, SimpleType> localSimpleTypes = simpleTypes.get(currentType);
+			    	if (localSimpleTypes == null)
+			    	{
+			    		localSimpleTypes = new HashMap<String,SimpleType>();
+			    		simpleTypes.put(currentType, localSimpleTypes);
+			    	}
+			    	localSimpleTypes.put(name, currentSimpleType);
 			    	
 					Map<String, String> attsWithPendingType = pendingSimpleType.get(currentAttributeMap.getType());
 					if (attsWithPendingType == null) {
@@ -186,7 +193,14 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		    	else {
 			    	String name = atts.getValue("name");
 			    	currentSimpleType = new SimpleType(name);
-			    	simpleTypes.put(name, currentSimpleType);
+			    	
+			    	Map<String, SimpleType> localSimpleTypes = simpleTypes.get("");
+			    	if (localSimpleTypes == null)
+			    	{
+			    		localSimpleTypes = new HashMap<String,SimpleType>();
+			    		simpleTypes.put("", localSimpleTypes);
+			    	}
+			    	localSimpleTypes.put(name, currentSimpleType);
 		    	}
 		    }
 		    else if ("restriction".equals(localName)) {
@@ -278,7 +292,7 @@ public class DefaultSchemaParser implements SchemaModelParser {
 			String type = atts.getValue("type");
 			if (type == null) //This can happen if the type is defined inline within the attribute
 			{
-				pendingAttributeWithInlineType = name;
+				pendingAttributeWithInlineType = /*"" + currentType + "_" +*/ name;
 				return;
 			}
 			Variable attr = null;
@@ -345,7 +359,18 @@ public class DefaultSchemaParser implements SchemaModelParser {
 						String simpleTypeName = entry2.getValue();
 						if (simpleTypeName.contains(":"))
 							simpleTypeName = simpleTypeName.substring(simpleTypeName.indexOf(":")+1);
-						SimpleType simpleType = simpleTypes.get(simpleTypeName);
+												
+						SimpleType simpleType = null;
+						Map<String, SimpleType> localSimpleTypes = simpleTypes.get(attributeMap.getType());
+						if (localSimpleTypes != null)
+							simpleType = localSimpleTypes.get(simpleTypeName);
+						
+						if (simpleType == null)
+						{
+							localSimpleTypes = simpleTypes.get("");
+							if (localSimpleTypes != null)
+								simpleType = localSimpleTypes.get(simpleTypeName);
+						}
 						
 						if (simpleType != null && attrName != null) {
 							Variable variable = simpleType.getVariable();

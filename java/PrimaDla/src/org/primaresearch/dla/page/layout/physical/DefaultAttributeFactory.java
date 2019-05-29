@@ -467,7 +467,7 @@ public class DefaultAttributeFactory implements
 		else if (RegionType.SeparatorRegion.equals(type))
 			return "SeparatorRegionType";
 		else if (RegionType.TableRegion.equals(type))
-			return "TableeRegionType";
+			return "TableRegionType";
 		else if (RegionType.TextRegion.equals(type))
 			return "TextRegionType";
 		else if (RegionType.UnknownRegion.equals(type))
