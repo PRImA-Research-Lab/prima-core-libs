@@ -20,6 +20,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.xml.PageXmlInputOutput;
+import org.primaresearch.dla.page.layout.physical.impl.TableRegion;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.io.UnsupportedFormatVersionException;
@@ -52,6 +53,20 @@ public class PageTest {
 		} catch(IllegalArgumentException exc) {
 			//expected
 		}
+		
+	}
+	
+	
+	@Test
+	public void testNestedRegion() {
+		//Create new page (latest schema) 
+		Page page = new Page();
+		
+		//Create table region
+		TableRegion table = (TableRegion)page.getLayout().createRegion(RegionType.TableRegion);
+		
+		TextRegion cell1 = (TextRegion)page.getLayout().createRegion(RegionType.TextRegion,"cell1", table);
+
 	}
 
 }

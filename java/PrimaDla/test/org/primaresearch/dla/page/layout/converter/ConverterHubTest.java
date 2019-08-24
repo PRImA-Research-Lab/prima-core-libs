@@ -18,8 +18,10 @@ package org.primaresearch.dla.page.layout.converter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.Test;
@@ -98,7 +100,40 @@ public class ConverterHubTest {
 		assertNotNull(messages);
 		assertEquals(2, messages.size());
 		assertNull(textType.getValue());
+		
+		// Text type
+		reg = (TextRegion)layout.createRegion(RegionType.TextRegion);
+		textType = reg.getAttributes().get("type");
+		try {
+			textType.setValue(new StringValue("endnote"));
+			fail("Exception expected - endnote");
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			//Expected
+		}
 
+		//Convert from 2018-07-15 to 2013-07-15
+		try {
+			page = PageXmlInputOutput.readPage("d:\\temp\\debug\\00787305.xml");
+			messages = ConverterHub.convert(page, PageXmlInputOutput.getInstance().getFormatModel(new XmlFormatVersion("2013-07-15")));
+			assertTrue(PageXmlInputOutput.writePage(page, "d:\\temp\\debug\\00787305_out.xml"));
+		} catch (UnsupportedFormatVersionException e1) {
+			e1.printStackTrace();
+		}
+
+		//Convert from 2019-07-15 to 2013-07-15
+		try {
+			File allFeatures2019_converted_to_2013 = new File("c:\\\\junit\\\\allFeatures2019_converted_to_2013.xml");
+			if (allFeatures2019_converted_to_2013.exists()) 
+				assertTrue(allFeatures2019_converted_to_2013.delete());
+			
+			page = PageXmlInputOutput.readPage("c:\\junit\\allFeatures2019.xml");
+			messages = ConverterHub.convert(page, PageXmlInputOutput.getInstance().getFormatModel(new XmlFormatVersion("2013-07-15")));
+			assertTrue(PageXmlInputOutput.writePage(page, allFeatures2019_converted_to_2013.getAbsolutePath()));
+		} catch (UnsupportedFormatVersionException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@Test

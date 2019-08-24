@@ -16,9 +16,13 @@
 package org.primaresearch.dla.page.layout.converter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.primaresearch.dla.page.layout.PageLayout;
+import org.primaresearch.dla.page.layout.physical.ContentIterator;
+import org.primaresearch.dla.page.layout.physical.Region;
+import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.io.FormatVersion;
 import org.primaresearch.io.xml.XmlFormatVersion;
 
@@ -60,21 +64,28 @@ public class Converter_2018_07_15_to_2017_07_15 implements LayoutConverter {
 	public List<ConversionMessage> run(PageLayout layout, boolean checkOnly) {
 		List<ConversionMessage> messages = new ArrayList<ConversionMessage>();
 		
-		//List<Region> unsupportedRegions = new ArrayList<Region>();
-		/*for (ContentIterator it = layout.iterator(null); it.hasNext(); ) {
+		List<Region> unsupportedRegions = new ArrayList<Region>();
+		for (ContentIterator it = layout.iterator(null); it.hasNext(); ) {
 			Region reg = (Region)it.next();
 			
-			//Text region types list-label
-			if (reg.getType().equals(RegionType.TextRegion) 
-					&& ("list-label".equals(((TextRegion)reg).getTextType())
-						|| "other".equals(((TextRegion)reg).getTextType())
-						)) {
+			if (reg.getType().equals(RegionType.MapRegion) || reg.getType().equals(RegionType.CustomRegion)) {
 				
-				if (!checkOnly)
-					((TextRegion)reg).setTextType(null);
-				messages.add(new ConversionMessage("Reset unsupported text type for region '"+reg.getId()+"'", ConversionMessage.CONVERSION_RESET_INVALID_ATTRIBUTE));
+				unsupportedRegions.add(reg);
 			}
-		}*/
+		}
+		
+		//Handle unsupported regions
+		for (Iterator<Region> it = unsupportedRegions.iterator(); it.hasNext(); ) {
+			Region unsupported = it.next();
+			
+			if (!checkOnly) {
+				layout.removeRegion(unsupported.getId(), true);
+				Region unknownRegion = layout.createRegion(RegionType.UnknownRegion, unsupported.getId().toString());
+				unknownRegion.setCoords(unsupported.getCoords());
+			}
+			messages.add(new ConversionMessage("Changed region type to 'unknown' for region '"+unsupported.getId()+"'", ConversionMessage.CONVERSION_GENERAL));
+		}
+
 		
 		//TODO
 		

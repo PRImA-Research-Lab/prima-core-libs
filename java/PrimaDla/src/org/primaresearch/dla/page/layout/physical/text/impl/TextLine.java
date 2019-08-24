@@ -155,7 +155,7 @@ public class TextLine extends LowLevelTextObject
 
 	@Override
 	public Boolean isItalic() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_italic).getValue()).val;
 	}
 	
 	@Override
@@ -169,7 +169,7 @@ public class TextLine extends LowLevelTextObject
 
 	@Override
 	public Boolean isUnderlined() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_italic).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue()).val;
 	}
 	
 	@Override
@@ -180,10 +180,24 @@ public class TextLine extends LowLevelTextObject
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public String getUnderlineStyle() {
+		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).getValue()).val;
+	}
+	
+	@Override
+	public void setUnderlineStyle(String style) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).setValue(VariableValue.createValueObject(style));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Boolean isSubscript() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue()).val;
 	}
 	
 	@Override
@@ -197,7 +211,7 @@ public class TextLine extends LowLevelTextObject
 
 	@Override
 	public Boolean isSuperscript() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue()).val;
 	}
 	
 	@Override
@@ -211,7 +225,7 @@ public class TextLine extends LowLevelTextObject
 
 	@Override
 	public Boolean isStrikethrough() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_strikethrough).getValue()).val;
 	}
 	
 	@Override

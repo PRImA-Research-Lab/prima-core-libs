@@ -60,6 +60,18 @@ public interface TextObject extends TextContentVariants {
 	 * @param underlined <code>true</code> for underlined text, <code>false</code> for not underlined text, or <code>null</code> if not set. 
 	 */
 	public void setUnderlined(Boolean underlined);
+	
+	/**
+	 * Line style if underlined
+	 * @return One of singleLine, doubleLine, other
+	 */
+	public String getUnderlineStyle();
+	
+	/**
+	 * Line style if underlined
+	 * @param style One of singleLine, doubleLine, other
+	 */
+	public void setUnderlineStyle(String style);
 
 	/**
 	 * Subscript (small letters below the baseline)?

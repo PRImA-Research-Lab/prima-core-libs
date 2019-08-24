@@ -37,6 +37,7 @@ import org.primaresearch.shared.variable.BooleanValue;
 import org.primaresearch.shared.variable.DoubleValue;
 import org.primaresearch.shared.variable.IntegerValue;
 import org.primaresearch.shared.variable.StringValue;
+import org.primaresearch.shared.variable.Variable;
 import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 import org.primaresearch.shared.variable.VariableMap;
 import org.primaresearch.shared.variable.VariableValue;
@@ -158,7 +159,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	}
 
 	public String getTextType() {
-		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_type).getValue()).val;
+		Variable v = getAttributes().get(DefaultXmlNames.ATTR_type);
+		return v != null && v.getValue() != null ? ((StringValue)v.getValue()).val : null;
 	}
 
 	public void setTextType(String type) {
@@ -170,7 +172,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	}
 
 	public double getOrientation() {
-		return ((DoubleValue)getAttributes().get(DefaultXmlNames.ATTR_orientation).getValue()).val;
+		Variable v = getAttributes().get(DefaultXmlNames.ATTR_orientation);
+		return v != null && v.getValue() != null ? ((DoubleValue)v.getValue()).val : 0.0;
 	}
 	
 	public void setOrientation(double orientation) {
@@ -368,7 +371,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isItalic() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_italic).getValue()).val;
 	}
 	
 	@Override
@@ -382,7 +385,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isUnderlined() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_italic).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue()).val;
 	}
 	
 	@Override
@@ -393,10 +396,24 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public String getUnderlineStyle() {
+		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).getValue()).val;
+	}
+	
+	@Override
+	public void setUnderlineStyle(String style) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).setValue(VariableValue.createValueObject(style));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Boolean isSubscript() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue()).val;
 	}
 	
 	@Override
@@ -410,7 +427,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isSuperscript() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue()).val;
 	}
 	
 	@Override
@@ -424,7 +441,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isStrikethrough() {
-		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue()).val;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_strikethrough).getValue()).val;
 	}
 	
 	@Override

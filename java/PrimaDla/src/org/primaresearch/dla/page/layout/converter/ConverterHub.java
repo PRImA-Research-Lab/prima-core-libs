@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.layout.PageLayout;
-import org.primaresearch.dla.page.layout.physical.ContentObject;
+import org.primaresearch.dla.page.layout.physical.AttributeContainer;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.RegionContainer;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
@@ -58,7 +58,9 @@ public class ConverterHub {
 		addConverter(new Converter_2016_07_15_to_2013_07_15());
 		addConverter(new Converter_2017_07_15_to_2016_07_15());
 		addConverter(new Converter_2018_07_15_to_2017_07_15());
+		addConverter(new Converter_2019_07_15_to_2018_07_15());
 		// Old to new
+		addConverter(new Converter_2018_07_15_to_2019_07_15());
 		addConverter(new Converter_2017_07_15_to_2018_07_15());
 		addConverter(new Converter_2016_07_15_to_2017_07_15());
 		addConverter(new Converter_2013_07_15_to_2016_07_15());
@@ -226,6 +228,57 @@ public class ConverterHub {
 		chain_2018_07_15_to_2016_07_15.addConverter(new Converter_2018_07_15_to_2017_07_15());
 		chain_2018_07_15_to_2016_07_15.addConverter(new Converter_2017_07_15_to_2016_07_15());
 		addConverter(chain_2018_07_15_to_2016_07_15);
+		
+		//2019-07-15 to 2009-03-16
+		ChainConverter chain_2019_07_15_to_2009_03_16 = new ChainConverter();
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2019_07_15_to_2018_07_15());
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2018_07_15_to_2017_07_15());
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2013_07_15_to_2010_03_19());
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2010_03_19_to_2010_01_12());
+		chain_2019_07_15_to_2009_03_16.addConverter(new Converter_2010_01_12_to_2009_03_16());
+		addConverter(chain_2019_07_15_to_2009_03_16);
+
+		//2019-07-15 to 2010-01-12
+		ChainConverter chain_2019_07_15_to_2010_01_12 = new ChainConverter();
+		chain_2019_07_15_to_2010_01_12.addConverter(new Converter_2019_07_15_to_2018_07_15());
+		chain_2019_07_15_to_2010_01_12.addConverter(new Converter_2018_07_15_to_2017_07_15());
+		chain_2019_07_15_to_2010_01_12.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2019_07_15_to_2010_01_12.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		chain_2019_07_15_to_2010_01_12.addConverter(new Converter_2013_07_15_to_2010_03_19());
+		chain_2019_07_15_to_2010_01_12.addConverter(new Converter_2010_03_19_to_2010_01_12());
+		addConverter(chain_2019_07_15_to_2010_01_12);
+
+		//2019-07-15 to 2010-03-19
+		ChainConverter chain_2019_07_15_to_2010_03_19 = new ChainConverter();
+		chain_2019_07_15_to_2010_03_19.addConverter(new Converter_2019_07_15_to_2018_07_15());
+		chain_2019_07_15_to_2010_03_19.addConverter(new Converter_2018_07_15_to_2017_07_15());
+		chain_2019_07_15_to_2010_03_19.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2019_07_15_to_2010_03_19.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		chain_2019_07_15_to_2010_03_19.addConverter(new Converter_2013_07_15_to_2010_03_19());
+		addConverter(chain_2019_07_15_to_2010_03_19);
+
+		//2019-07-15 to 2013-07-15
+		ChainConverter chain_2019_07_15_to_2013_07_15 = new ChainConverter();
+		chain_2019_07_15_to_2013_07_15.addConverter(new Converter_2019_07_15_to_2018_07_15());
+		chain_2019_07_15_to_2013_07_15.addConverter(new Converter_2018_07_15_to_2017_07_15());
+		chain_2019_07_15_to_2013_07_15.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		chain_2019_07_15_to_2013_07_15.addConverter(new Converter_2016_07_15_to_2013_07_15());
+		addConverter(chain_2019_07_15_to_2013_07_15);
+
+		//2019-07-15 to 2016-07-15
+		ChainConverter chain_2019_07_15_to_2016_07_15 = new ChainConverter();
+		chain_2019_07_15_to_2016_07_15.addConverter(new Converter_2019_07_15_to_2018_07_15());
+		chain_2019_07_15_to_2016_07_15.addConverter(new Converter_2018_07_15_to_2017_07_15());
+		chain_2019_07_15_to_2016_07_15.addConverter(new Converter_2017_07_15_to_2016_07_15());
+		addConverter(chain_2019_07_15_to_2016_07_15);
+
+		//2019-07-15 to 2017-07-15
+		ChainConverter chain_2019_07_15_to_2017_07_15 = new ChainConverter();
+		chain_2019_07_15_to_2017_07_15.addConverter(new Converter_2019_07_15_to_2018_07_15());
+		chain_2019_07_15_to_2017_07_15.addConverter(new Converter_2018_07_15_to_2017_07_15());
+		addConverter(chain_2019_07_15_to_2017_07_15);
 
 	}
 	
@@ -272,7 +325,10 @@ public class ConverterHub {
 			messages = layoutConverter.convert(page.getLayout());
 		
 		//Adapt existing attributes and constraints
+		adaptAttributes(page, targetModel.getTypeAttributeTemplates());
 		adaptAttributes(page.getLayout(), targetModel);
+		
+		page.setFormatVersion(targetModel, false);
 		
 		return messages;
 	}
@@ -309,7 +365,7 @@ public class ConverterHub {
 		}
 	}
 
-	private static void adaptAttributes(ContentObject obj, Map<String, VariableMap> templates) {
+	private static void adaptAttributes(AttributeContainer obj, Map<String, VariableMap> templates) {
 		VariableMap attributes = obj.getAttributes();
 		if (attributes == null || attributes.getType() == null)
 			return;

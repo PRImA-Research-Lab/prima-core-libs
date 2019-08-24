@@ -326,6 +326,7 @@ public class DefaultAttributeFactory implements
 			textStyleAttrs.add(new BooleanVariable("bold", null));
 			textStyleAttrs.add(new BooleanVariable("italic", null));
 			textStyleAttrs.add(new BooleanVariable("underlined", null));
+			textStyleAttrs.add(new StringVariable("underlineStyle", null));
 			textStyleAttrs.add(new BooleanVariable("subscript", null));
 			textStyleAttrs.add(new BooleanVariable("superscript", null));
 			textStyleAttrs.add(new BooleanVariable("strikethrough", null));
@@ -378,7 +379,7 @@ public class DefaultAttributeFactory implements
 		
 		//Text style 
 		if (LowLevelTextType.TextLine.equals(type) || LowLevelTextType.Word.equals(type) || LowLevelTextType.Glyph.equals(type) 
-				|| RegionType.TextRegion.equals(type)) {
+				|| RegionType.TextRegion.equals(type) || ContentType.Page.equals(type)) {
 			createTextStyleAttributes(varMap);
 		}
 		return varMap;

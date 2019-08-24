@@ -147,6 +147,7 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_bold			= "bold";
 	public static final String ATTR_italic			= "italic";
 	public static final String ATTR_underlined		= "underlined";
+	public static final String ATTR_underlineStyle	= "underlineStyle";
 	public static final String ATTR_strikethrough	= "strikethrough";
 	public static final String ATTR_subscript		= "subscript";
 	public static final String ATTR_superscript		= "superscript";

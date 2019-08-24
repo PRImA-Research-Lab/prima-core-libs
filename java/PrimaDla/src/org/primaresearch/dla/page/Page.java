@@ -79,12 +79,25 @@ public class Page implements AttributeContainer, HasLabels, Serializable {
 	 * Note that this might change the page layout.
 	 */
 	public List<ConversionMessage> setFormatVersion(FormatModel formatModel) {
+		return setFormatVersion(formatModel, true);
+	}
+
+	/**
+	 * Sets the format to the specified version.
+	 * Note that this might change the page layout.
+	 * @param convert Run conversion
+	 * @return Messages (if converting) or null
+	 */
+	public List<ConversionMessage> setFormatVersion(FormatModel formatModel, boolean convert) {
 		contentFactory.setAttributeFactory(createAttributeFactory(formatModel));
-		List<ConversionMessage> ret = ConverterHub.convert(this, formatModel);
+		
+		List<ConversionMessage> ret = null;
+		if (convert)
+			ret = ConverterHub.convert(this, formatModel);
 		this.formatVersion = formatModel.getVersion();
 		return ret;
 	}
-	
+
 	private AttributeFactory createAttributeFactory(FormatModel formatModel) {
 		AttributeFactory attribFactory = null;
 		if (formatModel != null) {

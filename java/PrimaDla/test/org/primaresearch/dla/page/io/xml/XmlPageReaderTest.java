@@ -52,6 +52,7 @@ import org.primaresearch.shared.variable.Variable;
 import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 
 public class XmlPageReaderTest {
+	File xmlPage2019File;
 	File xmlPage2018File;
 	File xmlPage2017File;
 	File xmlPage2016File;
@@ -64,6 +65,10 @@ public class XmlPageReaderTest {
 
 	@Before
 	public void setUp() throws Exception {
+		xmlPage2019File = new File("c:/junit/page_2019-07-15.xml");
+		if (!xmlPage2019File.exists())
+			throw new Exception("Page XML file not found: "+ xmlPage2019File.getPath());
+
 		xmlPage2018File = new File("c:/junit/page_2018-07-15.xml");
 		if (!xmlPage2018File.exists())
 			throw new Exception("Page XML file not found: "+ xmlPage2018File.getPath());
@@ -101,6 +106,84 @@ public class XmlPageReaderTest {
 			throw new Exception("Page XML file not found: "+ schema_2013_07_15_File.getPath());
 	}
 
+	@SuppressWarnings("unused")
+	@Test
+	public void testRead2019() {
+		XmlPageReader reader = PageXmlInputOutput.getReader();
+		
+		Page page = null;
+		try {
+			page = reader.read(new FileInput(xmlPage2019File));
+		} catch (UnsupportedFormatVersionException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(page);
+		
+		//Meta data
+		MetaData metaData = page.getMetaData();
+		assertNotNull(metaData);
+		
+		assertEquals("TestCreator", metaData.getCreator());
+		assertEquals("TestComments", metaData.getComments());
+		
+		//Page attributes
+		assertEquals(45.0, ((DoubleValue)page.getAttributes().get("orientation").getValue()).val, 0.001);
+		//Text style
+		assertEquals("singleLine", ((StringValue)page.getAttributes().get("underlineStyle").getValue()).val);
+		
+		//Layout
+		PageLayout layout = page.getLayout();
+		assertNotNull(layout);
+		
+		//Check width and height
+		assertEquals(1000, layout.getWidth());
+		assertEquals(500, layout.getHeight());
+		
+		//Border and print space
+		assertNotNull(layout.getBorder());
+		assertEquals(4, layout.getBorder().getCoords().getSize());
+		assertNotNull(layout.getPrintSpace());
+		assertEquals(4, layout.getPrintSpace().getCoords().getSize());
+		
+		//Regions
+		assertEquals(11, layout.getRegionCount());
+		
+		//Low level text objects
+		for (int i=0; i<layout.getRegionCount(); i++) {
+			//Text region?
+			if (layout.getRegion(i).getType() == RegionType.TextRegion) {
+				
+				//Id
+				assertEquals("r1", layout.getRegion(i).getId().toString());
+				
+				//Attributes
+				TextObject textObj = (TextObject)layout.getRegion(i);
+				ContentObject contentObject = layout.getRegion(i);
+				assertEquals(((DoubleValue)contentObject.getAttributes().get("fontSize").getValue()).val, 10.0, 0.01);
+				
+				//Text
+				assertEquals("Test", ((TextObject)layout.getRegion(i)).getText());
+				
+				//Children
+				assertEquals(((TextRegion)layout.getRegion(i)).getTextObjectCount(), 1);
+				
+				TextLine line = (TextLine)((TextRegion)layout.getRegion(i)).getTextObject(0);
+				
+				assertEquals(line.getTextObjectCount(), 1);
+				
+				Word word = (Word)(line.getTextObject(0));
+
+				assertEquals(word.getTextObjectCount(), 1);
+				
+				Glyph glyph = (Glyph)word.getTextObject(0);
+				
+				assertEquals(6, glyph.getGraphemes().size());
+				break;
+			}
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	@Test
 	public void testRead2018() {
