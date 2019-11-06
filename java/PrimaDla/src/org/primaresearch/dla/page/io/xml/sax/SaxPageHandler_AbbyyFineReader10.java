@@ -24,6 +24,9 @@ import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.text.LowLevelTextObject;
+import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
+import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.shared.GeometricObject;
 import org.primaresearch.dla.page.metadata.MetaData;
 import org.primaresearch.io.xml.XmlFormatVersion;
@@ -47,6 +50,9 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	private static final String ELEMENT_region = "region";
 	private static final String ELEMENT_rect = "rect";
 	private static final String ELEMENT_block = "block";
+	private static final String ELEMENT_text = "text";
+	private static final String ELEMENT_par = "par";
+	private static final String ELEMENT_line = "line";
 	
 	private static final String ATTR_producer = "producer";
 	private static final String ATTR_width = "width";
@@ -69,6 +75,8 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	private List<Rect> currentRects = null;
 	private GeometricObject currentGeometricObject = null;
 	private Region currentRegion = null;
+	private TextLine currentLine = null;
+	private StringBuffer currentText = null;
 
 	private XmlModelAndValidatorProvider validatorProvider;
 	private XmlFormatVersion schemaVersion;
@@ -124,6 +132,21 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	    	currentRegion = createRegion(atts);
 	    	currentGeometricObject = currentRegion;
 	    }
+	    else if (ELEMENT_text.equals(localName)) {
+	    	if (currentRegion != null) {
+	    		//We use the paragraphs as regions, if a text block has paragraphs
+	    		page.getLayout().removeRegion(currentRegion.getId());
+	    		currentRegion = null;
+	    	}
+	    }
+	    else if (ELEMENT_par.equals(localName)) {
+	    	currentRegion = layout.createRegion(RegionType.TextRegion);
+	    }
+	    else if (ELEMENT_line.equals(localName)) {
+	    	if (currentRegion != null && currentRegion instanceof TextRegion) {
+	    		createTextLine(atts);
+	    	}
+	    }
 	    /*else if (ELEMENT_TextLine.equals(localName)) {
 	    	currentTextLine = null;
 	    	if (currentRegion != null && currentRegion.getType() == RegionType.TextRegion)
@@ -150,6 +173,30 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	    }*/
 	}
 	
+	private void createTextLine(Attributes atts) {
+		int i, l=0, t=0, r=0, b=0;
+		if ((i = atts.getIndex(ATTR_l)) >= 0) {
+			l = new Integer(atts.getValue(i));
+		}
+		if ((i = atts.getIndex(ATTR_t)) >= 0) {
+			t = new Integer(atts.getValue(i));
+		}
+		if ((i = atts.getIndex(ATTR_r)) >= 0) {
+			r = new Integer(atts.getValue(i));
+		}
+		if ((i = atts.getIndex(ATTR_b)) >= 0) {
+			b = new Integer(atts.getValue(i));
+		}
+		TextLine line = ((TextRegion)currentRegion).createTextLine();
+		Polygon poly = new Polygon();
+		poly.addPoint(l, t);
+		poly.addPoint(r, t);
+		poly.addPoint(r, b);
+		poly.addPoint(l, b);
+		line.setCoords(poly);
+		currentLine = line;
+	}
+	
 	/**
 	 * Receive notification of the end of an element.
 	 * 
@@ -173,6 +220,38 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	    	}
 	    	currentRegion = null;
 	    	currentGeometricObject = null;
+	    }
+	    else if (ELEMENT_par.equals(localName)) {
+	    	if (currentRegion != null && currentRegion instanceof TextRegion) {
+	    		TextRegion textReg = (TextRegion)currentRegion;
+	    		int l = page.getLayout().getWidth();
+	    		int r = 0;
+	    		int t = page.getLayout().getHeight();
+	    		int b = 0;
+	    		for (int i=0; i<textReg.getTextObjectCount(); i++) {
+	    			LowLevelTextObject textLine = textReg.getTextObject(i);
+	    			if (textLine.getCoords().getBoundingBox().left < l)
+	    				l = textLine.getCoords().getBoundingBox().left;
+	    			if (textLine.getCoords().getBoundingBox().right > r)
+	    				r = textLine.getCoords().getBoundingBox().right;
+	    			if (textLine.getCoords().getBoundingBox().top < t)
+	    				t = textLine.getCoords().getBoundingBox().top;
+	    			if (textLine.getCoords().getBoundingBox().bottom > b)
+	    				b = textLine.getCoords().getBoundingBox().bottom;
+	    		}
+	    		Polygon poly = new Polygon();
+	    		poly.addPoint(l, t);
+	    		poly.addPoint(r, t);
+	    		poly.addPoint(r, b);
+	    		poly.addPoint(l, b);
+	    		textReg.setCoords(poly);
+	    		
+	    		
+		    	textReg.setText(textReg.composeText(false, false));
+	    	}
+	    }
+	    else if (ELEMENT_line.equals(localName)) {
+	    	currentLine = null;
 	    }
 	    /*else if (	ELEMENT_TextLine.equals(localName)) {
 	    	currentTextLine = null;
@@ -201,46 +280,27 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	public void characters(char[] ch, int start, int length)
 	      throws SAXException {
 
-		//String strValue = new String(ch, start, length);
+		String strValue = new String(ch, start, length);
 		
 		//Text might be parsed bit by bit, so we have to accumulate until a closing tag is found.
-		//if (currentText == null)
-		//	currentText = new StringBuffer();
-		//currentText.append(strValue);
+		if (currentText == null)
+			currentText = new StringBuffer();
+		currentText.append(strValue);
 	}
 	
 	/**
 	 * Writes accumulated text to the right object. 
 	 */
 	private void finishText() {
-		/*if (currentText != null) {
+		if (currentText != null) {
 			String strValue = currentText.toString();
 			
-			if (currentTextObject != null) {
-				if (ELEMENT_Unicode.equals(insideElement)) {
-					currentTextObject.setText(strValue);
-				} 
-				else if (ELEMENT_PlainText.equals(insideElement)) {
-					currentTextObject.setPlainText(strValue);
-				} 
-			}
-			if (metaData != null) {
-				if (ELEMENT_Creator.equals(insideElement)) {
-					metaData.setCreator(strValue);
-				}
-				else if (ELEMENT_Comments.equals(insideElement)) {
-					metaData.setComments(strValue);
-				}
-			    else if (ELEMENT_Created.equals(insideElement)) {
-			    	metaData.setCreationTime(parseDate(strValue));
-			    }
-			    else if (ELEMENT_LastChange.equals(insideElement)) {
-			    	metaData.setLastModifiedTime(parseDate(strValue));
-			    }
+			if (currentLine != null) {
+				currentLine.setText(strValue);
 			}
 
 			currentText = null;
-		}*/
+		}
 	}
 	
 	private void createPageObject() {
@@ -295,7 +355,6 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	private void handleRegionRect(Attributes atts) {
 		if (currentRects == null)
 			return;
-		
 	
 		int i, l=0, t=0, r=0, b=0;
 		if ((i = atts.getIndex(ATTR_l)) >= 0) {
@@ -312,11 +371,6 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 		}
 		currentRects.add(new Rect(l, t, r, b));
 	}
-	
-	
-	//private String getXmlAttributeName(String name) {
-	//	return name; //TODO Should there be a mechanism to translate attribute names to XML names?
-	//}
 	
 	private Region createRegion(Attributes atts) {
 		String abbyyType = null;

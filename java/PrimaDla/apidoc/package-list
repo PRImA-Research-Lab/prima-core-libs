@@ -1,5 +1,6 @@
 org.primaresearch.dla.page
 org.primaresearch.dla.page.io
+org.primaresearch.dla.page.io.json
 org.primaresearch.dla.page.io.xml
 org.primaresearch.dla.page.io.xml.sax
 org.primaresearch.dla.page.layout

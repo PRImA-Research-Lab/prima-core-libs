@@ -30,7 +30,7 @@ public class CsvResultFormatter {
 
 	/**
 	 * Prints CSV (comma separated values).
-	 * @param evalRes Evaluation result object
+	 * @param evalResults Evaluation result objects
 	 * @param csvHeaders If true, CSV headers are printed before the values
 	 */
 	public static void printEvaluationResult(	String gtFileName, String resFileName, List<EvaluationResult> evalResults, 
@@ -95,7 +95,7 @@ public class CsvResultFormatter {
 	
 	/**
 	 * CSV formatting (comma separated values).
-	 * @param evalRes Evaluation result object
+	 * @param evalResults Evaluation result objects
 	 * @param csvHeaders If true, CSV headers are printed before the values
 	 */
 	public static String formatEvaluationResult(	String gtFileName, String resFileName, List<EvaluationResult> evalResults, 

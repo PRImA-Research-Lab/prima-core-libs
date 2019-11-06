@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.Page.MeasurementUnit;
+import org.primaresearch.dla.page.io.xml.AltoXmlNames;
 import org.primaresearch.dla.page.layout.GeometricObjectImpl;
 import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.logical.Group;
@@ -52,65 +53,6 @@ import org.xml.sax.SAXException;
  */
 public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 
-	private static final String ELEMENT_alto						= "alto";
-	//private static final String ELEMENT_Description					= "Description";
-	//private static final String ELEMENT_Layout						= "Layout";
-	private static final String ELEMENT_MeasurementUnit				= "MeasurementUnit";
-	//private static final String ELEMENT_sourceImageInformation		= "sourceImageInformation";
-	private static final String ELEMENT_fileName					= "fileName";
-	private static final String ELEMENT_OCRProcessing				= "OCRProcessing";
-	private static final String ELEMENT_preProcessingStep			= "preProcessingStep";
-	private static final String ELEMENT_ocrProcessingStep			= "ocrProcessingStep";
-	private static final String ELEMENT_postProcessingStep			= "postProcessingStep";
-	private static final String ELEMENT_processingDateTime			= "processingDateTime";
-	private static final String ELEMENT_processingAgency			= "processingAgency";
-	private static final String ELEMENT_processingStepDescription	= "processingStepDescription";
-	private static final String ELEMENT_processingStepSettings		= "processingStepSettings";
-	private static final String ELEMENT_processingSoftware			= "processingSoftware";
-	private static final String ELEMENT_softwareName				= "softwareName";
-	private static final String ELEMENT_softwareCreator				= "softwareCreator";
-	private static final String ELEMENT_softwareVersion				= "softwareVersion";
-	private static final String ELEMENT_applicationDescription		= "applicationDescription";
-	private static final String ELEMENT_Page				= "Page";
-	private static final String ELEMENT_TopMargin			= "TopMargin";
-	private static final String ELEMENT_LeftMargin			= "LeftMargin";
-	private static final String ELEMENT_RightMargin			= "RightMargin";
-	private static final String ELEMENT_BottomMargin		= "BottomMargin";
-	private static final String ELEMENT_PrintSpace			= "PrintSpace";
-	private static final String ELEMENT_TextBlock			= "TextBlock";
-	private static final String ELEMENT_Illustration		= "Illustration";
-	private static final String ELEMENT_GraphicalElement	= "GraphicalElement";
-	private static final String ELEMENT_ComposedBlock		= "ComposedBlock";
-	//private static final String ELEMENT_Shape				= "Shape";
-	private static final String ELEMENT_Polygon				= "Polygon";
-	private static final String ELEMENT_Ellipse				= "Ellipse";
-	private static final String ELEMENT_Circle				= "Circle";
-	private static final String ELEMENT_TextLine			= "TextLine";
-	private static final String ELEMENT_String				= "String";
-	private static final String ELEMENT_HYP					= "HYP";
-	
-	private static final String ATTR_ID					= "ID";
-	private static final String ATTR_IDNEXT				= "IDNEXT";
-	private static final String ATTR_PAGECLASS			= "PAGECLASS";
-	private static final String ATTR_HEIGHT				= "HEIGHT";
-	private static final String ATTR_WIDTH				= "WIDTH";
-	private static final String ATTR_PHYSICAL_IMG_NR	= "PHYSICAL_IMG_NR";
-	private static final String ATTR_PRINTED_IMG_NR		= "PRINTED_IMG_NR";
-	private static final String ATTR_QUALITY			= "QUALITY";
-	private static final String ATTR_QUALITY_DETAIL		= "QUALITY_DETAIL";
-	private static final String ATTR_POSITION			= "POSITION";
-	private static final String ATTR_PROCESSING			= "PROCESSING";
-	private static final String ATTR_ACCURACY			= "ACCURACY";
-	private static final String ATTR_PC					= "PC";
-	private static final String ATTR_HPOS				= "HPOS";
-	private static final String ATTR_VPOS				= "VPOS";
-	private static final String ATTR_ROTATION			= "ROTATION";
-	private static final String ATTR_POINTS				= "POINTS";
-	private static final String ATTR_RADIUS				= "RADIUS";
-	private static final String ATTR_HLENGTH			= "HLENGTH";
-	private static final String ATTR_VLENGTH			= "VLENGTH";
-	private static final String ATTR_CONTENT			= "CONTENT";
-	private static final String ATTR_LANG				= "LANG";
 
 	
 	private Page page;
@@ -185,65 +127,65 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		//Handle accumulated text
 		finishText();
 
-	    if (ELEMENT_alto.equals(localName)){
+	    if (AltoXmlNames.ELEMENT_alto.equals(localName)){
 	    	createPageObject();
 	    }
-	    else if (ELEMENT_OCRProcessing.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_OCRProcessing.equals(localName)){
 	    	comments += "\nOCR Processing Information";
 	    }
-	    else if (ELEMENT_preProcessingStep.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_preProcessingStep.equals(localName)){
 	    	comments += "\nPreprocessing:";
 	    }
-	    else if (ELEMENT_ocrProcessingStep.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_ocrProcessingStep.equals(localName)){
 	    	comments += "\nOCR:";
 	    }
-	    else if (ELEMENT_postProcessingStep.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_postProcessingStep.equals(localName)){
 	    	comments += "\nPostprocessing:";
 	    }
-	    else if (ELEMENT_Page.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_Page.equals(localName)){
 	    	handlePageNode(atts);
 	    }
-	    else if (ELEMENT_TopMargin.equals(localName)
-	    		|| ELEMENT_LeftMargin.equals(localName)
-	    		|| ELEMENT_BottomMargin.equals(localName)
-	    		|| ELEMENT_RightMargin.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_TopMargin.equals(localName)
+	    		|| AltoXmlNames.ELEMENT_LeftMargin.equals(localName)
+	    		|| AltoXmlNames.ELEMENT_BottomMargin.equals(localName)
+	    		|| AltoXmlNames.ELEMENT_RightMargin.equals(localName)){
 	    	hasMargins = true;
 	    }
-	    else if (ELEMENT_PrintSpace.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_PrintSpace.equals(localName)) {
 	    	handlePrintSpaceNode(atts);
 	    }
-	    else if (ELEMENT_TextBlock.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_TextBlock.equals(localName)) {
 	    	handleBlockNode(atts, RegionType.TextRegion);
 	    	handleTextBlock(atts);
 	    }
-	    else if (ELEMENT_Illustration.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_Illustration.equals(localName)) {
 	    	handleBlockNode(atts, RegionType.ImageRegion);
 	    	handleIllustrationBlock(atts);
 	    }
-	    else if (ELEMENT_GraphicalElement.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_GraphicalElement.equals(localName)) {
 	    	handleBlockNode(atts, RegionType.SeparatorRegion);
 	    	handleGraphicsBlock(atts);
 	    }
-	    else if (ELEMENT_ComposedBlock.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_ComposedBlock.equals(localName)) {
 	    	//At the moment we do not create a region for composed blocks.
 	    	//Only non-composed children get a region.
 	    }
-	    else if (ELEMENT_Polygon.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_Polygon.equals(localName)) {
 	    	handlePolygonNode(atts);
 	    }
-	    else if (ELEMENT_Ellipse.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_Ellipse.equals(localName)) {
 	    	handleEllipseNode(atts);
 	    }
-	    else if (ELEMENT_Circle.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_Circle.equals(localName)) {
 	    	handleCircleNode(atts);
 	    }
-	    else if (ELEMENT_TextLine.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_TextLine.equals(localName)) {
 	    	handleTextLineNode(atts);
 	    }
-	    else if (ELEMENT_String.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_String.equals(localName)) {
 	    	handleWordNode(atts);
 	    }
-	    else if (ELEMENT_HYP.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_HYP.equals(localName)) {
 	    	handleHyphenNode(atts);
 	    }
 	}
@@ -264,7 +206,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		//Handle accumulated text
 		finishText();
 
-	    if (ELEMENT_alto.equals(localName)){
+	    if (AltoXmlNames.ELEMENT_alto.equals(localName)){
 	    	metaData.setComments(comments);
 	    	createReadingOrder();
 	    	composehighLevelText();
@@ -273,59 +215,59 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		if (firstPageDone) //No multi-page support
 			return;
 
-	    if (ELEMENT_MeasurementUnit.equals(localName)){
+	    if (AltoXmlNames.ELEMENT_MeasurementUnit.equals(localName)){
 	    	handleMeasurementUnit(currentText);
 	    }
-	    else if (ELEMENT_fileName.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_fileName.equals(localName)){
 	    	handleFilename(currentText);
 	    }
-	    else if (ELEMENT_processingDateTime.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_processingDateTime.equals(localName)){
 	    	comments += "\n  Date: "+currentText;
 	    }
-	    else if (ELEMENT_processingAgency.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_processingAgency.equals(localName)){
 	    	comments += "\n  Agency: "+currentText;
 	    }
-	    else if (ELEMENT_processingStepDescription.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_processingStepDescription.equals(localName)){
 	    	comments += "\n  Description: "+currentText;
 	    }
-	    else if (ELEMENT_processingStepSettings.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_processingStepSettings.equals(localName)){
 	    	comments += "\n  Settings: "+currentText;
 	    }
-	    else if (ELEMENT_processingSoftware.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_processingSoftware.equals(localName)){
 	    	comments += "\n  Software: ";
 	    }
-	    else if (ELEMENT_softwareCreator.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_softwareCreator.equals(localName)){
 	    	comments += "\n    Creator: "+currentText;
 	    }
-	    else if (ELEMENT_softwareName.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_softwareName.equals(localName)){
 	    	comments += "\n    Name: "+currentText;
 	    }
-	    else if (ELEMENT_softwareVersion.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_softwareVersion.equals(localName)){
 	    	comments += "\n    Version: "+currentText;
 	    }
-	    else if (ELEMENT_applicationDescription.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_applicationDescription.equals(localName)){
 	    	comments += "\n    Application: "+currentText;
 	    }
-	    else if (ELEMENT_Page.equals(localName)){
+	    else if (AltoXmlNames.ELEMENT_Page.equals(localName)){
 	    	firstPageDone = true;
 	    }
-	    else if (ELEMENT_TextBlock.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_TextBlock.equals(localName)) {
 	    	currentRegion = null;
 	    }
-	    else if (ELEMENT_Illustration.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_Illustration.equals(localName)) {
 	    	currentRegion = null;
 	    }
-	    else if (ELEMENT_GraphicalElement.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_GraphicalElement.equals(localName)) {
 	    	currentRegion = null;
 	    }
-	    else if (ELEMENT_ComposedBlock.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_ComposedBlock.equals(localName)) {
 	    	currentRegion = null;
 	    }
-	    else if (ELEMENT_TextLine.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_TextLine.equals(localName)) {
 	    	currentTextLine = null;
 	    	lastWord = null;
 	    }
-	    else if (ELEMENT_String.equals(localName)) {
+	    else if (AltoXmlNames.ELEMENT_String.equals(localName)) {
 	    	currentWord = null;
 	    }
 	    
@@ -396,7 +338,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	private void handlePageNode(Attributes atts) {
 		int i;
 		//Id
-		if ((i = atts.getIndex(ATTR_ID)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_ID)) >= 0) {
 			try {
 				page.setGtsId(atts.getValue(i));
 			} catch (InvalidIdException e) {
@@ -404,45 +346,45 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 			}
 		}
 		//Page class
-		if ((i = atts.getIndex(ATTR_PAGECLASS)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_PAGECLASS)) >= 0) {
 			comments += "\nPage class: "+atts.getValue(i);
 		}
 		//Width + height
-		if ((i = atts.getIndex(ATTR_WIDTH)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) {
 			int width = (int)Double.parseDouble(atts.getValue(i));
-			if ((i = atts.getIndex(ATTR_HEIGHT)) >= 0)
+			if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0)
 				layout.setSize(width, (int)Double.parseDouble(atts.getValue(i)));
 		}
 		//Physical image number
-		if ((i = atts.getIndex(ATTR_PHYSICAL_IMG_NR)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_PHYSICAL_IMG_NR)) >= 0) {
 			comments += "\nPhysical image number: "+atts.getValue(i);
 		}
 		//Printed image number
-		if ((i = atts.getIndex(ATTR_PRINTED_IMG_NR)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_PRINTED_IMG_NR)) >= 0) {
 			comments += "\nPrinted image number: "+atts.getValue(i);
 		}
 		//Quality
-		if ((i = atts.getIndex(ATTR_QUALITY)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_QUALITY)) >= 0) {
 			comments += "\nQuality: "+atts.getValue(i);
 		}
 		//Quality details
-		if ((i = atts.getIndex(ATTR_QUALITY_DETAIL)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_QUALITY_DETAIL)) >= 0) {
 			comments += "\n Quality details: "+atts.getValue(i);
 		}
 		//Position
-		if ((i = atts.getIndex(ATTR_POSITION)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_POSITION)) >= 0) {
 			comments += "\nPosition: "+atts.getValue(i);
 		}
 		//Processing ID
-		if ((i = atts.getIndex(ATTR_PROCESSING)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_PROCESSING)) >= 0) {
 			comments += "\nProcessing ID: "+atts.getValue(i);
 		}
 		//Accuracy
-		if ((i = atts.getIndex(ATTR_ACCURACY)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_ACCURACY)) >= 0) {
 			comments += "\nAccuracy: "+atts.getValue(i);
 		}
 		//Confidence
-		if ((i = atts.getIndex(ATTR_PC)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_PC)) >= 0) {
 			comments += "\nConfidence: "+atts.getValue(i);
 		}
 	}
@@ -454,9 +396,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		if (!hasMargins && layout.getWidth() <= 0) { 
 			//No width defined in page node
 			//and there is no margin (meaning the print space equals the full page)
-			if ((i = atts.getIndex(ATTR_WIDTH)) >= 0) {
+			if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) {
 				int width = (int)Double.parseDouble(atts.getValue(i));
-				if ((i = atts.getIndex(ATTR_HEIGHT)) >= 0)
+				if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0)
 					layout.setSize(width, (int)Double.parseDouble(atts.getValue(i)));
 			}
 		}
@@ -464,13 +406,13 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		//Polygon
 		if (hasMargins) {
 			int w=0, h=0, l=0, t=0;
-			if ((i = atts.getIndex(ATTR_WIDTH)) >= 0) 
+			if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) 
 				w = (int)Double.parseDouble(atts.getValue(i));
-			if ((i = atts.getIndex(ATTR_HEIGHT)) >= 0) 
+			if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0) 
 				h = (int)Double.parseDouble(atts.getValue(i));
-			if ((i = atts.getIndex(ATTR_HPOS)) >= 0) 
+			if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) >= 0) 
 				l = (int)Double.parseDouble(atts.getValue(i));
-			if ((i = atts.getIndex(ATTR_VPOS)) >= 0) 
+			if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) >= 0) 
 				t = (int)Double.parseDouble(atts.getValue(i));
 			layout.setPrintSpace(new GeometricObjectImpl(createPolygonFromBoundingBox(l, t, w, h)));
 		}
@@ -492,7 +434,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		int i;
 		//Id
 		String id = null;
-		if ((i = atts.getIndex(ATTR_ID)) >= 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_ID)) >= 0)
 			id = atts.getValue(i);
 		
 		if (id != null)
@@ -501,18 +443,18 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 			currentRegion = layout.createRegion(type);
 		
 		//IdNext
-		if ((i = atts.getIndex(ATTR_IDNEXT)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_IDNEXT)) >= 0) 
 			addRelationToReadingOrder(id, atts.getValue(i));
 		
 		//Polygon from bounding box
 		int w=0, h=0, l=0, t=0;
-		if ((i = atts.getIndex(ATTR_WIDTH)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) 
 			w = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HEIGHT)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0) 
 			h = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HPOS)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) >= 0) 
 			l = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_VPOS)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) >= 0) 
 			t = (int)Double.parseDouble(atts.getValue(i));
 		currentRegion.setCoords(createPolygonFromBoundingBox(l, t, w, h));
 	}
@@ -522,7 +464,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		TextRegion region = (TextRegion)currentRegion;
 		
 		//Rotation
-		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_ROTATION)) >= 0) {
 			//ALTO's rotation is the counter-clockwise angle of the content within a block. PAGE's orientation is the clockwise angle to correct rotation/skew. Therefore the value is the same
 			region.setOrientation(-Double.parseDouble(atts.getValue(i))); 
 			if (region.getOrientation() > 180.0)
@@ -531,7 +473,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 				region.setOrientation(region.getOrientation() + 360.0);
 		}
 		//Language
-		if ((i = atts.getIndex(ATTR_LANG)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_LANG)) >= 0) {
 			String language = altoToPrimaLanguage(atts.getValue(i));
 			if (language != null)
 				region.setPrimaryLanguage(language);
@@ -549,7 +491,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		int i;
 		
 		//Language
-		if ((i = atts.getIndex(ATTR_LANG)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_LANG)) >= 0) {
 			String language = altoToPrimaLanguage(atts.getValue(i));
 			if (language != null)
 				currentTextLine.setPrimaryLanguage(language);
@@ -557,13 +499,13 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		
 		//Polygon from bounding box
 		int w=0, h=0, l=0, t=0;
-		if ((i = atts.getIndex(ATTR_WIDTH)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) 
 			w = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HEIGHT)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0) 
 			h = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HPOS)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) >= 0) 
 			l = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_VPOS)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) >= 0) 
 			t = (int)Double.parseDouble(atts.getValue(i));
 		currentTextLine.setCoords(createPolygonFromBoundingBox(l, t, w, h));
 	}
@@ -579,7 +521,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		int i;
 		
 		//Language
-		if ((i = atts.getIndex(ATTR_LANG)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_LANG)) >= 0) {
 			String language = altoToPrimaLanguage(atts.getValue(i));
 			if (language != null)
 				currentWord.setLanguage(language);
@@ -587,18 +529,18 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		
 		//Polygon from bounding box
 		int w=0, h=0, l=0, t=0;
-		if ((i = atts.getIndex(ATTR_WIDTH)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) 
 			w = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HEIGHT)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0) 
 			h = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HPOS)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) >= 0) 
 			l = (int)Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_VPOS)) >= 0) 
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) >= 0) 
 			t = (int)Double.parseDouble(atts.getValue(i));
 		currentWord.setCoords(createPolygonFromBoundingBox(l, t, w, h));
 		
 		//Text content
-		if ((i = atts.getIndex(ATTR_CONTENT)) >= 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_CONTENT)) >= 0)
 			currentWord.setText(atts.getValue(i));
 	}
 	
@@ -610,7 +552,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		// Text
 		int i;
 		String hypContent = "-";
-		if ((i = atts.getIndex(ATTR_CONTENT)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_CONTENT)) >= 0) {
 			char code = 0;
 			//Is it a number?
 			try {
@@ -630,9 +572,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		// Coords (extend word)
 		int updatedRight = 0;
 		Polygon polygon = lastWord.getCoords();
-		if (atts.getIndex(ATTR_HPOS) >= 0 && atts.getIndex(ATTR_WIDTH) >= 0) {
-			int hpos = (int)Double.parseDouble(atts.getValue(ATTR_HPOS));
-			int width = (int)Double.parseDouble(atts.getValue(ATTR_WIDTH));
+		if (atts.getIndex(AltoXmlNames.ATTR_HPOS) >= 0 && atts.getIndex(AltoXmlNames.ATTR_WIDTH) >= 0) {
+			int hpos = (int)Double.parseDouble(atts.getValue(AltoXmlNames.ATTR_HPOS));
+			int width = (int)Double.parseDouble(atts.getValue(AltoXmlNames.ATTR_WIDTH));
 			
 			updatedRight = hpos + width - 1;
 		}
@@ -655,7 +597,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		ImageRegion region = (ImageRegion)currentRegion;
 		
 		//Rotation
-		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_ROTATION)) >= 0) {
 			//ALTO's rotation is the counter-clockwise angle of the content within a block. PAGE's orientation is the clockwise angle to correct rotation/skew. Therefore the value is the same
 			region.setOrientation(-Double.parseDouble(atts.getValue(i))); 
 			if (region.getOrientation() > 180.0)
@@ -670,7 +612,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		SeparatorRegion region = (SeparatorRegion)currentRegion;
 		
 		//Rotation
-		if ((i = atts.getIndex(ATTR_ROTATION)) >= 0) {
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_ROTATION)) >= 0) {
 			//ALTO's rotation is the counter-clockwise angle of the content within a block. PAGE's orientation is the clockwise angle to correct rotation/skew. Therefore the value is the same
 			region.setOrientation(-Double.parseDouble(atts.getValue(i))); 
 			if (region.getOrientation() > 180.0)
@@ -988,7 +930,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		int i;
 		
 		//Points
-		if ((i = atts.getIndex(ATTR_POINTS)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_POINTS)) < 0)
 			return;
 					
 		String points = atts.getValue(i);
@@ -1032,13 +974,13 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		int i;
 		double x=0, y=0, horLength=0, vertLength=0;
 		
-		if ((i = atts.getIndex(ATTR_HPOS)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) < 0)
 			x = Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_VPOS)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) < 0)
 			y = Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_HLENGTH)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HLENGTH)) < 0)
 			horLength = Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_VLENGTH)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VLENGTH)) < 0)
 			vertLength = Double.parseDouble(atts.getValue(i));
 		
 		double radiusX = horLength/2;
@@ -1059,11 +1001,11 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		int i;
 		double x=0, y=0, radius=0;
 		
-		if ((i = atts.getIndex(ATTR_HPOS)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) < 0)
 			x = Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_VPOS)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) < 0)
 			y = Double.parseDouble(atts.getValue(i));
-		if ((i = atts.getIndex(ATTR_RADIUS)) < 0)
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_RADIUS)) < 0)
 			radius = Double.parseDouble(atts.getValue(i));
 
 		Polygon polygon = ellipseToPolygon(x, y, radius, radius);

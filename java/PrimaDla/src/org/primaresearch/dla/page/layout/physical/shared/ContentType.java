@@ -84,5 +84,10 @@ public class ContentType implements Serializable {
 			return false;
 		return name.equals(other.name);
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }

@@ -46,7 +46,7 @@ public class ValidStringValues implements VariableConstraint, Serializable {
 			throw new IllegalArgumentException("Variable value is not a string");
 			//return false;
 		if (!validValues.contains(((StringValue)value).val))
-			throw new IllegalArgumentException("Variable value '"+((StringValue)value).val+"' is in the list of valid values.");
+			throw new IllegalArgumentException("Variable value '"+((StringValue)value).val+"' is not in the list of valid values.");
 		return true;
 	}
 

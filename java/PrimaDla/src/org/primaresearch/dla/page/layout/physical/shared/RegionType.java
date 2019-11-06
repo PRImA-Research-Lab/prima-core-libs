@@ -87,4 +87,6 @@ public class RegionType extends ContentType {
 		genericTypes.put(name, newType);
 		return newType;
 	}
+	
+
 }

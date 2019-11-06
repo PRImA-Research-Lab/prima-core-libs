@@ -15,9 +15,6 @@
  */
 package org.primaresearch.dla.page.io.xml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -26,10 +23,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.primaresearch.dla.page.Page;
-import org.primaresearch.dla.page.io.FileInput;
 import org.primaresearch.dla.page.io.InputSource;
 import org.primaresearch.dla.page.io.PageReader;
-import org.primaresearch.dla.page.io.UrlInput;
+import org.primaresearch.dla.page.io.PageReaderBase;
 import org.primaresearch.dla.page.io.xml.sax.SaxPageHandler;
 import org.primaresearch.dla.page.io.xml.sax.SaxPageHandlerFactory;
 import org.primaresearch.io.UnsupportedFormatVersionException;
@@ -47,7 +43,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author Christian Clausner
  */
-public class XmlPageReader implements PageReader {
+public class XmlPageReader extends PageReaderBase implements PageReader {
 	
 	/** Constant for recognising a shortcut out of parsing. */
 	private static final String PARSING_COMPLETE = "PARSING_COMPLETE";
@@ -58,7 +54,6 @@ public class XmlPageReader implements PageReader {
 	private SAXParser schemaVersionParser;
 	private XmlModelAndValidatorProvider validatorProvider;
 	private XmlFormatVersion schemaVersion = null;
-	private PageErrorHandler lastErrors;
 
 	/**
 	 * Constructor
@@ -156,29 +151,7 @@ public class XmlPageReader implements PageReader {
 		
 		return page;
 	}
-	
-	private InputStream getInputStream(InputSource source) {
-		if (source instanceof FileInput) {
-			File f = ((FileInput)source).getFile();
-			try {
-				return new FileInputStream(f);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				lastErrors.getErrors().add(new IOError("Could not open stream from file: "+e.getMessage()));
-			} 
-		} 
-		else if (source instanceof UrlInput) {
-			try {
-				return ((UrlInput)source).getUrl().openStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-				lastErrors.getErrors().add(new IOError("Could not open stream from URL: "+e.getMessage()));
-			}
-		}
-		else 
-			throw new IllegalArgumentException("Only FileInput and UrlInput allowed for XmlPageReader");
-		return null;
-	}
+
 	
 	/**
 	 * Returns a list of errors that occurred on the last call of read(). 

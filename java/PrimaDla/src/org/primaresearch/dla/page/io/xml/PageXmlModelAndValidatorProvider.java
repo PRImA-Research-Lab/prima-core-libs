@@ -121,8 +121,13 @@ public class PageXmlModelAndValidatorProvider extends XmlModelAndValidatorProvid
 								false);
 
 			//ALTO 4.0
+			//addSchemaSource(	new XmlFormatVersion("http://www.loc.gov/standards/alto/ns-v4#"), 
+			//					new URL("http://www.loc.gov/standards/alto/v4/alto-4-0.xsd"),
+			//					false);
+
+			//ALTO 4.1
 			addSchemaSource(	new XmlFormatVersion("http://www.loc.gov/standards/alto/ns-v4#"), 
-								new URL("http://www.loc.gov/standards/alto/v4/alto-4-0.xsd"),
+								new URL("http://www.loc.gov/standards/alto/v4/alto-4-1.xsd"),
 								false);
 
 			//HOCR
