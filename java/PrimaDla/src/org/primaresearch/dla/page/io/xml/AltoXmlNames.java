@@ -38,6 +38,7 @@ public class AltoXmlNames {
 	public static final String ELEMENT_String				= "String";
 	public static final String ELEMENT_HYP					= "HYP";
 	public static final String ELEMENT_Glyph				= "Glyph";
+	public static final String ELEMENT_Variant				= "Variant";
 	
 	public static final String ATTR_SCHEMAVERSION		= "SCHEMAVERSION";
 	public static final String ATTR_ID					= "ID";
@@ -53,6 +54,9 @@ public class AltoXmlNames {
 	public static final String ATTR_PROCESSING			= "PROCESSING";
 	public static final String ATTR_ACCURACY			= "ACCURACY";
 	public static final String ATTR_PC					= "PC";
+	public static final String ATTR_WC					= "WC";
+	public static final String ATTR_GC					= "GC";
+	public static final String ATTR_VC					= "VC";
 	public static final String ATTR_HPOS				= "HPOS";
 	public static final String ATTR_VPOS				= "VPOS";
 	public static final String ATTR_ROTATION			= "ROTATION";
@@ -64,5 +68,6 @@ public class AltoXmlNames {
 	public static final String ATTR_LANG				= "LANG";
 	public static final String ATTR_TYPE				= "TYPE";
 	public static final String ATTR_FILEID				= "FILEID";
+	
 
 }

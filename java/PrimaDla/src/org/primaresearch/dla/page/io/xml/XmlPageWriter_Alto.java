@@ -45,6 +45,7 @@ import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.converter.ConversionMessage;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.text.TextContent;
 import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
@@ -56,6 +57,7 @@ import org.primaresearch.io.xml.XmlValidator;
 import org.primaresearch.maths.geometry.Point;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.maths.geometry.Rect;
+import org.primaresearch.shared.variable.DoubleValue;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -353,18 +355,23 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 
 		//ID
 		addAttribute(blockNode, AltoXmlNames.ATTR_ID, region.getId().toString());
+		
+		//HPOS, VPOS, WIDTH, HEIGHT
+		addPositionAttributes(blockNode, region.getCoords());
+		
+		//ROTATION
+		if (region.getAttributes().get("orientation") != null && region.getAttributes().get("orientation").getValue() != null) {
+			double orientation = ((DoubleValue)region.getAttributes().get("orientation").getValue()).val;
+			addAttribute(blockNode, AltoXmlNames.ATTR_ROTATION, ""+orientation);
+		}
+
+		//CS - Not available in PAGE
 
 		//TODO
 		//STYLEREFS
 		//TAGREFS
 		//PROCESSINGREFS
-		//HEIGHT
-		//WIDTH
-		//HPOS
-		//VPOS
-		//ROTATION
 		//IDNEXT
-		//CS
 		
 		addShape(blockNode, region.getCoords());
 		
@@ -381,6 +388,17 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			else //Illustration
 				addIllustrationBlockContent(blockNode, region);
 		}
+	}
+	
+	void addPositionAttributes(Element element, Polygon coords) {
+		if (coords == null || coords.getSize() == 0)
+			return;
+		
+		Rect box = coords.getBoundingBox();
+		addAttribute(element, AltoXmlNames.ATTR_HPOS, ""+box.left);
+		addAttribute(element, AltoXmlNames.ATTR_VPOS, ""+box.top);
+		addAttribute(element, AltoXmlNames.ATTR_WIDTH, ""+box.getWidth());
+		addAttribute(element, AltoXmlNames.ATTR_HEIGHT, ""+box.getHeight());
 	}
 	
 	String getAltoBlockType(Region region) {
@@ -439,20 +457,20 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			if (lang != null)
 				addAttribute(textLineNode, AltoXmlNames.ATTR_LANG, lang);
 		}
+		
+		//HPOS, VPOS, WIDTH, HEIGHT
+		addPositionAttributes(textLineNode, textLine.getCoords());
+		
+		//CS - Not available in PAGE
+
 
 		//TODO
 		//STYLEREFS
 		//TAGREFS
 		//PROCESSINGREFS
-		//HEIGHT
-		//WIDTH
-		//HPOS
-		//VPOS
 		//BASELINE
-		//CS
 		
 		addShape(textLineNode, textLine.getCoords());
-		
 		
 		//Words (strings)
 		for (int i=0; i<textLine.getTextObjectCount(); i++)
@@ -486,20 +504,23 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				addAttribute(wordNode, AltoXmlNames.ATTR_LANG, lang);
 		}
 		
+		//HPOS, VPOS, WIDTH, HEIGHT
+		addPositionAttributes(wordNode, word.getCoords());
+
+		//CS - Not available in PAGE
+		
+		//WC
+		if (word.getAttributes().get("conf") != null && word.getAttributes().get("conf").getValue() != null)
+			addAttribute(wordNode, AltoXmlNames.ATTR_WC, word.getAttributes().get("conf").getValue().toString());
+
 		//TODO
 		//STYLEREFS
 		//TAGREFS
 		//PROCESSINGREFS
-		//HEIGHT
-		//WIDTH
-		//HPOS
-		//VPOS
 		//STYLE
 		//SUBS_TYPE
 		//SUBS_CONTENT
-		//WC
-		//CC
-		//CS
+		//CC - Confidence level of each character in that string. A list of numbers, one number between 0 (sure) and 9 (unsure) for each character.
 		
 		addShape(wordNode, word.getCoords());
 		
@@ -526,16 +547,34 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 
 		addAttribute(glyphNode, AltoXmlNames.ATTR_CONTENT, textContent.isEmpty() ? "?" : textContent); 
 
-		//TODO
-		//HEIGHT
-		//WIDTH
-		//HPOS
-		//VPOS
-		//GC
+		//HPOS, VPOS, WIDTH, HEIGHT
+		addPositionAttributes(glyphNode, glyph.getCoords());
 
+		//GC
+		if (glyph.getAttributes().get("conf") != null && glyph.getAttributes().get("conf").getValue() != null)
+			addAttribute(glyphNode, AltoXmlNames.ATTR_GC, glyph.getAttributes().get("conf").getValue().toString());
+
+		//Shape
 		addShape(glyphNode, glyph.getCoords());
 		
-		//TODO: Variant
+		//Variant
+		if (glyph.getTextContentVariantCount() > 1) {
+			for (int i=0; i<glyph.getTextContentVariantCount(); i++) {
+				TextContent variant = glyph.getTextContentVariant(i);
+				if (variant != null && variant.getText() != null && !variant.getText().isEmpty()) {
+					Element variantNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_Variant);
+					glyphNode.appendChild(variantNode);
+				
+					//CONTENT
+					addAttribute(variantNode, AltoXmlNames.ATTR_CONTENT, variant.getText());
+					
+					//VC
+					if (variant.getConfidence() != null)
+						addAttribute(glyphNode, AltoXmlNames.ATTR_VC, ""+variant.getConfidence());
+
+				}
+			}
+		}		
 	}
 	
 	String getAltoLanguage(String pageLanguage) {
