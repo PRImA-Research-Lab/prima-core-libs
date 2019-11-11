@@ -43,6 +43,8 @@ public class AltoXmlNames {
 	public static final String ELEMENT_TextStyle			= "TextStyle";
 	public static final String ELEMENT_ParagraphStyle		= "ParagraphStyle";
 	public static final String ELEMENT_Processing			= "Processing";
+	public static final String ELEMENT_Tags					= "Tags";
+	public static final String ELEMENT_OtherTag				= "OtherTag";
 	
 	public static final String ATTR_SCHEMAVERSION		= "SCHEMAVERSION";
 	public static final String ATTR_ID					= "ID";
@@ -84,6 +86,10 @@ public class AltoXmlNames {
 	public static final String ATTR_LINESPACE				= "LINESPACE";
 	public static final String ATTR_FIRSTLINE				= "FIRSTLINE";
 	public static final String ATTR_STYLEREFS				= "STYLEREFS";
+	public static final String ATTR_LABEL				= "LABEL";
+	public static final String ATTR_DESCRIPTION				= "DESCRIPTION";
+	public static final String ATTR_URI				= "URI";
+	public static final String ATTR_TAGREFS				= "TAGREFS";
 	
 	
 

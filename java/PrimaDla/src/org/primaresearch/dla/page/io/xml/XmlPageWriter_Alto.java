@@ -62,6 +62,10 @@ import org.primaresearch.ident.Id;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.IOError;
 import org.primaresearch.io.xml.XmlValidator;
+import org.primaresearch.labels.HasLabels;
+import org.primaresearch.labels.Label;
+import org.primaresearch.labels.LabelGroup;
+import org.primaresearch.labels.Labels;
 import org.primaresearch.maths.geometry.Point;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.maths.geometry.Rect;
@@ -93,6 +97,7 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 	private Map<String, String> propagatedGlyphTexts; //Map[ID, text]
 	private List<TextStyle> textStyles;
 	private List<ParagraphStyle> paragraphStyles;
+	private List<Tag> tags;
 
 	/**
 	 * Constructor
@@ -165,9 +170,10 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		propagateText();
 		textStyles = new LinkedList<TextStyle>();
 		paragraphStyles = new LinkedList<ParagraphStyle>();
+		tags = new LinkedList<Tag>();
 		findTextStyles();
 		findParagraphStyles();
-		findParagraphStyles();
+		findTags();
 		
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         dbfac.setValidating(false);
@@ -272,7 +278,11 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			addParagraphStyles(stylesNode);
 		}
 		
-		//TODO: Tags
+		if (!tags.isEmpty()) {
+			Element tagsNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_Tags);
+			root.appendChild(tagsNode);
+			addTags(tagsNode);
+		}
 		
 		addLayout(root);
 	}
@@ -370,6 +380,27 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				addAttribute(styleNode, AltoXmlNames.ATTR_LINESPACE, ""+paragraphStyle.lineSpace);
 			if (paragraphStyle.firstLineIndent != null)
 				addAttribute(styleNode, AltoXmlNames.ATTR_FIRSTLINE, ""+paragraphStyle.firstLineIndent);
+		}
+	}
+	
+	private void addTags(Element parent) {
+		for (Tag tag : tags) {
+			Element tagNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_OtherTag);
+			parent.appendChild(tagNode);
+			
+			if (tag.ID == null)
+				continue;
+			
+			addAttribute(tagNode, AltoXmlNames.ATTR_ID, tag.ID);
+			
+			if (tag.type != null)
+				addAttribute(tagNode, AltoXmlNames.ATTR_TYPE, tag.type);
+			if (tag.label != null)
+				addAttribute(tagNode, AltoXmlNames.ATTR_LABEL, tag.label);
+			if (tag.description != null)
+				addAttribute(tagNode, AltoXmlNames.ATTR_DESCRIPTION, tag.description);
+			if (tag.uri != null)
+				addAttribute(tagNode, AltoXmlNames.ATTR_URI, tag.uri);
 		}
 	}
 	
@@ -523,8 +554,8 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			}
 		}
 
-		//TODO
 		//TAGREFS
+		addTagRefs(blockNode, region);
 
 		//PROCESSINGREFS
 		// Not supported in PAGE
@@ -543,6 +574,30 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				addGraphicalBlockContent(blockNode, region);
 			else //Illustration
 				addIllustrationBlockContent(blockNode, region);
+		}
+	}
+	
+	private void addTagRefs(Element parentNode, HasLabels objWithLabels) {
+		if (objWithLabels.getLabels() == null || objWithLabels.getLabels().getGroupCount() == 0)
+			return;
+		
+		for (LabelGroup group : objWithLabels.getLabels().getGroups().values()) {
+			if (group.getLabels() == null)
+				continue;
+			
+			StringBuilder tagRefs = new StringBuilder();
+			
+			for (Label label : group.getLabels()) {
+				Tag tag = getTag(label);
+				if (tag != null && tag.label != null) {
+					if (tagRefs.length() > 0)
+						tagRefs.append(' ');
+					tagRefs.append(tag.ID);
+				}
+			}
+			
+			if (tagRefs.length() > 0)
+				addAttribute(parentNode, AltoXmlNames.ATTR_TAGREFS, tagRefs.toString());
 		}
 	}
 	
@@ -644,8 +699,10 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 
 		//PROCESSINGREFS - Not available in PAGE
 
-		//TODO
 		//TAGREFS
+		addTagRefs(textLineNode, textLine);
+		
+		//TODO
 		//BASELINE
 		
 		addShape(textLineNode, textLine.getCoords());
@@ -698,8 +755,10 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		if (word.getAttributes().get("conf") != null && word.getAttributes().get("conf").getValue() != null)
 			addAttribute(wordNode, AltoXmlNames.ATTR_WC, word.getAttributes().get("conf").getValue().toString());
 
-		//TODO
 		//TAGREFS
+		addTagRefs(wordNode, word);
+
+		//TODO
 		//STYLE
 		//SUBS_TYPE
 		//SUBS_CONTENT
@@ -1065,7 +1124,7 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 	/**
 	 * Get ALTO text style for given PAGE text object
 	 * @param textObj Text object with possible PAGE text style
-	 * @return Text style object of null (if no text style attributes or no font size (required))
+	 * @return Text style object or null (if no text style attributes or no font size (required))
 	 */
 	private TextStyle getTextStyle(TextObject textObj) {
 		TextStyle newTextStyle = new TextStyle(textObj);
@@ -1117,6 +1176,80 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			paragraphStyles.add(newParagraphStyle);
 			newParagraphStyle.ID = "ps" + paragraphStyles.size();
 			return newParagraphStyle;
+		}		
+		return null;
+	}
+	
+	private void findTags() {
+
+		//Page
+		findObjectTags(page);
+		
+		//Regions
+		for (int i=0; i<layout.getRegionCount(); i++) {
+			if (layout.getRegion(i) instanceof TextRegion)
+				findTags((TextRegion)layout.getRegion(i));			
+		}
+	}
+	
+	private void findTags(TextRegion reg) {
+		
+		findObjectTags(reg);		
+		
+		findTags((LowLevelTextContainer)reg);
+		
+		//Nested regions
+		for (int i=0; i<reg.getRegionCount(); i++) {
+			if (reg.getRegion(i) instanceof TextRegion)
+				findTags((TextRegion)reg.getRegion(i));			
+		}
+	}
+	
+	private void findTags(LowLevelTextContainer textContainer) {
+		//Children
+		for (int i=0; i<textContainer.getTextObjectCount(); i++) {
+			TextObject child = textContainer.getTextObject(i);
+			
+			if (child instanceof HasLabels)
+				findObjectTags((HasLabels)child);
+			
+			if (child instanceof LowLevelTextContainer)
+				findTags((LowLevelTextContainer)child);
+		}
+	}
+	
+	private void findObjectTags(HasLabels objWithLabels) {
+		if (objWithLabels.getLabels() != null) {
+			Labels labels = objWithLabels.getLabels();
+			for (int i=0; i<labels.getGroupCount(); i++) {
+				if (labels.getGroupCount() > 0)
+					for (LabelGroup group : labels.getGroups().values()) {
+						for (Label label : group.getLabels())
+							getTag(label);
+					}
+			}
+		}
+	}
+	
+	/**
+	 * Get ALTO tag for given PAGE object
+	 * @param objWithLabels Object with possible PAGE labels
+	 * @return Tag or null
+	 */
+	private Tag getTag(Label label) {
+		Tag newTag = new Tag(label);
+		
+		//Look if already exists, otherwise add
+		for (Tag tag : tags) {
+			if (tag.equals(newTag))
+				return tag;
+		}
+		
+		//Tag label is required!
+		if (!newTag.isEmpty() && newTag.label != null) {
+			tags.add(newTag);
+			newTag.ID = "tag" + tags.size();
+			return newTag;
 		}		
 		return null;
 	}
@@ -1345,6 +1478,57 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				if (!compareAttributes(lineSpace, otherStyle.lineSpace))
 					return false;
 				if (!compareAttributes(firstLineIndent, otherStyle.firstLineIndent))
+					return false;
+				
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	/** ALTO Tag */
+	private static final class Tag {
+		public String ID;
+		public String type;
+		public String label; //required
+		public String description;
+		public String uri;
+
+		/**
+		 * Constructor
+		 * @param label PAGE label
+		 */
+		public Tag(Label label) {
+			if (label.getType() != null && !label.getType().isEmpty())
+				type = label.getType();
+			if (label.getValue() != null && !label.getValue().isEmpty())
+				this.label = label.getValue();
+			if (label.getComments() != null && !label.getComments().isEmpty())
+				description = label.getComments();
+			if (label.getExternalModel() != null && !label.getExternalModel().isEmpty())
+				uri = label.getExternalModel();
+		}
+
+		/** Returns true if no attribute is set */
+		public boolean isEmpty() {
+			return type == null
+					&& label == null
+					&& description == null
+					&& uri == null;
+		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof Tag) {
+				Tag otherTag = (Tag)other;
+				
+				if (!compareAttributes(type, otherTag.type))
+					return false;
+				if (!compareAttributes(label, otherTag.label))
+					return false;
+				if (!compareAttributes(description, otherTag.description))
+					return false;
+				if (!compareAttributes(uri, otherTag.uri))
 					return false;
 				
 				return true;
