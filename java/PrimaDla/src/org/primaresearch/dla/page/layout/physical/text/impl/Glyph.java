@@ -18,7 +18,6 @@ package org.primaresearch.dla.page.layout.physical.text.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.ContentFactory;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;
@@ -30,11 +29,7 @@ import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.maths.geometry.Polygon;
-import org.primaresearch.shared.variable.BooleanValue;
-import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.VariableMap;
-import org.primaresearch.shared.variable.VariableValue;
-import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 
 /**
  * Specialised low level text object representing glyphs within a page layout.
@@ -98,7 +93,7 @@ public class Glyph extends LowLevelTextObject {
 		return LowLevelTextType.Glyph;
 	}
 
-	@Override
+	/*@Override
 	public Boolean isBold() {
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
 	}
@@ -218,5 +213,5 @@ public class Glyph extends LowLevelTextObject {
 	@Override
 	public void setLetterSpaced(Boolean letterSpaced) {
 		//Glyph cannot be letter spaced
-	}
+	}*/
 }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,9 @@ import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.converter.ConversionMessage;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
 import org.primaresearch.dla.page.layout.physical.text.TextContent;
+import org.primaresearch.dla.page.layout.physical.text.TextObject;
 import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
@@ -57,7 +60,9 @@ import org.primaresearch.io.xml.XmlValidator;
 import org.primaresearch.maths.geometry.Point;
 import org.primaresearch.maths.geometry.Polygon;
 import org.primaresearch.maths.geometry.Rect;
+import org.primaresearch.shared.variable.BooleanValue;
 import org.primaresearch.shared.variable.DoubleValue;
+import org.primaresearch.shared.variable.IntegerValue;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,6 +86,8 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 	private Document doc;
 	private Map<String, String> propagatedWordTexts; //Map[ID, text]
 	private Map<String, String> propagatedGlyphTexts; //Map[ID, text]
+	private List<TextStyle> textStyles;
+	private List<ParagraphStyle> paragraphStyles;
 
 	/**
 	 * Constructor
@@ -151,6 +158,11 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		propagatedWordTexts = new HashMap<String, String>();
 		propagatedGlyphTexts = new HashMap<String, String>();
 		propagateText();
+		textStyles = new LinkedList<TextStyle>();
+		paragraphStyles = new LinkedList<ParagraphStyle>();
+		findTextStyles();
+		findParagraphStyles();
+		findParagraphStyles();
 		
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         dbfac.setValidating(false);
@@ -248,6 +260,13 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		
 		addDescription(root);
 		//TODO: Styles
+		if (!textStyles.isEmpty() || !paragraphStyles.isEmpty()) {
+			Element stylesNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_Styles);
+			root.appendChild(stylesNode);
+			addTextStyles(stylesNode);
+			addParagraphStyles(stylesNode);
+		}
+		
 		//TODO: Tags
 		addLayout(root);
 	}
@@ -268,6 +287,54 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		
 		//TODO
 		//PAGE->Metadata->MetadataItem(processingStep) => Processing->ProcessingStep
+	}
+	
+	private void addTextStyles(Element parent) {
+		for (TextStyle textStyle : textStyles) {
+			Element styleNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_TextStyle);
+			parent.appendChild(styleNode);
+			
+			if (textStyle.ID == null)
+				continue;
+			
+			addAttribute(styleNode, AltoXmlNames.ATTR_ID, textStyle.ID);
+			
+			if (textStyle.fontFamily != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FONTFAMILY, textStyle.fontFamily);
+			if (textStyle.fontType != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FONTTYPE, textStyle.fontType);
+			if (textStyle.fontWidthType != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FONTWIDTH, textStyle.fontWidthType);
+			if (textStyle.fontSize != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FONTSIZE, ""+textStyle.fontSize.doubleValue());
+			if (textStyle.fontColor != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FONTCOLOR, textStyle.fontColor);
+			if (textStyle.fontStyle != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FONTSTYLE, textStyle.fontStyle);
+		}
+	}
+	
+	private void addParagraphStyles(Element parent) {
+		for (ParagraphStyle paragraphStyle : paragraphStyles) {
+			Element styleNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_ParagraphStyle);
+			parent.appendChild(styleNode);
+			
+			if (paragraphStyle.ID == null)
+				continue;
+			
+			addAttribute(styleNode, AltoXmlNames.ATTR_ID, paragraphStyle.ID);
+			
+			if (paragraphStyle.align != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_ALIGN, paragraphStyle.align);
+			if (paragraphStyle.leftIndent != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_LEFT, ""+paragraphStyle.leftIndent);
+			if (paragraphStyle.rightIndent != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_RIGHT, ""+paragraphStyle.rightIndent);
+			if (paragraphStyle.lineSpace != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_LINESPACE, ""+paragraphStyle.lineSpace);
+			if (paragraphStyle.firstLineIndent != null)
+				addAttribute(styleNode, AltoXmlNames.ATTR_FIRSTLINE, ""+paragraphStyle.firstLineIndent);
+		}
 	}
 	
 	private void addLayout(Element parent) {
@@ -367,8 +434,26 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 
 		//CS - Not available in PAGE
 
+		//Styles
+		if (region instanceof TextRegion) {
+			String styleRefs = "";
+			
+			TextStyle textStyle = getTextStyle((TextRegion)region);
+			if (textStyle != null)
+				styleRefs += textStyle.ID;
+			
+			ParagraphStyle paragraphStyle = getParagraphStyle((TextRegion)region);
+			if (paragraphStyle != null) {
+				if (!styleRefs.isEmpty())
+					styleRefs += " ";
+				styleRefs += paragraphStyle.ID;
+			}
+			
+			if (!styleRefs.isEmpty())
+				addAttribute(blockNode, AltoXmlNames.ATTR_STYLEREFS, styleRefs);
+		}
+			
 		//TODO
-		//STYLEREFS
 		//TAGREFS
 		//PROCESSINGREFS
 		//IDNEXT
@@ -461,11 +546,15 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//HPOS, VPOS, WIDTH, HEIGHT
 		addPositionAttributes(textLineNode, textLine.getCoords());
 		
+		//Styles
+		TextStyle textStyle = getTextStyle(textLine);
+		if (textStyle != null)
+			addAttribute(textLineNode, AltoXmlNames.ATTR_STYLEREFS, textStyle.ID);
+		
 		//CS - Not available in PAGE
 
 
 		//TODO
-		//STYLEREFS
 		//TAGREFS
 		//PROCESSINGREFS
 		//BASELINE
@@ -507,6 +596,11 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//HPOS, VPOS, WIDTH, HEIGHT
 		addPositionAttributes(wordNode, word.getCoords());
 
+		//Styles
+		TextStyle textStyle = getTextStyle(word);
+		if (textStyle != null)
+			addAttribute(wordNode, AltoXmlNames.ATTR_STYLEREFS, textStyle.ID);
+
 		//CS - Not available in PAGE
 		
 		//WC
@@ -514,7 +608,6 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			addAttribute(wordNode, AltoXmlNames.ATTR_WC, word.getAttributes().get("conf").getValue().toString());
 
 		//TODO
-		//STYLEREFS
 		//TAGREFS
 		//PROCESSINGREFS
 		//STYLE
@@ -529,7 +622,6 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//Glyphs 
 		for (int i=0; i<word.getTextObjectCount(); i++)
 			addGlyph(wordNode, (Glyph)word.getTextObject(i));
-
 	}
 	
 	void addGlyph(Element wordNode, Glyph glyph) {
@@ -549,6 +641,11 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 
 		//HPOS, VPOS, WIDTH, HEIGHT
 		addPositionAttributes(glyphNode, glyph.getCoords());
+
+		//Styles
+		TextStyle textStyle = getTextStyle(glyph);
+		if (textStyle != null)
+			addAttribute(glyphNode, AltoXmlNames.ATTR_STYLEREFS, textStyle.ID);
 
 		//GC
 		if (glyph.getAttributes().get("conf") != null && glyph.getAttributes().get("conf").getValue() != null)
@@ -839,10 +936,102 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 					}
 				}
 			}
-		}
-			
+		}			
 	}
 	
+	private void findTextStyles() {
+		//Regions
+		for (int i=0; i<layout.getRegionCount(); i++) {
+			if (layout.getRegion(i) instanceof TextRegion)
+				findTextStyles((TextRegion)layout.getRegion(i));			
+		}
+	}
+	
+	private void findTextStyles(TextRegion reg) {
+		
+		getTextStyle(reg);
+		
+		findTextStyles((LowLevelTextContainer)reg);
+		
+		//Nested regions
+		for (int i=0; i<reg.getRegionCount(); i++) {
+			if (reg.getRegion(i) instanceof TextRegion)
+				findTextStyles((TextRegion)reg.getRegion(i));			
+		}
+	}
+	
+	private void findTextStyles(LowLevelTextContainer textContainer) {
+		//Children
+		for (int i=0; i<textContainer.getTextObjectCount(); i++) {
+			TextObject child = textContainer.getTextObject(i);
+			
+			getTextStyle(child);
+			
+			if (child instanceof LowLevelTextContainer)
+				findTextStyles((LowLevelTextContainer)child);
+		}
+	}
+	
+	/**
+	 * Get ALTO text style for given PAGE text object
+	 * @param textObj Text object with possible PAGE text style
+	 * @return Text style object of null (if no text style attributes or no font size (required))
+	 */
+	private TextStyle getTextStyle(TextObject textObj) {
+		TextStyle newTextStyle = new TextStyle(textObj);
+		
+		//Look if already exists, otherwise add
+		for (TextStyle textStyle : textStyles) {
+			if (textStyle.equals(newTextStyle))
+				return textStyle;
+		}
+		
+		//Font size is required!
+		if (!newTextStyle.isEmpty() && newTextStyle.fontSize != null) {
+			textStyles.add(newTextStyle);
+			newTextStyle.ID = "ts" + textStyles.size();
+			return newTextStyle;
+		}		
+		return null;
+	}
+	
+	private void findParagraphStyles() {
+		//Regions
+		for (int i=0; i<layout.getRegionCount(); i++) {
+			if (layout.getRegion(i) instanceof TextRegion)
+				findParagraphStyles((TextRegion)layout.getRegion(i));			
+		}
+	}
+	
+	private void findParagraphStyles(TextRegion reg) {
+		
+		getParagraphStyle(reg);
+		
+		//Nested regions
+		for (int i=0; i<reg.getRegionCount(); i++) {
+			if (reg.getRegion(i) instanceof TextRegion)
+				findParagraphStyles((TextRegion)reg.getRegion(i));			
+		}
+	}
+	
+	private ParagraphStyle getParagraphStyle(TextRegion region) {
+		ParagraphStyle newParagraphStyle = new ParagraphStyle(region);
+		
+		//Look if already exists, otherwise add
+		for (ParagraphStyle paragraphStyle : paragraphStyles) {
+			if (paragraphStyle.equals(newParagraphStyle))
+				return paragraphStyle;
+		}
+		
+		if (!newParagraphStyle.isEmpty()) {
+			paragraphStyles.add(newParagraphStyle);
+			newParagraphStyle.ID = "ps" + paragraphStyles.size();
+			return newParagraphStyle;
+		}		
+		return null;
+	}
+	
+	/** Comparator for sorting polygons by vertical or horizontal position */
 	private static final class TextObjectComparator implements Comparator<GeometricObject> {
 		
 		private boolean sortVertically;
@@ -877,7 +1066,200 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				else //descending 
 					return c2 - c1;
 			}
+		}		
+	}
+	
+	/** ALTO Text Styles */
+	private static final class TextStyle {
+		public String ID;
+		public String fontFamily;
+		public String fontType; //serif or sans-serif
+		public String fontWidthType; //proportional or fixed
+		public Double fontSize; //points (required)
+		public String fontColor; //RGB in hex notation
+		public String fontStyle; //Whitespace-separated list of bold, italics, subscript, superscript, smallcaps, underline
+		
+		/**
+		 * Constructor
+		 * @param textObj PAGE text object
+		 */
+		public TextStyle(TextObject textObj) {
+			//Font family
+			if (textObj.getAttributes().get("fontFamily") != null && textObj.getAttributes().get("fontFamily").getValue() != null)
+				if (!textObj.getAttributes().get("fontFamily").getValue().toString().isEmpty())
+					fontFamily = textObj.getAttributes().get("fontFamily").getValue().toString();
+			
+			//Font type
+			if (textObj.getAttributes().get("serif") != null && textObj.getAttributes().get("serif").getValue() != null)
+				if (((BooleanValue)textObj.getAttributes().get("serif").getValue()).val)
+					fontType = "serif";
+				else
+					fontType = "sans-serif";
+			
+			//Font width type
+			if (textObj.getAttributes().get("monospace") != null && textObj.getAttributes().get("monospace").getValue() != null)
+				if (((BooleanValue)textObj.getAttributes().get("monospace").getValue()).val)
+					fontWidthType = "fixed";
+				else
+					fontWidthType = "proportional";
+			
+			//Font Size
+			if (textObj.getAttributes().get("fontSize") != null && textObj.getAttributes().get("fontSize").getValue() != null)
+				fontSize = ((DoubleValue)textObj.getAttributes().get("fontSize").getValue()).val;
+			
+			//Font Colour (hex)
+			if (textObj.getAttributes().get("textColourRgb") != null && textObj.getAttributes().get("textColourRgb").getValue() != null) {
+				//TODO: 
+				// PAGE is integer (red value) + (256 x green value) + (65536 x blue value)
+				// ALTO is hex encoded RRGGBB
+			}
+			
+			//Font style (bold, italics, subscript, superscript, smallcaps, underline)
+			StringBuilder fontStyle = new StringBuilder();
+			if (textObj.isBold() != null && textObj.isBold())
+				fontStyle.append("bold");
+			if (textObj.isItalic() != null && textObj.isItalic()) {
+				if (fontStyle.length() > 0)
+					fontStyle.append(' ');
+				fontStyle.append("italics");
+			}
+			if (textObj.isSubscript() != null && textObj.isSubscript()) {
+				if (fontStyle.length() > 0)
+					fontStyle.append(' ');
+				fontStyle.append("subscript");
+			}
+			if (textObj.isSuperscript() != null && textObj.isSuperscript()) {
+				if (fontStyle.length() > 0)
+					fontStyle.append(' ');
+				fontStyle.append("superscript");
+			}
+			if (textObj.isSmallCaps() != null && textObj.isSmallCaps()) {
+				if (fontStyle.length() > 0)
+					fontStyle.append(' ');
+				fontStyle.append("smallcaps");
+			}
+			if (textObj.isUnderlined() != null && textObj.isUnderlined()) {
+				if (fontStyle.length() > 0)
+					fontStyle.append(' ');
+				fontStyle.append("underline");
+			}
+			
+			if (fontStyle.length() > 0)
+				this.fontStyle = fontStyle.toString();
 		}
 		
+		/** Returns true if no attribute is set */
+		public boolean isEmpty() {
+			return fontFamily == null
+					&& fontType == null
+					&& fontWidthType == null
+					&& fontSize == null
+					&& fontColor == null
+					&& fontStyle == null;
+		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof TextStyle) {
+				TextStyle otherStyle = (TextStyle)other;
+				
+				if (!compareAttributes(fontFamily, otherStyle.fontFamily))
+					return false;
+				if (!compareAttributes(fontType, otherStyle.fontType))
+					return false;
+				if (!compareAttributes(fontWidthType, otherStyle.fontWidthType))
+					return false;
+				if (!compareAttributes(fontSize, otherStyle.fontSize))
+					return false;
+				if (!compareAttributes(fontColor, otherStyle.fontColor))
+					return false;
+				if (!compareAttributes(fontStyle, otherStyle.fontStyle))
+					return false;
+				
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public static boolean compareAttributes(Object attr1, Object attr2) {
+		if (attr1 != null || attr2 != null) {
+			if (attr1 != null)
+				return attr1.equals(attr2); 
+			else //if (attr2 != null)
+				return attr2.equals(attr1); 
+		}
+		return true; //Both null
+	}
+	
+	/** ALTO paragraph styles */
+	private static final class ParagraphStyle {
+		public String ID;
+		public String align; //Left, Right, Center, Block
+		public Double leftIndent; //Left indent of the paragraph in relation to the column.
+		public Double rightIndent; //Right indent of the paragraph in relation to the column.
+		public Double lineSpace; //Line spacing between two lines of the paragraph. Measurement calculated from baseline to baseline.
+		public Double firstLineIndent; //Indent of the first line of the paragraph if this is different from the other lines. A negative value indicates an indent to the left, a positive value indicates an indent to the right.
+		
+		/**
+		 * Constructor
+		 * @param region PAGE text region
+		 */
+		public ParagraphStyle(TextRegion region) {
+			//Align
+			if (region.getAttributes().get("align") != null && region.getAttributes().get("align").getValue() != null)
+				if ("left".equals(region.getAttributes().get("align").getValue().toString()))
+					align = "Left";
+				else if ("right".equals(region.getAttributes().get("align").getValue().toString()))
+					align = "Right";
+				else if ("centre".equals(region.getAttributes().get("align").getValue().toString()))
+					align = "Center";
+				else //Justify
+					align = "Block";
+
+			//Left indent
+			// Not available in PAGE
+
+			//Right indent
+			// Not available in PAGE
+
+			//Line space
+			if (region.getAttributes().get("leading") != null && region.getAttributes().get("leading").getValue() != null)
+				lineSpace = (double)((IntegerValue)region.getAttributes().get("leading").getValue()).val;
+
+			//First line indent
+			// Not available in PAGE
+		}
+		
+		
+		/** Returns true if no attribute is set */
+		public boolean isEmpty() {
+			return align == null
+					&& leftIndent == null
+					&& rightIndent == null
+					&& lineSpace == null
+					&& firstLineIndent == null;
+		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof ParagraphStyle) {
+				ParagraphStyle otherStyle = (ParagraphStyle)other;
+				
+				if (!compareAttributes(align, otherStyle.align))
+					return false;
+				if (!compareAttributes(leftIndent, otherStyle.leftIndent))
+					return false;
+				if (!compareAttributes(rightIndent, otherStyle.rightIndent))
+					return false;
+				if (!compareAttributes(lineSpace, otherStyle.lineSpace))
+					return false;
+				if (!compareAttributes(firstLineIndent, otherStyle.firstLineIndent))
+					return false;
+				
+				return true;
+			}
+			return false;
+		}
 	}
 }

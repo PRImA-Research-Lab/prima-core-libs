@@ -28,9 +28,8 @@ import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.maths.geometry.Polygon;
-import org.primaresearch.shared.variable.BooleanValue;
-import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 import org.primaresearch.shared.variable.StringValue;
+import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 import org.primaresearch.shared.variable.VariableMap;
 import org.primaresearch.shared.variable.VariableValue;
 
@@ -139,7 +138,7 @@ public class TextLine extends LowLevelTextObject
 		this.baseline = baseline;
 	}
 
-	@Override
+	/*@Override
 	public Boolean isBold() {
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
 	}
@@ -263,7 +262,7 @@ public class TextLine extends LowLevelTextObject
 		} catch (WrongVariableTypeException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public String getPrimaryLanguage() {
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_primaryLanguage).getValue()).val;

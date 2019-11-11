@@ -185,6 +185,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	}
 	
 	public String getTextColour() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_textColour) == null || getAttributes().get(DefaultXmlNames.ATTR_textColour).getValue() == null)
+			return null;
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_textColour).getValue()).val;
 	}
 
@@ -197,6 +199,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	}
 	
 	public String getBgColour() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_bgColour) == null || getAttributes().get(DefaultXmlNames.ATTR_bgColour).getValue() == null)
+			return null;
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_bgColour).getValue()).val;
 	}
 
@@ -208,7 +212,9 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		}
 	}
 	
-	public boolean isReverseVideo() {
+	public Boolean isReverseVideo() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_reverseVideo) == null || getAttributes().get(DefaultXmlNames.ATTR_reverseVideo).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_reverseVideo).getValue()).val;
 	}
 	
@@ -220,7 +226,9 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		}
 	}
 	
-	public double getFontSize() {
+	public Double getFontSize() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_fontSize) == null || getAttributes().get(DefaultXmlNames.ATTR_fontSize).getValue() == null)
+			return null;
 		return ((DoubleValue)getAttributes().get(DefaultXmlNames.ATTR_fontSize).getValue()).val;
 	}
 
@@ -232,7 +240,9 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		}
 	}
 	
-	public int getLeading() {
+	public Integer getLeading() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_leading) == null || getAttributes().get(DefaultXmlNames.ATTR_leading).getValue() == null)
+			return null;
 		return ((IntegerValue)getAttributes().get(DefaultXmlNames.ATTR_leading).getValue()).val;
 	}
 
@@ -244,7 +254,9 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		}
 	}
 	
-	public int getKerning() {
+	public Integer getKerning() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_kerning) == null || getAttributes().get(DefaultXmlNames.ATTR_kerning).getValue() == null)
+			return null;
 		return ((IntegerValue)getAttributes().get(DefaultXmlNames.ATTR_kerning).getValue()).val;
 	}
 
@@ -257,6 +269,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	}
 	
 	public String getReadingDirection() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_readingDirection) == null || getAttributes().get(DefaultXmlNames.ATTR_readingDirection).getValue() == null)
+			return null;
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_readingDirection).getValue()).val;
 	}
 
@@ -268,7 +282,9 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		}
 	}
 
-	public double getReadingOrientation() {
+	public Double getReadingOrientation() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_readingOrientation) == null || getAttributes().get(DefaultXmlNames.ATTR_readingOrientation).getValue() == null)
+			return null;
 		return ((DoubleValue)getAttributes().get(DefaultXmlNames.ATTR_readingOrientation).getValue()).val;
 	}
 	
@@ -280,7 +296,9 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		}
 	}
 	
-	public boolean isIndented() {
+	public Boolean isIndented() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_indented) == null || getAttributes().get(DefaultXmlNames.ATTR_indented).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_indented).getValue()).val;
 	}
 	
@@ -332,7 +350,7 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_secondaryScript).getValue()).val;
 	}
 
-	public void setSecondarySkript(String skript) {
+	public void setSecondaryScript(String skript) {
 		try {
 			getAttributes().get(DefaultXmlNames.ATTR_secondaryScript).setValue(VariableValue.createValueObject(skript));
 		} catch (WrongVariableTypeException e) {
@@ -357,6 +375,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isBold() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_bold) == null || getAttributes().get(DefaultXmlNames.ATTR_bold).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
 	}
 	
@@ -371,6 +391,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isItalic() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_italic) == null || getAttributes().get(DefaultXmlNames.ATTR_italic).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_italic).getValue()).val;
 	}
 	
@@ -385,6 +407,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isUnderlined() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_underlined) == null || getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue()).val;
 	}
 	
@@ -399,6 +423,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 	
 	@Override
 	public String getUnderlineStyle() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_underlineStyle) == null || getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).getValue() == null)
+			return null;
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).getValue()).val;
 	}
 	
@@ -413,6 +439,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isSubscript() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_subscript) == null || getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue()).val;
 	}
 	
@@ -427,6 +455,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isSuperscript() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_superscript) == null || getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue()).val;
 	}
 	
@@ -441,6 +471,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isStrikethrough() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_strikethrough) == null || getAttributes().get(DefaultXmlNames.ATTR_strikethrough).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_strikethrough).getValue()).val;
 	}
 	
@@ -455,6 +487,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isSmallCaps() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_smallCaps) == null || getAttributes().get(DefaultXmlNames.ATTR_smallCaps).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_smallCaps).getValue()).val;
 	}
 	
@@ -469,6 +503,8 @@ public class TextRegion extends RegionImpl implements TextObject, LowLevelTextCo
 
 	@Override
 	public Boolean isLetterSpaced() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_letterSpaced) == null || getAttributes().get(DefaultXmlNames.ATTR_letterSpaced).getValue() == null)
+			return null;
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_letterSpaced).getValue()).val;
 	}
 	

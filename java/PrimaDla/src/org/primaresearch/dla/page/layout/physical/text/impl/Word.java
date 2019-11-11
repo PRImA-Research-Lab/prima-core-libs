@@ -28,7 +28,6 @@ import org.primaresearch.ident.Id;
 import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.maths.geometry.Polygon;
-import org.primaresearch.shared.variable.BooleanValue;
 import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.VariableMap;
 import org.primaresearch.shared.variable.VariableValue;
@@ -121,7 +120,7 @@ public class Word extends LowLevelTextObject implements LowLevelTextContainer {
 		return glyphs.getTextObjectsSorted(true);
 	}
 
-	@Override
+	/*@Override
 	public Boolean isBold() {
 		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
 	}
@@ -245,7 +244,7 @@ public class Word extends LowLevelTextObject implements LowLevelTextContainer {
 		} catch (WrongVariableTypeException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public String getLanguage() {
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_language).getValue()).val;

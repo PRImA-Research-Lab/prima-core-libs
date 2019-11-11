@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.primaresearch.dla.page.AlternativeImage;
+import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.AttributeFactory;
 import org.primaresearch.dla.page.layout.physical.ContentObject;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextContentVariants;
@@ -27,7 +28,11 @@ import org.primaresearch.ident.IdRegister;
 import org.primaresearch.ident.IdRegister.InvalidIdException;
 import org.primaresearch.labels.Labels;
 import org.primaresearch.maths.geometry.Polygon;
+import org.primaresearch.shared.variable.BooleanValue;
+import org.primaresearch.shared.variable.StringValue;
 import org.primaresearch.shared.variable.VariableMap;
+import org.primaresearch.shared.variable.VariableValue;
+import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 
 /**
  * Abstract class representing low level text objects such as text line, word and glyph.
@@ -257,5 +262,149 @@ abstract public class LowLevelTextObject implements TextObject, ContentObject {
 		if (alternativeImages == null)
 			alternativeImages = new ArrayList<AlternativeImage>();
 		return alternativeImages;
+	}
+	
+	@Override
+	public Boolean isBold() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_bold) == null || getAttributes().get(DefaultXmlNames.ATTR_bold).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_bold).getValue()).val;
+	}
+	
+	@Override
+	public void setBold(Boolean bold) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_bold).setValue(VariableValue.createValueObject(bold));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isItalic() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_italic) == null || getAttributes().get(DefaultXmlNames.ATTR_italic).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_italic).getValue()).val;
+	}
+	
+	@Override
+	public void setItalic(Boolean italic) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_italic).setValue(VariableValue.createValueObject(italic));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isUnderlined() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_underlined) == null || getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_underlined).getValue()).val;
+	}
+	
+	@Override
+	public void setUnderlined(Boolean underlined) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_underlined).setValue(VariableValue.createValueObject(underlined));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public String getUnderlineStyle() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_underlineStyle) == null || getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).getValue() == null)
+			return null;
+		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).getValue()).val;
+	}
+	
+	@Override
+	public void setUnderlineStyle(String style) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_underlineStyle).setValue(VariableValue.createValueObject(style));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isSubscript() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_subscript) == null || getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_subscript).getValue()).val;
+	}
+	
+	@Override
+	public void setSubscript(Boolean subscript) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_subscript).setValue(VariableValue.createValueObject(subscript));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isSuperscript() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_superscript) == null || getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_superscript).getValue()).val;
+	}
+	
+	@Override
+	public void setSuperscript(Boolean superscript) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_superscript).setValue(VariableValue.createValueObject(superscript));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isStrikethrough() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_strikethrough) == null || getAttributes().get(DefaultXmlNames.ATTR_strikethrough).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_strikethrough).getValue()).val;
+	}
+	
+	@Override
+	public void setStrikethrough(Boolean strikethrough) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_strikethrough).setValue(VariableValue.createValueObject(strikethrough));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isSmallCaps() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_smallCaps) == null || getAttributes().get(DefaultXmlNames.ATTR_smallCaps).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_smallCaps).getValue()).val;
+	}
+	
+	@Override
+	public void setSmallCaps(Boolean smallCaps) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_smallCaps).setValue(VariableValue.createValueObject(smallCaps));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Boolean isLetterSpaced() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_letterSpaced) == null || getAttributes().get(DefaultXmlNames.ATTR_letterSpaced).getValue() == null)
+			return null;
+		return ((BooleanValue)getAttributes().get(DefaultXmlNames.ATTR_letterSpaced).getValue()).val;
+	}
+	
+	@Override
+	public void setLetterSpaced(Boolean letterSpaced) {
+		try {
+			getAttributes().get(DefaultXmlNames.ATTR_letterSpaced).setValue(VariableValue.createValueObject(letterSpaced));
+		} catch (WrongVariableTypeException e) {
+			e.printStackTrace();
+		}
 	}
 }

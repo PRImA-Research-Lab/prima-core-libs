@@ -39,6 +39,9 @@ public class AltoXmlNames {
 	public static final String ELEMENT_HYP					= "HYP";
 	public static final String ELEMENT_Glyph				= "Glyph";
 	public static final String ELEMENT_Variant				= "Variant";
+	public static final String ELEMENT_Styles				= "Styles";
+	public static final String ELEMENT_TextStyle			= "TextStyle";
+	public static final String ELEMENT_ParagraphStyle		= "ParagraphStyle";
 	
 	public static final String ATTR_SCHEMAVERSION		= "SCHEMAVERSION";
 	public static final String ATTR_ID					= "ID";
@@ -68,6 +71,19 @@ public class AltoXmlNames {
 	public static final String ATTR_LANG				= "LANG";
 	public static final String ATTR_TYPE				= "TYPE";
 	public static final String ATTR_FILEID				= "FILEID";
+	public static final String ATTR_FONTFAMILY				= "FONTFAMILY";
+	public static final String ATTR_FONTTYPE				= "FONTTYPE";
+	public static final String ATTR_FONTWIDTH				= "FONTWIDTH";
+	public static final String ATTR_FONTSIZE				= "FONTSIZE";
+	public static final String ATTR_FONTCOLOR				= "FONTCOLOR";
+	public static final String ATTR_FONTSTYLE				= "FONTSTYLE";
+	public static final String ATTR_ALIGN				= "ALIGN";
+	public static final String ATTR_LEFT				= "LEFT";
+	public static final String ATTR_RIGHT				= "RIGHT";
+	public static final String ATTR_LINESPACE				= "LINESPACE";
+	public static final String ATTR_FIRSTLINE				= "FIRSTLINE";
+	public static final String ATTR_STYLEREFS				= "STYLEREFS";
+	
 	
 
 }
