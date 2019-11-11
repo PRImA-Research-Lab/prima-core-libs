@@ -44,6 +44,9 @@ import org.primaresearch.dla.page.io.FileTarget;
 import org.primaresearch.dla.page.io.OutputTarget;
 import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.converter.ConversionMessage;
+import org.primaresearch.dla.page.layout.logical.Group;
+import org.primaresearch.dla.page.layout.logical.GroupMember;
+import org.primaresearch.dla.page.layout.logical.RegionRef;
 import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.dla.page.layout.physical.text.LowLevelTextContainer;
@@ -54,6 +57,7 @@ import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
 import org.primaresearch.dla.page.layout.shared.GeometricObject;
+import org.primaresearch.ident.Id;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.IOError;
 import org.primaresearch.io.xml.XmlValidator;
@@ -259,7 +263,7 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		addAttribute(root, AltoXmlNames.ATTR_SCHEMAVERSION, "4.1");
 		
 		addDescription(root);
-		//TODO: Styles
+
 		if (!textStyles.isEmpty() || !paragraphStyles.isEmpty()) {
 			Element stylesNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_Styles);
 			root.appendChild(stylesNode);
@@ -268,6 +272,7 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		}
 		
 		//TODO: Tags
+		
 		addLayout(root);
 	}
 	
@@ -355,6 +360,8 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//PHYSICAL_IMG_NR
 		addAttribute(pageNode, AltoXmlNames.ATTR_PHYSICAL_IMG_NR, "0");
 		
+		//PRINTED_IMG_NR - Not supported in PAGE
+		
 		//Width, height
 		addAttribute(pageNode, AltoXmlNames.ATTR_WIDTH, ""+layout.getWidth());
 		addAttribute(pageNode, AltoXmlNames.ATTR_HEIGHT, ""+layout.getHeight());
@@ -366,6 +373,19 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//Confidence
 		if (page.getAttributes().get("conf") != null && page.getAttributes().get("conf").getValue() != null)
 			addAttribute(pageNode, AltoXmlNames.ATTR_PC, page.getAttributes().get("conf").getValue().toString());
+
+		//ACCURACY - Not supported in PAGE
+
+		//PROCESSINGREFS - Not supported in PAGE
+		//PROCESSING
+
+		//QUALITY - Not supported in PAGE
+		//QUALITY_DETAIL
+
+		//POSITION - Not supported in PAGE
+
+		//TODO
+		//Styles
 		
 		//TODO: TopMargin, LeftMargin, RightMargin, BottomMargin
 
@@ -380,14 +400,11 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		
 		addAttribute(printSpaceNode, AltoXmlNames.ATTR_ID, "PageSpaceTypeID"+0);
 		
-		//TODO
-		//WIDTH
-		//HEIGHT
-		//HPOS
-		//VPOS
-		
-		if (layout.getPrintSpace() != null)
+		if (layout.getPrintSpace() != null) {
+			addPositionAttributes(printSpaceNode, layout.getPrintSpace().getCoords());
+
 			addShape(printSpaceNode, layout.getPrintSpace().getCoords());
+		}
 		
 		//Blocks
 		for (int i=0; i<layout.getRegionCount(); i++) {
@@ -452,12 +469,35 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			if (!styleRefs.isEmpty())
 				addAttribute(blockNode, AltoXmlNames.ATTR_STYLEREFS, styleRefs);
 		}
-			
+
+		//IDNEXT
+		if (layout.getReadingOrder() != null) {
+			//Look if region in ordered group and then use element after this region (if there is one)
+			Group group = findReadingOrderGroup(layout.getReadingOrder().getRoot(), region.getId());
+			if (group != null && group.isOrdered()) {
+				for (int i=0; i<group.getSize(); i++) {
+					GroupMember member = group.getMember(i);
+					if (member instanceof RegionRef) {
+						if (((RegionRef)member).getRegionId().equals(region.getId())) {
+							int j = i + 1;
+							if (j < group.getSize()) {
+								GroupMember nextMember = group.getMember(j);
+								if (nextMember instanceof RegionRef) {
+									addAttribute(blockNode, AltoXmlNames.ATTR_IDNEXT, ((RegionRef)nextMember).getRegionId().toString());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 		//TODO
 		//TAGREFS
+
 		//PROCESSINGREFS
-		//IDNEXT
-		
+		// Not supported in PAGE
+
 		addShape(blockNode, region.getCoords());
 		
 		if (region.getRegionCount() > 0) {
@@ -473,6 +513,24 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			else //Illustration
 				addIllustrationBlockContent(blockNode, region);
 		}
+	}
+	
+	Group findReadingOrderGroup(Group startGroup, Id regionId) {
+		
+		for (int i=0; i<startGroup.getSize(); i++) {
+			GroupMember member = startGroup.getMember(i);
+			if (member instanceof RegionRef) {
+				if (((RegionRef)member).getRegionId().equals(regionId))
+					return startGroup;
+			}
+			else if (member instanceof Group) {
+				//Recursion
+				Group res = findReadingOrderGroup((Group)member, regionId);
+				if (res != null)
+					return res;
+			}
+		}		
+		return null;
 	}
 	
 	void addPositionAttributes(Element element, Polygon coords) {
@@ -553,10 +611,10 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		
 		//CS - Not available in PAGE
 
+		//PROCESSINGREFS - Not available in PAGE
 
 		//TODO
 		//TAGREFS
-		//PROCESSINGREFS
 		//BASELINE
 		
 		addShape(textLineNode, textLine.getCoords());
@@ -603,13 +661,14 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 
 		//CS - Not available in PAGE
 		
+		//PROCESSINGREFS - Not available in PAGE
+
 		//WC
 		if (word.getAttributes().get("conf") != null && word.getAttributes().get("conf").getValue() != null)
 			addAttribute(wordNode, AltoXmlNames.ATTR_WC, word.getAttributes().get("conf").getValue().toString());
 
 		//TODO
 		//TAGREFS
-		//PROCESSINGREFS
 		//STYLE
 		//SUBS_TYPE
 		//SUBS_CONTENT
