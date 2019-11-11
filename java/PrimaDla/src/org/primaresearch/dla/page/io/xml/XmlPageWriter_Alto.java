@@ -57,6 +57,7 @@ import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
 import org.primaresearch.dla.page.layout.shared.GeometricObject;
+import org.primaresearch.dla.page.metadata.MetadataItem;
 import org.primaresearch.ident.Id;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.IOError;
@@ -290,8 +291,38 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		
 		addTextElement(imageNode, AltoXmlNames.ELEMENT_fileName, page.getImageFilename());
 		
-		//TODO
-		//PAGE->Metadata->MetadataItem(processingStep) => Processing->ProcessingStep
+		//Processing
+		if (page.getMetaData().getMetadataItems() != null) {
+			int id = 1;
+			for (MetadataItem item :  page.getMetaData().getMetadataItems()) {
+				if ("processingStep".equals(item.getType())) {
+					
+					Element processingNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_Processing);
+					descriptionNode.appendChild(processingNode);
+					
+					//ID
+					addAttribute(processingNode, AltoXmlNames.ATTR_ID, "pro"+id);
+
+					//TODO: processingCategory (contentGeneration, contentModification, preOperation, postOperation, other)
+
+					//processingDateTime
+					if (item.getDate() != null)
+						addTextElement(processingNode, AltoXmlNames.ELEMENT_processingDateTime, item.getDate());
+
+					//TODO: processingAgency
+
+					//processingStepDescription
+					String descr = "" + item.getName() + " " + item.getValue();
+					addTextElement(processingNode, AltoXmlNames.ELEMENT_processingStepDescription, descr);
+					
+					//TODO
+					//processingStepSettings
+					//processingSoftware
+					
+					id++;
+				}
+			}
+		}
 	}
 	
 	private void addTextStyles(Element parent) {

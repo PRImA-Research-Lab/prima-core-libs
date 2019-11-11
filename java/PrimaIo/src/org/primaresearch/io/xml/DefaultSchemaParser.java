@@ -304,6 +304,8 @@ public class DefaultSchemaParser implements SchemaModelParser {
 				attr = new BooleanVariable(name,null);
 			else if ("string".equals(type))
 				attr = new StringVariable(name,null);
+			else if ("dateTime".equals(type))
+				attr = new StringVariable(name,null);
 			else if (type.endsWith("SimpleType")) { //Handle later when all simple types have been parsed 
 				Map<String, String> attsWithPendingType = pendingSimpleType.get(currentAttributeMap.getType());
 				if (attsWithPendingType == null) {

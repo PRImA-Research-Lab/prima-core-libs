@@ -18,13 +18,12 @@ package org.primaresearch.dla.page.metadata.impl;
 import org.primaresearch.dla.page.io.xml.DefaultXmlNames;
 import org.primaresearch.dla.page.layout.physical.AttributeFactory;
 import org.primaresearch.dla.page.layout.physical.shared.ContentType;
-import org.primaresearch.dla.page.layout.physical.shared.RoleType;
 import org.primaresearch.dla.page.metadata.MetadataItem;
 import org.primaresearch.labels.Labels;
 import org.primaresearch.shared.variable.StringValue;
+import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 import org.primaresearch.shared.variable.VariableMap;
 import org.primaresearch.shared.variable.VariableValue;
-import org.primaresearch.shared.variable.Variable.WrongVariableTypeException;
 
 /**
  * Implementation of metadata item (additional metadata)
@@ -105,6 +104,8 @@ public class MetadataItemImpl implements MetadataItem {
 
 	@Override
 	public String getDate() {
+		if (getAttributes().get(DefaultXmlNames.ATTR_date) == null || getAttributes().get(DefaultXmlNames.ATTR_date).getValue() == null)
+			return null;
 		return ((StringValue)getAttributes().get(DefaultXmlNames.ATTR_date).getValue()).val;
 	}
 

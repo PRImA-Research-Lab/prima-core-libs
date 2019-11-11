@@ -42,6 +42,7 @@ public class AltoXmlNames {
 	public static final String ELEMENT_Styles				= "Styles";
 	public static final String ELEMENT_TextStyle			= "TextStyle";
 	public static final String ELEMENT_ParagraphStyle		= "ParagraphStyle";
+	public static final String ELEMENT_Processing			= "Processing";
 	
 	public static final String ATTR_SCHEMAVERSION		= "SCHEMAVERSION";
 	public static final String ATTR_ID					= "ID";
