@@ -32,6 +32,7 @@ import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.impl.ImageRegion;
 import org.primaresearch.dla.page.layout.physical.impl.SeparatorRegion;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
+import org.primaresearch.dla.page.layout.physical.text.impl.Glyph;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextLine;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.dla.page.layout.physical.text.impl.Word;
@@ -68,6 +69,7 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	private TextLine currentTextLine = null;
 	private Word currentWord = null;
 	private Word lastWord = null;
+	private Glyph currentGlyph = null;
 	private Map<String, List<String>> idPartialReadingOrderMap = new HashMap<String, List<String>>();
 	private List<List<String>> partialReadingOrder = new ArrayList<List<String>>();
 
@@ -188,6 +190,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	    else if (AltoXmlNames.ELEMENT_HYP.equals(localName)) {
 	    	handleHyphenNode(atts);
 	    }
+	    else if (AltoXmlNames.ELEMENT_Glyph.equals(localName)) {
+	    	handleglyphNode(atts);
+	    }
 	}
 	
 	
@@ -269,6 +274,9 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	    }
 	    else if (AltoXmlNames.ELEMENT_String.equals(localName)) {
 	    	currentWord = null;
+	    }
+	    else if (AltoXmlNames.ELEMENT_Glyph.equals(localName)) {
+	    	currentGlyph = null;
 	    }
 	    
 	}
@@ -542,6 +550,32 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 		//Text content
 		if ((i = atts.getIndex(AltoXmlNames.ATTR_CONTENT)) >= 0)
 			currentWord.setText(atts.getValue(i));
+	}
+	
+	private void handleglyphNode(Attributes atts) {
+		if (currentWord == null)
+			return;
+		
+		//Create glyph
+		currentGlyph = currentWord.createGlyph();
+		
+		int i;
+		
+		//Polygon from bounding box
+		int w=0, h=0, l=0, t=0;
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_WIDTH)) >= 0) 
+			w = (int)Double.parseDouble(atts.getValue(i));
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HEIGHT)) >= 0) 
+			h = (int)Double.parseDouble(atts.getValue(i));
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_HPOS)) >= 0) 
+			l = (int)Double.parseDouble(atts.getValue(i));
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_VPOS)) >= 0) 
+			t = (int)Double.parseDouble(atts.getValue(i));
+		currentGlyph.setCoords(createPolygonFromBoundingBox(l, t, w, h));
+		
+		//Text content
+		if ((i = atts.getIndex(AltoXmlNames.ATTR_CONTENT)) >= 0)
+			currentGlyph.setText(atts.getValue(i));
 	}
 	
 	private void handleHyphenNode(Attributes atts) {
@@ -960,8 +994,16 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 			polygon.addPoint(x, y);
 		}
 		
-		if (polygon.getSize() >= 3)
-			currentRegion.setCoords(polygon);
+		if (polygon.getSize() >= 3) {
+			if (currentGlyph != null)
+				currentGlyph.setCoords(polygon);
+			else if (currentWord != null)
+				currentWord.setCoords(polygon);
+			else if (currentTextLine != null)
+				currentTextLine.setCoords(polygon);
+			else if (currentRegion != null)
+				currentRegion.setCoords(polygon);
+		}
 	}
 	
 	/**
