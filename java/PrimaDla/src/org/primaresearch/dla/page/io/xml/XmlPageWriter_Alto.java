@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -824,196 +826,197 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 	}
 	
 	String getAltoLanguage(String pageLanguage) {
-		if ("Abkhaz".equals(pageLanguage)) return "ab";
-		if ("Afar".equals(pageLanguage)) return "aa";
-		if ("Afrikaans".equals(pageLanguage)) return "af";
-		if ("Akan".equals(pageLanguage)) return "ak";
-		if ("Albanian".equals(pageLanguage)) return "sq";
-		if ("Amharic".equals(pageLanguage)) return "am";
-		if ("Arabic".equals(pageLanguage)) return "ar";
-		if ("Aragonese".equals(pageLanguage)) return "an";
-		if ("Armenian".equals(pageLanguage)) return "hy";
-		if ("Assamese".equals(pageLanguage)) return "as";
-		if ("Avaric".equals(pageLanguage)) return "av";
-		if ("Avestan".equals(pageLanguage)) return "ae";
-		if ("Aymara".equals(pageLanguage)) return "ay";
-		if ("Azerbaijani".equals(pageLanguage)) return "az";
-		if ("Bambara".equals(pageLanguage)) return "bm";
-		if ("Bashkir".equals(pageLanguage)) return "ba";
-		if ("Basque".equals(pageLanguage)) return "eu";
-		if ("Belarusian".equals(pageLanguage)) return "be";
-		if ("Bengali".equals(pageLanguage)) return "bn";
-		if ("Bihari".equals(pageLanguage)) return "bh";
-		if ("Bislama".equals(pageLanguage)) return "bi";
-		if ("Bosnian".equals(pageLanguage)) return "bs";
-		if ("Breton".equals(pageLanguage)) return "br";
-		if ("Bulgarian".equals(pageLanguage)) return "bg";
-		if ("Burmese".equals(pageLanguage)) return "my";
-		if ("Cambodian".equals(pageLanguage)) return "km";
-		if ("Catalan".equals(pageLanguage)) return "ca";
-		if ("Chamorro".equals(pageLanguage)) return "ch";
-		if ("Chechen".equals(pageLanguage)) return "ce";
-		if ("Chichewa".equals(pageLanguage)) return "ny";
-		if ("Chinese".equals(pageLanguage)) return "zh";
-		if ("Chuvash".equals(pageLanguage)) return "cv";
-		if ("Cornish".equals(pageLanguage)) return "kw";
-		if ("Corsican".equals(pageLanguage)) return "co";
-		if ("Cree".equals(pageLanguage)) return "cr";
-		if ("Croatian".equals(pageLanguage)) return "hr";
-		if ("Czech".equals(pageLanguage)) return "cs";
-		if ("Danish".equals(pageLanguage)) return "da";
-		if ("Divehi".equals(pageLanguage)) return "dv";
-		if ("Dutch".equals(pageLanguage)) return "nl";
-		if ("Dzongkha".equals(pageLanguage)) return "dz";
-		if ("English".equals(pageLanguage)) return "en";
-		if ("English".equals(pageLanguage)) return "en";
-		if ("English".equals(pageLanguage)) return "en";
-		if ("Esperanto".equals(pageLanguage)) return "eo";
-		if ("Estonian".equals(pageLanguage)) return "et";
-		if ("Ewe".equals(pageLanguage)) return "ee";
-		if ("Faroese".equals(pageLanguage)) return "fo";
-		if ("Fijian".equals(pageLanguage)) return "fj";
-		if ("Finnish".equals(pageLanguage)) return "fi";
-		if ("French".equals(pageLanguage)) return "fr";
-		if ("Fula".equals(pageLanguage)) return "ff";
-		if ("Gaelic".equals(pageLanguage)) return "gd";
-		if ("Galician".equals(pageLanguage)) return "gl";
-		if ("Ganda".equals(pageLanguage)) return "lg";
-		if ("Georgian".equals(pageLanguage)) return "ka";
-		if ("German".equals(pageLanguage)) return "de";
-		if ("Greek".equals(pageLanguage)) return "el";
-		if ("Guaraní".equals(pageLanguage)) return "gn";
-		if ("Gujarati".equals(pageLanguage)) return "gu";
-		if ("Haitian".equals(pageLanguage)) return "ht";
-		if ("Hausa".equals(pageLanguage)) return "ha";
-		if ("Hebrew".equals(pageLanguage)) return "he";
-		if ("Herero".equals(pageLanguage)) return "hz";
-		if ("Hindi".equals(pageLanguage)) return "hi";
-		if ("Hiri Motu".equals(pageLanguage)) return "ho";
-		if ("Hungarian".equals(pageLanguage)) return "hu";
-		if ("Icelandic".equals(pageLanguage)) return "is";
-		if ("Ido".equals(pageLanguage)) return "io";
-		if ("Igbo".equals(pageLanguage)) return "ig";
-		if ("Indonesian".equals(pageLanguage)) return "id";
-		if ("Interlingua".equals(pageLanguage)) return "ia";
-		if ("Interlingue".equals(pageLanguage)) return "ie";
-		if ("Inuktitut".equals(pageLanguage)) return "iu";
-		if ("Inupiaq".equals(pageLanguage)) return "ik";
-		if ("Irish".equals(pageLanguage)) return "ga";
-		if ("Italian".equals(pageLanguage)) return "it";
-		if ("Japanese".equals(pageLanguage)) return "ja";
-		if ("Javanese".equals(pageLanguage)) return "jv";
-		if ("Kalaallisut".equals(pageLanguage)) return "kl";
-		if ("Kannada".equals(pageLanguage)) return "kn";
-		if ("Kanuri".equals(pageLanguage)) return "kr";
-		if ("Kashmiri".equals(pageLanguage)) return "ks";
-		if ("Kazakh".equals(pageLanguage)) return "kk";
-		if ("Khmer".equals(pageLanguage)) return "km";
-		if ("Kikuyu".equals(pageLanguage)) return "ki";
-		if ("Kinyarwanda".equals(pageLanguage)) return "rw";
-		if ("Kirundi".equals(pageLanguage)) return "rn";
-		if ("Komi".equals(pageLanguage)) return "kv";
-		if ("Kongo".equals(pageLanguage)) return "kg";
-		if ("Korean".equals(pageLanguage)) return "ko";
-		if ("Kurdish".equals(pageLanguage)) return "ku";
-		if ("Kwanyama".equals(pageLanguage)) return "kj";
-		if ("Kyrgyz".equals(pageLanguage)) return "ky";
-		if ("Lao".equals(pageLanguage)) return "lo";
-		if ("Latin".equals(pageLanguage)) return "la";
-		if ("Latvian".equals(pageLanguage)) return "lv";
-		if ("Limburgish".equals(pageLanguage)) return "li";
-		if ("Lingala".equals(pageLanguage)) return "ln";
-		if ("Lithuanian".equals(pageLanguage)) return "lt";
-		if ("Luba-Katanga".equals(pageLanguage)) return "lu";
-		if ("Luxembourgish".equals(pageLanguage)) return "lb";
-		if ("Macedonian".equals(pageLanguage)) return "mk";
-		if ("Malagasy".equals(pageLanguage)) return "mg";
-		if ("Malay".equals(pageLanguage)) return "ms";
-		if ("Malayalam".equals(pageLanguage)) return "ml";
-		if ("Maltese".equals(pageLanguage)) return "mt";
-		if ("Manx".equals(pageLanguage)) return "gv";
-		if ("Māori".equals(pageLanguage)) return "mi";
-		if ("Marathi".equals(pageLanguage)) return "mr";
-		if ("Marshallese".equals(pageLanguage)) return "mh";
-		if ("Mongolian".equals(pageLanguage)) return "mn";
-		if ("Nauru".equals(pageLanguage)) return "na";
-		if ("Navajo".equals(pageLanguage)) return "nv";
-		if ("Ndonga".equals(pageLanguage)) return "ng";
-		if ("Nepali".equals(pageLanguage)) return "ne";
-		if ("North Ndebele".equals(pageLanguage)) return "nd";
-		if ("Northern Sami".equals(pageLanguage)) return "se";
-		if ("Norwegian".equals(pageLanguage)) return "no";
-		if ("Norwegian Bokmål".equals(pageLanguage)) return "nb";
-		if ("Norwegian Nynorsk".equals(pageLanguage)) return "nn";
-		if ("Nuosu".equals(pageLanguage)) return "ii";
-		if ("Occitan".equals(pageLanguage)) return "oc";
-		if ("Ojibwe".equals(pageLanguage)) return "oj";
-		if ("Old Church Slavonic".equals(pageLanguage)) return "cu";
-		if ("Oriya".equals(pageLanguage)) return "or";
-		if ("Oromo".equals(pageLanguage)) return "om";
-		if ("Ossetian".equals(pageLanguage)) return "os";
-		if ("Pāli".equals(pageLanguage)) return "pi";
-		if ("Panjabi".equals(pageLanguage)) return "pa";
-		if ("Pashto".equals(pageLanguage)) return "ps";
-		if ("Persian".equals(pageLanguage)) return "fa";
-		if ("Polish".equals(pageLanguage)) return "pl";
-		if ("Portuguese".equals(pageLanguage)) return "pt";
-		if ("Punjabi".equals(pageLanguage)) return "pa";
-		if ("Quechua".equals(pageLanguage)) return "qu";
-		if ("Romanian".equals(pageLanguage)) return "ro";
-		if ("Romansh".equals(pageLanguage)) return "rm";
-		if ("Russian".equals(pageLanguage)) return "ru";
-		if ("Samoan".equals(pageLanguage)) return "sm";
-		if ("Sango".equals(pageLanguage)) return "sg";
-		if ("Sanskrit".equals(pageLanguage)) return "sa";
-		if ("Sardinian".equals(pageLanguage)) return "sc";
-		if ("Serbian".equals(pageLanguage)) return "sr";
-		if ("Shona".equals(pageLanguage)) return "sn";
-		if ("Sindhi".equals(pageLanguage)) return "sd";
-		if ("Sinhala".equals(pageLanguage)) return "si";
-		if ("Slovak".equals(pageLanguage)) return "sk";
-		if ("Slovene".equals(pageLanguage)) return "sl";
-		if ("Somali".equals(pageLanguage)) return "so";
-		if ("South Ndebele".equals(pageLanguage)) return "nr";
-		if ("Southern Sotho".equals(pageLanguage)) return "st";
-		if ("Spanish".equals(pageLanguage)) return "es";
-		if ("Sundanese".equals(pageLanguage)) return "su";
-		if ("Swahili".equals(pageLanguage)) return "sw";
-		if ("Swati".equals(pageLanguage)) return "ss";
-		if ("Swedish".equals(pageLanguage)) return "sv";
-		if ("Tagalog".equals(pageLanguage)) return "tl";
-		if ("Tahitian".equals(pageLanguage)) return "ty";
-		if ("Tajik".equals(pageLanguage)) return "tg";
-		if ("Tamil".equals(pageLanguage)) return "ta";
-		if ("Tatar".equals(pageLanguage)) return "tt";
-		if ("Telugu".equals(pageLanguage)) return "te";
-		if ("Thai".equals(pageLanguage)) return "th";
-		if ("Tibetan".equals(pageLanguage)) return "bo";
-		if ("Tigrinya".equals(pageLanguage)) return "ti";
-		if ("Tonga".equals(pageLanguage)) return "to";
-		if ("Tsonga".equals(pageLanguage)) return "ts";
-		if ("Tswana".equals(pageLanguage)) return "tn";
-		if ("Turkish".equals(pageLanguage)) return "tr";
-		if ("Turkmen".equals(pageLanguage)) return "tk";
-		if ("Twi".equals(pageLanguage)) return "tw";
-		if ("Uighur".equals(pageLanguage)) return "ug";
-		if ("Ukrainian".equals(pageLanguage)) return "uk";
-		if ("Urdu".equals(pageLanguage)) return "ur";
-		if ("Uzbek".equals(pageLanguage)) return "uz";
-		if ("Venda".equals(pageLanguage)) return "ve";
-		if ("Vietnamese".equals(pageLanguage)) return "vi";
-		if ("Volapük".equals(pageLanguage)) return "vo";
-		if ("Walloon".equals(pageLanguage)) return "wa";
-		if ("Welsh".equals(pageLanguage)) return "cy";
-		if ("Western Frisian".equals(pageLanguage)) return "fy";
-		if ("Wolof".equals(pageLanguage)) return "wo";
-		if ("Xhosa".equals(pageLanguage)) return "xh";
-		if ("Yiddish".equals(pageLanguage)) return "yi";
-		if ("Yoruba".equals(pageLanguage)) return "yo";
-		if ("Zhuang".equals(pageLanguage)) return "za";
-		if ("Zulu".equals(pageLanguage)) return "zu";
+		Map<String, String> AltoLanguages = Stream.of(new String[][] {
+			{"Abkhaz", "ab"},
+			{"Afar", "aa"},
+			{"Afrikaans", "af"},
+			{"Akan", "ak"},
+			{"Albanian", "sq"},
+			{"Amharic", "am"},
+			{"Arabic", "ar"},
+			{"Aragonese", "an"},
+			{"Armenian", "hy"},
+			{"Assamese", "as"},
+			{"Avaric", "av"},
+			{"Avestan", "ae"},
+			{"Aymara", "ay"},
+			{"Azerbaijani", "az"},
+			{"Bambara", "bm"},
+			{"Bashkir", "ba"},
+			{"Basque", "eu"},
+			{"Belarusian", "be"},
+			{"Bengali", "bn"},
+			{"Bihari", "bh"},
+			{"Bislama", "bi"},
+			{"Bosnian", "bs"},
+			{"Breton", "br"},
+			{"Bulgarian", "bg"},
+			{"Burmese", "my"},
+			{"Cambodian", "km"},
+			{"Catalan", "ca"},
+			{"Chamorro", "ch"},
+			{"Chechen", "ce"},
+			{"Chichewa", "ny"},
+			{"Chinese", "zh"},
+			{"Chuvash", "cv"},
+			{"Cornish", "kw"},
+			{"Corsican", "co"},
+			{"Cree", "cr"},
+			{"Croatian", "hr"},
+			{"Czech", "cs"},
+			{"Danish", "da"},
+			{"Divehi", "dv"},
+			{"Dutch", "nl"},
+			{"Dzongkha", "dz"},
+			{"English", "en"},
+			{"English", "en"},
+			{"Esperanto", "eo"},
+			{"Estonian", "et"},
+			{"Ewe", "ee"},
+			{"Faroese", "fo"},
+			{"Fijian", "fj"},
+			{"Finnish", "fi"},
+			{"French", "fr"},
+			{"Fula", "ff"},
+			{"Gaelic", "gd"},
+			{"Galician", "gl"},
+			{"Ganda", "lg"},
+			{"Georgian", "ka"},
+			{"German", "de"},
+			{"Greek", "el"},
+			{"Guaraní", "gn"},
+			{"Gujarati", "gu"},
+			{"Haitian", "ht"},
+			{"Hausa", "ha"},
+			{"Hebrew", "he"},
+			{"Herero", "hz"},
+			{"Hindi", "hi"},
+			{"Hiri Motu", "ho"},
+			{"Hungarian", "hu"},
+			{"Icelandic", "is"},
+			{"Ido", "io"},
+			{"Igbo", "ig"},
+			{"Indonesian", "id"},
+			{"Interlingua", "ia"},
+			{"Interlingue", "ie"},
+			{"Inuktitut", "iu"},
+			{"Inupiaq", "ik"},
+			{"Irish", "ga"},
+			{"Italian", "it"},
+			{"Japanese", "ja"},
+			{"Javanese", "jv"},
+			{"Kalaallisut", "kl"},
+			{"Kannada", "kn"},
+			{"Kanuri", "kr"},
+			{"Kashmiri", "ks"},
+			{"Kazakh", "kk"},
+			{"Khmer", "km"},
+			{"Kikuyu", "ki"},
+			{"Kinyarwanda", "rw"},
+			{"Kirundi", "rn"},
+			{"Komi", "kv"},
+			{"Kongo", "kg"},
+			{"Korean", "ko"},
+			{"Kurdish", "ku"},
+			{"Kwanyama", "kj"},
+			{"Kyrgyz", "ky"},
+			{"Lao", "lo"},
+			{"Latin", "la"},
+			{"Latvian", "lv"},
+			{"Limburgish", "li"},
+			{"Lingala", "ln"},
+			{"Lithuanian", "lt"},
+			{"Luba-Katanga", "lu"},
+			{"Luxembourgish", "lb"},
+			{"Macedonian", "mk"},
+			{"Malagasy", "mg"},
+			{"Malay", "ms"},
+			{"Malayalam", "ml"},
+			{"Maltese", "mt"},
+			{"Manx", "gv"},
+			{"Māori", "mi"},
+			{"Marathi", "mr"},
+			{"Marshallese", "mh"},
+			{"Mongolian", "mn"},
+			{"Nauru", "na"},
+			{"Navajo", "nv"},
+			{"Ndonga", "ng"},
+			{"Nepali", "ne"},
+			{"North Ndebele", "nd"},
+			{"Northern Sami", "se"},
+			{"Norwegian", "no"},
+			{"Norwegian Bokmål", "nb"},
+			{"Norwegian Nynorsk", "nn"},
+			{"Nuosu", "ii"},
+			{"Occitan", "oc"},
+			{"Ojibwe", "oj"},
+			{"Old Church Slavonic", "cu"},
+			{"Oriya", "or"},
+			{"Oromo", "om"},
+			{"Ossetian", "os"},
+			{"Pāli", "pi"},
+			{"Panjabi", "pa"},
+			{"Pashto", "ps"},
+			{"Persian", "fa"},
+			{"Polish", "pl"},
+			{"Portuguese", "pt"},
+			{"Punjabi", "pa"},
+			{"Quechua", "qu"},
+			{"Romanian", "ro"},
+			{"Romansh", "rm"},
+			{"Russian", "ru"},
+			{"Samoan", "sm"},
+			{"Sango", "sg"},
+			{"Sanskrit", "sa"},
+			{"Sardinian", "sc"},
+			{"Serbian", "sr"},
+			{"Shona", "sn"},
+			{"Sindhi", "sd"},
+			{"Sinhala", "si"},
+			{"Slovak", "sk"},
+			{"Slovene", "sl"},
+			{"Somali", "so"},
+			{"South Ndebele", "nr"},
+			{"Southern Sotho", "st"},
+			{"Spanish", "es"},
+			{"Sundanese", "su"},
+			{"Swahili", "sw"},
+			{"Swati", "ss"},
+			{"Swedish", "sv"},
+			{"Tagalog", "tl"},
+			{"Tahitian", "ty"},
+			{"Tajik", "tg"},
+			{"Tamil", "ta"},
+			{"Tatar", "tt"},
+			{"Telugu", "te"},
+			{"Thai", "th"},
+			{"Tibetan", "bo"},
+			{"Tigrinya", "ti"},
+			{"Tonga", "to"},
+			{"Tsonga", "ts"},
+			{"Tswana", "tn"},
+			{"Turkish", "tr"},
+			{"Turkmen", "tk"},
+			{"Twi", "tw"},
+			{"Uighur", "ug"},
+			{"Ukrainian", "uk"},
+			{"Urdu", "ur"},
+			{"Uzbek", "uz"},
+			{"Venda", "ve"},
+			{"Vietnamese", "vi"},
+			{"Volapük", "vo"},
+			{"Walloon", "wa"},
+			{"Welsh", "cy"},
+			{"Western Frisian", "fy"},
+			{"Wolof", "wo"},
+			{"Xhosa", "xh"},
+			{"Yiddish", "yi"},
+			{"Yoruba", "yo"},
+			{"Zhuang", "za"},
+			{"Zulu", "zu"}
+		}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-		return null;
+		return AltoLanguages.get(pageLanguage);
 	}
 	
 	//Propagate text from regions to words / glyphs
