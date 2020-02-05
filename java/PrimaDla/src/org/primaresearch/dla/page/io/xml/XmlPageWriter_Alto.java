@@ -450,9 +450,67 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//Styles
 		
 		//TODO: TopMargin, LeftMargin, RightMargin, BottomMargin
+		//Treat everything outside of print space as margin
+		addMargins(pageNode);
+
 
 		//Print space
 		addPrintSpace(pageNode);
+	}
+
+	private void addMargins(Element parent) {
+
+		Element topMarginNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_TopMargin);
+		parent.appendChild(topMarginNode);
+		addAttribute(topMarginNode, AltoXmlNames.ATTR_ID, "TopMarginTypeID"+0);
+
+		Element leftMarginNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_LeftMargin);
+		parent.appendChild(leftMarginNode);
+		addAttribute(leftMarginNode, AltoXmlNames.ATTR_ID, "LeftMarginTypeID"+0);
+
+		Element rightMarginNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_RightMargin);
+		parent.appendChild(rightMarginNode);
+		addAttribute(rightMarginNode, AltoXmlNames.ATTR_ID, "RightMarginTypeID"+0);
+
+		Element bottomMarginNode = doc.createElementNS(getNamespace(), AltoXmlNames.ELEMENT_BottomMargin);
+		parent.appendChild(bottomMarginNode);
+		addAttribute(bottomMarginNode, AltoXmlNames.ATTR_ID, "BottomMarginTypeID"+0);
+
+		if (layout.getPrintSpace() != null) {
+			Rect printSpaceCoords = layout.getPrintSpace().getCoords().getBoundingBox();
+			int height = layout.getHeight()-1;
+			int width = layout.getWidth()-1;
+
+			Polygon topMarginCoords = new Polygon();
+			Polygon leftMarginCoords = new Polygon();
+			Polygon rightMarginCoords = new Polygon();
+			Polygon bottomMarginCoords = new Polygon();
+
+			topMarginCoords.addPoint(0, 0);
+			topMarginCoords.addPoint(width, 0);
+			topMarginCoords.addPoint(width, printSpaceCoords.top-1);
+			topMarginCoords.addPoint(0, printSpaceCoords.top-1);
+
+			bottomMarginCoords.addPoint(0, printSpaceCoords.bottom+1);
+			bottomMarginCoords.addPoint(width, printSpaceCoords.bottom+1);
+			bottomMarginCoords.addPoint(width, height);
+			bottomMarginCoords.addPoint(0, height);
+
+			leftMarginCoords.addPoint(0, topMarginCoords.getBoundingBox().bottom+1);
+			leftMarginCoords.addPoint(printSpaceCoords.left-1, topMarginCoords.getBoundingBox().bottom+1);
+			leftMarginCoords.addPoint(printSpaceCoords.left-1, bottomMarginCoords.getBoundingBox().top-1);
+			leftMarginCoords.addPoint(0, bottomMarginCoords.getBoundingBox().top-1);
+
+			rightMarginCoords.addPoint(printSpaceCoords.right+1, topMarginCoords.getBoundingBox().bottom+1);
+			rightMarginCoords.addPoint(width, topMarginCoords.getBoundingBox().bottom+1);
+			rightMarginCoords.addPoint(width, bottomMarginCoords.getBoundingBox().top-1);
+			rightMarginCoords.addPoint(printSpaceCoords.right+1, bottomMarginCoords.getBoundingBox().top-1);
+
+			addPositionAttributes(topMarginNode, topMarginCoords);
+			addPositionAttributes(leftMarginNode, leftMarginCoords);
+			addPositionAttributes(rightMarginNode, rightMarginCoords);
+			addPositionAttributes(bottomMarginNode, bottomMarginCoords);
+		}
 	}
 	
 	private void addPrintSpace(Element parent) {
