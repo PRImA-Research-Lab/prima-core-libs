@@ -869,7 +869,6 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			{"Dutch", "nl"},
 			{"Dzongkha", "dz"},
 			{"English", "en"},
-			{"English", "en"},
 			{"Esperanto", "eo"},
 			{"Estonian", "et"},
 			{"Ewe", "ee"},
