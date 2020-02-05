@@ -557,6 +557,11 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		//TAGREFS
 		addTagRefs(blockNode, region);
 
+		//TextRegion Type TAGREFS
+		if (region instanceof TextRegion) {
+			addTypeTagRefs(blockNode, region);
+		}
+
 		//PROCESSINGREFS
 		// Not supported in PAGE
 
@@ -600,7 +605,21 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				addAttribute(parentNode, AltoXmlNames.ATTR_TAGREFS, tagRefs.toString());
 		}
 	}
-	
+
+	private void addTypeTagRefs(Element parentNode, Region region){
+		StringBuilder tagRefs = new StringBuilder();
+
+		Tag tag = getTag((TextRegion)region);
+		if (tag != null && tag.label != null) {
+			if (tagRefs.length() > 0)
+				tagRefs.append(' ');
+			tagRefs.append(tag.ID);
+		}
+
+		if (tagRefs.length() > 0)
+			addAttribute(parentNode, AltoXmlNames.ATTR_TAGREFS, tagRefs.toString());
+	}
+
 	Group findReadingOrderGroup(Group startGroup, Id regionId) {
 		
 		for (int i=0; i<startGroup.getSize(); i++) {
@@ -1187,8 +1206,10 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		
 		//Regions
 		for (int i=0; i<layout.getRegionCount(); i++) {
-			if (layout.getRegion(i) instanceof TextRegion)
-				findTags((TextRegion)layout.getRegion(i));			
+			if (layout.getRegion(i) instanceof TextRegion) {
+				findTags((TextRegion) layout.getRegion(i));
+				getTag((TextRegion)layout.getRegion(i));
+			}
 		}
 	}
 	
@@ -1253,7 +1274,24 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 		}		
 		return null;
 	}
-	
+
+	private Tag getTag(TextRegion region) {
+		Tag newTag = new Tag(region);
+		//Look if already exists, otherwise add
+		for (Tag tag : tags) {
+			if (tag.equals(newTag))
+				return tag;
+		}
+
+		//Tag label is required!
+		if (!newTag.isEmpty() && newTag.label != null) {
+			tags.add(newTag);
+			newTag.ID = "tag" + tags.size();
+			return newTag;
+		}
+		return null;
+	}
+
 	/** Comparator for sorting polygons by vertical or horizontal position */
 	private static final class TextObjectComparator implements Comparator<GeometricObject> {
 		
@@ -1507,6 +1545,12 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 				description = label.getComments();
 			if (label.getExternalModel() != null && !label.getExternalModel().isEmpty())
 				uri = label.getExternalModel();
+		}
+
+		public Tag(Region region) {
+			if (region.getAttributes().get("type") != null && region.getAttributes().get("type").getValue() != null)
+				label = region.getAttributes().get("type").getValue().toString();
+			description="PAGE XML text region type";
 		}
 
 		/** Returns true if no attribute is set */
