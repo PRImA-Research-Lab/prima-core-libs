@@ -1026,9 +1026,9 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 					continue;
 				
 				String regionText = textRegion.getText() != null && !textRegion.getText().isEmpty() ? textRegion.getText() : textRegion.composeText(false, true);
-				regionText = regionText.replaceAll("\r\n", "\n");
+				//regionText = regionText.replaceAll("\r\n", "\n");
 				
-				String[] regionTextSplit = regionText.split("\n");
+				String[] regionTextSplit = regionText.split("\r\n|\n");
 				
 				//Text lines
 				List<TextLine> textLinesSorted = new ArrayList<TextLine>(textRegion.getTextObjectCount());
