@@ -407,7 +407,7 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		}
 		
 		public void setVariableType(String type) {
-			if ("int".equals(type))
+			if ("int".equals(type) || "integer".equals(type))
 				variable = new IntegerVariable(name,null);
 			else if ("float".equals(type))
 				variable = new DoubleVariable(name,null);
