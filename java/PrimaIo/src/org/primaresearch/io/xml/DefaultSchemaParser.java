@@ -296,28 +296,31 @@ public class DefaultSchemaParser implements SchemaModelParser {
 				return;
 			}
 			Variable attr = null;
-			if ("int".equals(type))
-				attr = new IntegerVariable(name,null);
-			else if ("float".equals(type))
-				attr = new DoubleVariable(name,null);
-			else if ("boolean".equals(type))
-				attr = new BooleanVariable(name,null);
-			else if ("string".equals(type))
-				attr = new StringVariable(name,null);
-			else if ("dateTime".equals(type))
-				attr = new StringVariable(name,null);
-			else if (type.endsWith("SimpleType")) { //Handle later when all simple types have been parsed 
+			if (type.endsWith("SimpleType")) { //Handle later when all simple types have been parsed 
 				Map<String, String> attsWithPendingType = pendingSimpleType.get(currentAttributeMap.getType());
 				if (attsWithPendingType == null) {
 					attsWithPendingType = new HashMap<String, String>();
 					pendingSimpleType.put(currentAttributeMap.getType(), attsWithPendingType);
 				}
 				attsWithPendingType.put(name, type);
-			}
+			} else
+				attr = createAttributeVariable(type, name);
 			//Add new attribute to attribute map of current complex type
 			if (attr != null) {
 				currentAttributeMap.add(attr);
 			}
+		}
+		
+		private static Variable createAttributeVariable(String type, String name) {
+			if ("int".equals(type) || "integer".equals(type))
+				return new IntegerVariable(name, null);
+			if ("float".equals(type))
+				return new DoubleVariable(name, null);
+			if ("boolean".equals(type))
+				return new BooleanVariable(name, null);
+			if ("string".equals(type) || "dateTime".equals(type))
+				return new StringVariable(name, null);
+			return null;
 		}
 		
 		private void handleRestriction(Attributes atts) {
@@ -407,14 +410,7 @@ public class DefaultSchemaParser implements SchemaModelParser {
 		}
 		
 		public void setVariableType(String type) {
-			if ("int".equals(type) || "integer".equals(type))
-				variable = new IntegerVariable(name,null);
-			else if ("float".equals(type))
-				variable = new DoubleVariable(name,null);
-			else if ("boolean".equals(type))
-				variable = new BooleanVariable(name,null);
-			else if ("string".equals(type))
-				variable = new StringVariable(name,null);
+			variable = SchemaHandler.createAttributeVariable(type, name);
 		}
 	}
 
