@@ -338,13 +338,25 @@ public class PageLayout {
 	public boolean hasLowLevelTextObject(LowLevelTextType type) {
 		
 		for (int i=0; i<regions.size(); i++) {
-			Region reg = regions.getAt(i); 
-			if (reg instanceof LowLevelTextContainer) {
-				if (hasLowLevelTextObject((LowLevelTextContainer)reg, type))
-					return true;
-			}
+			if(hasLowLevelTextObject(regions.getAt(i), type))
+				return true;
 		}		
-
+		return false;
+	}
+	
+	/**
+	 * Checks if the given region contains text objects of the specified type 
+	 */
+	private boolean hasLowLevelTextObject(Region reg, LowLevelTextType type) {
+		if (reg instanceof LowLevelTextContainer) {
+			if (hasLowLevelTextObject((LowLevelTextContainer)reg, type))
+				return true;
+		}
+		//Nested regions
+		for (int j=0; j<reg.getRegionCount(); j++) {
+			if (hasLowLevelTextObject(reg.getRegion(j), type))
+				return true;
+		}
 		return false;
 	}
 	
