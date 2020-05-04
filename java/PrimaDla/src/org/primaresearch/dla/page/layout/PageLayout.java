@@ -143,9 +143,41 @@ public class PageLayout {
 	 * Returns the region with the given ID.
 	 */
 	public Region getRegion(Id regionId) {
+		return getRegion(regionId, false);
+	}
+	
+	/**
+	 * Returns the region with the given ID.
+	 * @param regionId
+	 * @param includeNested Set to true to also look in nested regions (slower)
+	 */
+	public Region getRegion(Id regionId, boolean includeNested) {
 		if (regionId == null)
 			return null;
-		return regions.get(regionId);
+		if (regions.containsKey(regionId))
+			return regions.get(regionId);
+		if (includeNested) {
+			for (Region parent : regions.values()) {
+				Region reg = getNestedRegion(regionId, parent);
+				if (reg != null)
+					return reg;
+			}
+		}
+		return null;
+	}
+	
+	private Region getNestedRegion(Id regionId, Region parent) {
+		
+		for (int i=0; i<parent.getRegionCount(); i++) {
+			Region nested = parent.getRegion(i);
+			if (nested.getId().equals(regionId))
+				return nested;
+			//Recursion
+			Region reg = getNestedRegion(regionId, nested);
+			if (reg != null)
+				return reg;
+		}
+		return null;
 	}
 
 	/**
