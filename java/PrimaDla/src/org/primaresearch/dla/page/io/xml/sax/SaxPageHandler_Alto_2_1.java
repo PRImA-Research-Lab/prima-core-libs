@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.Page.MeasurementUnit;
@@ -657,198 +659,199 @@ public class SaxPageHandler_Alto_2_1 extends SaxPageHandler {
 	}
 	
 	private String altoToPrimaLanguage(String altoLanguageValue) {
-		if ("ab".equals(altoLanguageValue)) return "Abkhaz";
-		if ("aa".equals(altoLanguageValue)) return "Afar";
-		if ("af".equals(altoLanguageValue)) return "Afrikaans";
-		if ("ak".equals(altoLanguageValue)) return "Akan";
-		if ("sq".equals(altoLanguageValue)) return "Albanian";
-		if ("am".equals(altoLanguageValue)) return "Amharic";
-		if ("ar".equals(altoLanguageValue)) return "Arabic";
-		if ("an".equals(altoLanguageValue)) return "Aragonese";
-		if ("hy".equals(altoLanguageValue)) return "Armenian";
-		if ("as".equals(altoLanguageValue)) return "Assamese";
-		if ("av".equals(altoLanguageValue)) return "Avaric";
-		if ("ae".equals(altoLanguageValue)) return "Avestan";
-		if ("ay".equals(altoLanguageValue)) return "Aymara";
-		if ("az".equals(altoLanguageValue)) return "Azerbaijani";
-		if ("bm".equals(altoLanguageValue)) return "Bambara";
-		if ("ba".equals(altoLanguageValue)) return "Bashkir";
-		if ("eu".equals(altoLanguageValue)) return "Basque";
-		if ("be".equals(altoLanguageValue)) return "Belarusian";
-		if ("bn".equals(altoLanguageValue)) return "Bengali";
-		if ("bh".equals(altoLanguageValue)) return "Bihari";
-		if ("bi".equals(altoLanguageValue)) return "Bislama";
-		if ("bs".equals(altoLanguageValue)) return "Bosnian";
-		if ("br".equals(altoLanguageValue)) return "Breton";
-		if ("bg".equals(altoLanguageValue)) return "Bulgarian";
-		if ("my".equals(altoLanguageValue)) return "Burmese";
-		if ("km".equals(altoLanguageValue)) return "Cambodian";
-		//if ("".equals(altoLanguageValue)) return "Cantonese";
-		if ("ca".equals(altoLanguageValue)) return "Catalan";
-		if ("ch".equals(altoLanguageValue)) return "Chamorro";
-		if ("ce".equals(altoLanguageValue)) return "Chechen";
-		if ("ny".equals(altoLanguageValue)) return "Chichewa";
-		if ("zh".equals(altoLanguageValue)) return "Chinese";
-		if ("cv".equals(altoLanguageValue)) return "Chuvash";
-		if ("kw".equals(altoLanguageValue)) return "Cornish";
-		if ("co".equals(altoLanguageValue)) return "Corsican";
-		if ("cr".equals(altoLanguageValue)) return "Cree";
-		if ("hr".equals(altoLanguageValue)) return "Croatian";
-		if ("cs".equals(altoLanguageValue)) return "Czech";
-		if ("da".equals(altoLanguageValue)) return "Danish";
-		if ("dv".equals(altoLanguageValue)) return "Divehi";
-		if ("nl".equals(altoLanguageValue)) return "Dutch";
-		if ("dz".equals(altoLanguageValue)) return "Dzongkha";
-		if ("en".equals(altoLanguageValue)) return "English";
-		if ("en-GB".equals(altoLanguageValue)) return "English";
-		if ("en-US".equals(altoLanguageValue)) return "English";
-		if ("eo".equals(altoLanguageValue)) return "Esperanto";
-		if ("et".equals(altoLanguageValue)) return "Estonian";
-		if ("ee".equals(altoLanguageValue)) return "Ewe";
-		if ("fo".equals(altoLanguageValue)) return "Faroese";
-		if ("fj".equals(altoLanguageValue)) return "Fijian";
-		if ("fi".equals(altoLanguageValue)) return "Finnish";
-		if ("fr".equals(altoLanguageValue)) return "French";
-		if ("ff".equals(altoLanguageValue)) return "Fula";
-		if ("gd".equals(altoLanguageValue)) return "Gaelic";
-		if ("gl".equals(altoLanguageValue)) return "Galician";
-		if ("lg".equals(altoLanguageValue)) return "Ganda";
-		if ("ka".equals(altoLanguageValue)) return "Georgian";
-		if ("de".equals(altoLanguageValue)) return "German";
-		if ("el".equals(altoLanguageValue)) return "Greek";
-		if ("gn".equals(altoLanguageValue)) return "Guaraní";
-		if ("gu".equals(altoLanguageValue)) return "Gujarati";
-		if ("ht".equals(altoLanguageValue)) return "Haitian";
-		if ("ha".equals(altoLanguageValue)) return "Hausa";
-		if ("he".equals(altoLanguageValue)) return "Hebrew";
-		if ("hz".equals(altoLanguageValue)) return "Herero";
-		if ("hi".equals(altoLanguageValue)) return "Hindi";
-		if ("ho".equals(altoLanguageValue)) return "Hiri Motu";
-		if ("hu".equals(altoLanguageValue)) return "Hungarian";
-		if ("is".equals(altoLanguageValue)) return "Icelandic";
-		if ("io".equals(altoLanguageValue)) return "Ido";
-		if ("ig".equals(altoLanguageValue)) return "Igbo";
-		if ("id".equals(altoLanguageValue)) return "Indonesian";
-		if ("ia".equals(altoLanguageValue)) return "Interlingua";
-		if ("ie".equals(altoLanguageValue)) return "Interlingue";
-		if ("iu".equals(altoLanguageValue)) return "Inuktitut";
-		if ("ik".equals(altoLanguageValue)) return "Inupiaq";
-		if ("ga".equals(altoLanguageValue)) return "Irish";
-		if ("it".equals(altoLanguageValue)) return "Italian";
-		if ("ja".equals(altoLanguageValue)) return "Japanese";
-		if ("jv".equals(altoLanguageValue)) return "Javanese";
-		if ("kl".equals(altoLanguageValue)) return "Kalaallisut";
-		if ("kn".equals(altoLanguageValue)) return "Kannada";
-		if ("kr".equals(altoLanguageValue)) return "Kanuri";
-		if ("ks".equals(altoLanguageValue)) return "Kashmiri";
-		if ("kk".equals(altoLanguageValue)) return "Kazakh";
-		if ("km".equals(altoLanguageValue)) return "Khmer";
-		if ("ki".equals(altoLanguageValue)) return "Kikuyu";
-		if ("rw".equals(altoLanguageValue)) return "Kinyarwanda";
-		if ("rn".equals(altoLanguageValue)) return "Kirundi";
-		if ("kv".equals(altoLanguageValue)) return "Komi";
-		if ("kg".equals(altoLanguageValue)) return "Kongo";
-		if ("ko".equals(altoLanguageValue)) return "Korean";
-		if ("ku".equals(altoLanguageValue)) return "Kurdish";
-		if ("kj".equals(altoLanguageValue)) return "Kwanyama";
-		if ("ky".equals(altoLanguageValue)) return "Kyrgyz";
-		if ("lo".equals(altoLanguageValue)) return "Lao";
-		if ("la".equals(altoLanguageValue)) return "Latin";
-		if ("lv".equals(altoLanguageValue)) return "Latvian";
-		if ("li".equals(altoLanguageValue)) return "Limburgish";
-		if ("ln".equals(altoLanguageValue)) return "Lingala";
-		if ("lt".equals(altoLanguageValue)) return "Lithuanian";
-		if ("lu".equals(altoLanguageValue)) return "Luba-Katanga";
-		if ("lb".equals(altoLanguageValue)) return "Luxembourgish";
-		if ("mk".equals(altoLanguageValue)) return "Macedonian";
-		if ("mg".equals(altoLanguageValue)) return "Malagasy";
-		if ("ms".equals(altoLanguageValue)) return "Malay";
-		if ("ml".equals(altoLanguageValue)) return "Malayalam";
-		if ("mt".equals(altoLanguageValue)) return "Maltese";
-		if ("gv".equals(altoLanguageValue)) return "Manx";
-		if ("mi".equals(altoLanguageValue)) return "Māori";
-		if ("mr".equals(altoLanguageValue)) return "Marathi";
-		if ("mh".equals(altoLanguageValue)) return "Marshallese";
-		if ("mn".equals(altoLanguageValue)) return "Mongolian";
-		if ("na".equals(altoLanguageValue)) return "Nauru";
-		if ("nv".equals(altoLanguageValue)) return "Navajo";
-		if ("ng".equals(altoLanguageValue)) return "Ndonga";
-		if ("ne".equals(altoLanguageValue)) return "Nepali";
-		if ("nd".equals(altoLanguageValue)) return "North Ndebele";
-		if ("se".equals(altoLanguageValue)) return "Northern Sami";
-		if ("no".equals(altoLanguageValue)) return "Norwegian";
-		if ("nb".equals(altoLanguageValue)) return "Norwegian Bokmål";
-		if ("nn".equals(altoLanguageValue)) return "Norwegian Nynorsk";
-		if ("ii".equals(altoLanguageValue)) return "Nuosu";
-		if ("oc".equals(altoLanguageValue)) return "Occitan";
-		if ("oj".equals(altoLanguageValue)) return "Ojibwe";
-		if ("cu".equals(altoLanguageValue)) return "Old Church Slavonic";
-		if ("or".equals(altoLanguageValue)) return "Oriya";
-		if ("om".equals(altoLanguageValue)) return "Oromo";
-		if ("os".equals(altoLanguageValue)) return "Ossetian";
-		if ("pi".equals(altoLanguageValue)) return "Pāli";
-		if ("pa".equals(altoLanguageValue)) return "Panjabi";
-		if ("ps".equals(altoLanguageValue)) return "Pashto";
-		if ("fa".equals(altoLanguageValue)) return "Persian";
-		if ("pl".equals(altoLanguageValue)) return "Polish";
-		if ("pt".equals(altoLanguageValue)) return "Portuguese";
-		if ("pa".equals(altoLanguageValue)) return "Punjabi";
-		if ("qu".equals(altoLanguageValue)) return "Quechua";
-		if ("ro".equals(altoLanguageValue)) return "Romanian";
-		if ("rm".equals(altoLanguageValue)) return "Romansh";
-		if ("ru".equals(altoLanguageValue)) return "Russian";
-		if ("sm".equals(altoLanguageValue)) return "Samoan";
-		if ("sg".equals(altoLanguageValue)) return "Sango";
-		if ("sa".equals(altoLanguageValue)) return "Sanskrit";
-		if ("sc".equals(altoLanguageValue)) return "Sardinian";
-		if ("sr".equals(altoLanguageValue)) return "Serbian";
-		if ("sn".equals(altoLanguageValue)) return "Shona";
-		if ("sd".equals(altoLanguageValue)) return "Sindhi";
-		if ("si".equals(altoLanguageValue)) return "Sinhala";
-		if ("sk".equals(altoLanguageValue)) return "Slovak";
-		if ("sl".equals(altoLanguageValue)) return "Slovene";
-		if ("so".equals(altoLanguageValue)) return "Somali";
-		if ("nr".equals(altoLanguageValue)) return "South Ndebele";
-		if ("st".equals(altoLanguageValue)) return "Southern Sotho";
-		if ("es".equals(altoLanguageValue)) return "Spanish";
-		if ("su".equals(altoLanguageValue)) return "Sundanese";
-		if ("sw".equals(altoLanguageValue)) return "Swahili";
-		if ("ss".equals(altoLanguageValue)) return "Swati";
-		if ("sv".equals(altoLanguageValue)) return "Swedish";
-		if ("tl".equals(altoLanguageValue)) return "Tagalog";
-		if ("ty".equals(altoLanguageValue)) return "Tahitian";
-		if ("tg".equals(altoLanguageValue)) return "Tajik";
-		if ("ta".equals(altoLanguageValue)) return "Tamil";
-		if ("tt".equals(altoLanguageValue)) return "Tatar";
-		if ("te".equals(altoLanguageValue)) return "Telugu";
-		if ("th".equals(altoLanguageValue)) return "Thai";
-		if ("bo".equals(altoLanguageValue)) return "Tibetan";
-		if ("ti".equals(altoLanguageValue)) return "Tigrinya";
-		if ("to".equals(altoLanguageValue)) return "Tonga";
-		if ("ts".equals(altoLanguageValue)) return "Tsonga";
-		if ("tn".equals(altoLanguageValue)) return "Tswana";
-		if ("tr".equals(altoLanguageValue)) return "Turkish";
-		if ("tk".equals(altoLanguageValue)) return "Turkmen";
-		if ("tw".equals(altoLanguageValue)) return "Twi";
-		if ("ug".equals(altoLanguageValue)) return "Uighur";
-		if ("uk".equals(altoLanguageValue)) return "Ukrainian";
-		if ("ur".equals(altoLanguageValue)) return "Urdu";
-		if ("uz".equals(altoLanguageValue)) return "Uzbek";
-		if ("ve".equals(altoLanguageValue)) return "Venda";
-		if ("vi".equals(altoLanguageValue)) return "Vietnamese";
-		if ("vo".equals(altoLanguageValue)) return "Volapük";
-		if ("wa".equals(altoLanguageValue)) return "Walloon";
-		if ("cy".equals(altoLanguageValue)) return "Welsh";
-		if ("fy".equals(altoLanguageValue)) return "Western Frisian";
-		if ("wo".equals(altoLanguageValue)) return "Wolof";
-		if ("xh".equals(altoLanguageValue)) return "Xhosa";
-		if ("yi".equals(altoLanguageValue)) return "Yiddish";
-		if ("yo".equals(altoLanguageValue)) return "Yoruba";
-		if ("za".equals(altoLanguageValue)) return "Zhuang";
-		if ("zu".equals(altoLanguageValue)) return "Zulu";
-		if (!altoLanguageValue.isEmpty()) return "other";
+		Map<String, String> PrimaLanguage = Stream.of(new String[][] {
+			{"ab", "Abkhaz"},
+			{"aa", "Afar"},
+			{"af", "Afrikaans"},
+			{"ak", "Akan"},
+			{"sq", "Albanian"},
+			{"am", "Amharic"},
+			{"ar", "Arabic"},
+			{"an", "Aragonese"},
+			{"hy", "Armenian"},
+			{"as", "Assamese"},
+			{"av", "Avaric"},
+			{"ae", "Avestan"},
+			{"ay", "Aymara"},
+			{"az", "Azerbaijani"},
+			{"bm", "Bambara"},
+			{"ba", "Bashkir"},
+			{"eu", "Basque"},
+			{"be", "Belarusian"},
+			{"bn", "Bengali"},
+			{"bh", "Bihari"},
+			{"bi", "Bislama"},
+			{"bs", "Bosnian"},
+			{"br", "Breton"},
+			{"bg", "Bulgarian"},
+			{"my", "Burmese"},
+			{"km", "Cambodian"},
+			//{"", "Cantonese"},
+			{"ca", "Catalan"},
+			{"ch", "Chamorro"},
+			{"ce", "Chechen"},
+			{"ny", "Chichewa"},
+			{"zh", "Chinese"},
+			{"cv", "Chuvash"},
+			{"kw", "Cornish"},
+			{"co", "Corsican"},
+			{"cr", "Cree"},
+			{"hr", "Croatian"},
+			{"cs", "Czech"},
+			{"da", "Danish"},
+			{"dv", "Divehi"},
+			{"nl", "Dutch"},
+			{"dz", "Dzongkha"},
+			{"en", "English"},
+			{"en-GB", "English"},
+			{"en-US", "English"},
+			{"eo", "Esperanto"},
+			{"et", "Estonian"},
+			{"ee", "Ewe"},
+			{"fo", "Faroese"},
+			{"fj", "Fijian"},
+			{"fi", "Finnish"},
+			{"fr", "French"},
+			{"ff", "Fula"},
+			{"gd", "Gaelic"},
+			{"gl", "Galician"},
+			{"lg", "Ganda"},
+			{"ka", "Georgian"},
+			{"de", "German"},
+			{"el", "Greek"},
+			{"gn", "Guaraní"},
+			{"gu", "Gujarati"},
+			{"ht", "Haitian"},
+			{"ha", "Hausa"},
+			{"he", "Hebrew"},
+			{"hz", "Herero"},
+			{"hi", "Hindi"},
+			{"ho", "Hiri Motu"},
+			{"hu", "Hungarian"},
+			{"is", "Icelandic"},
+			{"io", "Ido"},
+			{"ig", "Igbo"},
+			{"id", "Indonesian"},
+			{"ia", "Interlingua"},
+			{"ie", "Interlingue"},
+			{"iu", "Inuktitut"},
+			{"ik", "Inupiaq"},
+			{"ga", "Irish"},
+			{"it", "Italian"},
+			{"ja", "Japanese"},
+			{"jv", "Javanese"},
+			{"kl", "Kalaallisut"},
+			{"kn", "Kannada"},
+			{"kr", "Kanuri"},
+			{"ks", "Kashmiri"},
+			{"kk", "Kazakh"},
+			{"ki", "Kikuyu"},
+			{"rw", "Kinyarwanda"},
+			{"rn", "Kirundi"},
+			{"kv", "Komi"},
+			{"kg", "Kongo"},
+			{"ko", "Korean"},
+			{"ku", "Kurdish"},
+			{"kj", "Kwanyama"},
+			{"ky", "Kyrgyz"},
+			{"lo", "Lao"},
+			{"la", "Latin"},
+			{"lv", "Latvian"},
+			{"li", "Limburgish"},
+			{"ln", "Lingala"},
+			{"lt", "Lithuanian"},
+			{"lu", "Luba-Katanga"},
+			{"lb", "Luxembourgish"},
+			{"mk", "Macedonian"},
+			{"mg", "Malagasy"},
+			{"ms", "Malay"},
+			{"ml", "Malayalam"},
+			{"mt", "Maltese"},
+			{"gv", "Manx"},
+			{"mi", "Māori"},
+			{"mr", "Marathi"},
+			{"mh", "Marshallese"},
+			{"mn", "Mongolian"},
+			{"na", "Nauru"},
+			{"nv", "Navajo"},
+			{"ng", "Ndonga"},
+			{"ne", "Nepali"},
+			{"nd", "North Ndebele"},
+			{"se", "Northern Sami"},
+			{"no", "Norwegian"},
+			{"nb", "Norwegian Bokmål"},
+			{"nn", "Norwegian Nynorsk"},
+			{"ii", "Nuosu"},
+			{"oc", "Occitan"},
+			{"oj", "Ojibwe"},
+			{"cu", "Old Church Slavonic"},
+			{"or", "Oriya"},
+			{"om", "Oromo"},
+			{"os", "Ossetian"},
+			{"pi", "Pāli"},
+			{"pa", "Panjabi"},
+			{"ps", "Pashto"},
+			{"fa", "Persian"},
+			{"pl", "Polish"},
+			{"pt", "Portuguese"},
+			{"qu", "Quechua"},
+			{"ro", "Romanian"},
+			{"rm", "Romansh"},
+			{"ru", "Russian"},
+			{"sm", "Samoan"},
+			{"sg", "Sango"},
+			{"sa", "Sanskrit"},
+			{"sc", "Sardinian"},
+			{"sr", "Serbian"},
+			{"sn", "Shona"},
+			{"sd", "Sindhi"},
+			{"si", "Sinhala"},
+			{"sk", "Slovak"},
+			{"sl", "Slovene"},
+			{"so", "Somali"},
+			{"nr", "South Ndebele"},
+			{"st", "Southern Sotho"},
+			{"es", "Spanish"},
+			{"su", "Sundanese"},
+			{"sw", "Swahili"},
+			{"ss", "Swati"},
+			{"sv", "Swedish"},
+			{"tl", "Tagalog"},
+			{"ty", "Tahitian"},
+			{"tg", "Tajik"},
+			{"ta", "Tamil"},
+			{"tt", "Tatar"},
+			{"te", "Telugu"},
+			{"th", "Thai"},
+			{"bo", "Tibetan"},
+			{"ti", "Tigrinya"},
+			{"to", "Tonga"},
+			{"ts", "Tsonga"},
+			{"tn", "Tswana"},
+			{"tr", "Turkish"},
+			{"tk", "Turkmen"},
+			{"tw", "Twi"},
+			{"ug", "Uighur"},
+			{"uk", "Ukrainian"},
+			{"ur", "Urdu"},
+			{"uz", "Uzbek"},
+			{"ve", "Venda"},
+			{"vi", "Vietnamese"},
+			{"vo", "Volapük"},
+			{"wa", "Walloon"},
+			{"cy", "Welsh"},
+			{"fy", "Western Frisian"},
+			{"wo", "Wolof"},
+			{"xh", "Xhosa"},
+			{"yi", "Yiddish"},
+			{"yo", "Yoruba"},
+			{"za", "Zhuang"},
+			{"zu", "Zulu"}
+		}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-		return null;	
+		if(altoLanguageValue != null)
+			return PrimaLanguage.getOrDefault(altoLanguageValue, "other");
+		return null;
 	}
 
 	/**
