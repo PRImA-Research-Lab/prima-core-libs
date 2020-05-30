@@ -499,6 +499,12 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 	void addBlock(Element parent, Region region) {
 		
 		Element blockNode = doc.createElementNS(getNamespace(), getAltoBlockType(region));
+
+		if(getAltoBlockType(region).equals("ComposedBlock")) {
+			//Type (use PAGE region type)
+			addAttribute(blockNode, AltoXmlNames.ATTR_TYPE, region.getType().toString());
+		}
+
 		parent.appendChild(blockNode);
 
 		//ID
