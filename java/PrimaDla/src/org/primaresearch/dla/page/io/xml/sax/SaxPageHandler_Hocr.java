@@ -63,6 +63,8 @@ public class SaxPageHandler_Hocr extends SaxPageHandler {
 	private static final String CLASS_line 		= "ocr_line";
 	private static final String CLASS_word 		= "ocrx_word";
 
+	private static final String CLASS_textFloat	= "ocr_textfloat";
+
 	private Page page;
 	private PageLayout layout = null;
 	private TextRegion currentTextRegion = null;
@@ -125,7 +127,7 @@ public class SaxPageHandler_Hocr extends SaxPageHandler {
 			if ((i = atts.getIndex(ATTR_class)) >= 0) {
 				String elementClass = atts.getValue(i);
 				//Text line
-				if (CLASS_line.equals(elementClass))
+				if (CLASS_line.equals(elementClass) || CLASS_textFloat.equals(elementClass))
 					handleTextLineElement(atts);
 				//Word
 				else if (CLASS_word.equals(elementClass))
