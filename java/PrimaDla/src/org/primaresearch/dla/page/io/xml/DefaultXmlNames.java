@@ -114,6 +114,7 @@ public class DefaultXmlNames implements XmlNameProvider {
 	public static final String ATTR_xHeight				= "xHeight";
 	public static final String ATTR_type				= "type";
 	public static final String ATTR_textColour			= "textColour";
+	public static final String ATTR_textColourRgb		= "textColourRgb";
 	public static final String ATTR_bgColour			= "bgColour";
 	public static final String ATTR_reverseVideo		= "reverseVideo";
 	public static final String ATTR_indented			= "indented";

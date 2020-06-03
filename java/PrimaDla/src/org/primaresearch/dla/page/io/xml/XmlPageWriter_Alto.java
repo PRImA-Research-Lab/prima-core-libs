@@ -1446,12 +1446,9 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			//Font Size
 			if (textObj.getAttributes().get("fontSize") != null && textObj.getAttributes().get("fontSize").getValue() != null)
 				fontSize = ((DoubleValue)textObj.getAttributes().get("fontSize").getValue()).val;
-			
 			//Font Colour (hex)
 			if (textObj.getAttributes().get("textColourRgb") != null && textObj.getAttributes().get("textColourRgb").getValue() != null) {
-				//TODO: 
-				// PAGE is integer (red value) + (256 x green value) + (65536 x blue value)
-				// ALTO is hex encoded RRGGBB
+				fontColor = getHexColor(Integer.parseInt(textObj.getAttributes().get("textColourRgb").getValue().toString()));
 			}
 			
 			//Font style (bold, italics, subscript, superscript, smallcaps, underline)
@@ -1487,7 +1484,19 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 			if (fontStyle.length() > 0)
 				this.fontStyle = fontStyle.toString();
 		}
-		
+
+		/**
+		 * Converts text colour in RGB encoded format (red value) + (256 x green value) + (65536 x blue value) to
+		 * text colour in hexadecimal encoded format (RRGGBB).
+		 * **/
+		private String getHexColor(Integer Color){
+			int r = Color % 256;
+			int g = (Color / 256) % 256;
+			int b = (Color / 65536) % 256;
+
+			return String.format("%02X%02X%02X", r, g, b);
+		}
+
 		/** Returns true if no attribute is set */
 		public boolean isEmpty() {
 			return fontFamily == null
@@ -1515,7 +1524,7 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 					return false;
 				if (!compareAttributes(fontStyle, otherStyle.fontStyle))
 					return false;
-				
+
 				return true;
 			}
 			return false;
