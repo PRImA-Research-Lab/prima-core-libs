@@ -914,7 +914,7 @@ public class XmlPageWriter_Alto implements XmlPageWriter {
 					
 					//VC
 					if (variant.getConfidence() != null)
-						addAttribute(glyphNode, AltoXmlNames.ATTR_VC, ""+variant.getConfidence());
+						addAttribute(variantNode, AltoXmlNames.ATTR_VC, ""+variant.getConfidence());
 
 				}
 			}
