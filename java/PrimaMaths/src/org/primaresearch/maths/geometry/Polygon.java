@@ -61,6 +61,16 @@ public class Polygon implements Serializable {
 	/**
 	 * Adds a point at the end of the polygon.
 	 */
+	public void addPoint(Point p) {
+		synchronized (this) {
+			points.add(p);
+			setBoundingBoxOutdated();
+		}
+	}
+	
+	/**
+	 * Adds a point at the end of the polygon.
+	 */
 	public void addPoint(int x, int y) {
 		synchronized (this) {
 			points.add(new Point(x,y));
