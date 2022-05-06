@@ -70,7 +70,7 @@ public class DoubleVariable extends BaseVariable implements Variable {
 	@Override
 	public void parseValue(String valueInTextForm) {
 		try {
-			this.setValue(new DoubleValue(new Double(valueInTextForm)));
+			this.setValue(new DoubleValue(Double.valueOf(valueInTextForm)));
 		} catch (NumberFormatException e) {
 			this.val = new DoubleValue(0.0);
 		} catch (WrongVariableTypeException e) {

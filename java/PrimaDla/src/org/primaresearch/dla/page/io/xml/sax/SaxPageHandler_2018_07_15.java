@@ -288,7 +288,7 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 	    	currentLogicalGroup = null;
 			//Confidence
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_conf)) >= 0) 
-				readingOrder.setConfidence(new Double(atts.getValue(i)));
+				readingOrder.setConfidence(Double.valueOf(atts.getValue(i)));
 	    }
 	    else if (	DefaultXmlNames.ELEMENT_OrderedGroup.equals(localName)
 	    		||	DefaultXmlNames.ELEMENT_OrderedGroupIndexed.equals(localName)) {
@@ -350,7 +350,7 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 	    	currentLogicalGroup = layer;
 			//Z-Index
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_zIndex)) >= 0) {
-				layer.setZIndex(new Integer(atts.getValue(i)));
+				layer.setZIndex(Integer.valueOf(atts.getValue(i)));
 			}
 			//Caption
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_caption)) >= 0) {
@@ -640,10 +640,10 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 		int width = 0;
 		int height = 0;
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_imageWidth)) >= 0) {
-			width = new Integer(atts.getValue(i));
+			width = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_imageHeight)) >= 0) {
-			height = new Integer(atts.getValue(i));
+			height = Integer.valueOf(atts.getValue(i));
 		}
 		page.getLayout().setSize(width, height);
 		
@@ -680,7 +680,7 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 		}
 		//Confidence
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_conf)) >= 0) {
-			img.setConfidence(new Double(atts.getValue(i)));
+			img.setConfidence(Double.valueOf(atts.getValue(i)));
 		}
 	}
 	
@@ -760,7 +760,7 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 			//Confidence
 			int i;
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_conf)) >= 0) 
-				polygon.setConfidence(new Double(atts.getValue(i)));
+				polygon.setConfidence(Double.valueOf(atts.getValue(i)));
 		}
 	}
 	
@@ -772,7 +772,7 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 			//Confidence
 			int i;
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_conf)) >= 0) 
-				baseline.setConfidence(new Double(atts.getValue(i)));
+				baseline.setConfidence(Double.valueOf(atts.getValue(i)));
 		}
 	}
 
@@ -853,7 +853,7 @@ public class SaxPageHandler_2018_07_15 extends SaxPageHandler {
 				//Split using comma
 				String[] coords = pointStrings[i].split(",");
 				if (coords.length == 2) {
-					polygon.addPoint(new Integer(coords[0]), new Integer(coords[1]));
+					polygon.addPoint(Integer.valueOf(coords[0]), Integer.valueOf(coords[1]));
 				}
 			}
 		}

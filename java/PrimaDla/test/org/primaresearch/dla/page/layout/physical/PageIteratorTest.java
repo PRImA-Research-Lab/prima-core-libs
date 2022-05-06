@@ -22,8 +22,6 @@ import org.junit.Test;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.logical.Layer;
-import org.primaresearch.dla.page.layout.physical.ContentIterator;
-import org.primaresearch.dla.page.layout.physical.Region;
 import org.primaresearch.dla.page.layout.physical.impl.LowLevelTextObjectIterator;
 import org.primaresearch.dla.page.layout.physical.impl.RegionIterator;
 import org.primaresearch.dla.page.layout.physical.shared.LowLevelTextType;

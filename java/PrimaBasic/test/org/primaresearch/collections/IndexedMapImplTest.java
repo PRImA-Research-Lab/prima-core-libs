@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Test;
-import org.primaresearch.collections.IndexedMap;
-import org.primaresearch.collections.IndexedMapImpl;
 
 /**
  * 
@@ -50,34 +48,34 @@ public class IndexedMapImplTest {
 	public void testContainsKey() {
 		IndexedMap<Integer, Double> map = new IndexedMapImpl<Integer, Double>();
 		//Test on empty map
-		assertFalse(map.containsKey(new Integer(1)));
+		assertFalse(map.containsKey(Integer.valueOf(1)));
 		//Fill map
 		map.put(1, 1.0);
-		assertTrue(map.containsKey(new Integer(1)));
+		assertTrue(map.containsKey(Integer.valueOf(1)));
 		map.put(2, 2.0);
-		assertTrue(map.containsKey(new Integer(1)));
-		assertTrue(map.containsKey(new Integer(2)));
+		assertTrue(map.containsKey(Integer.valueOf(1)));
+		assertTrue(map.containsKey(Integer.valueOf(2)));
 		map.put(3, 3.0);
-		assertTrue(map.containsKey(new Integer(1)));
-		assertTrue(map.containsKey(new Integer(2)));
-		assertTrue(map.containsKey(new Integer(3)));
+		assertTrue(map.containsKey(Integer.valueOf(1)));
+		assertTrue(map.containsKey(Integer.valueOf(2)));
+		assertTrue(map.containsKey(Integer.valueOf(3)));
 	}
 
 	@Test
 	public void testContainsValue() {
 		IndexedMap<Integer, Double> map = new IndexedMapImpl<Integer, Double>();
 		//Test on empty map
-		assertFalse(map.containsValue(new Double(1.0)));
+		assertFalse(map.containsValue(Double.valueOf(1.0)));
 		//Fill map
 		map.put(1, 1.0);
-		assertTrue(map.containsValue(new Double(1.0)));
+		assertTrue(map.containsValue(Double.valueOf(1.0)));
 		map.put(2, 2.0);
-		assertTrue(map.containsValue(new Double(1.0)));
-		assertTrue(map.containsValue(new Double(2.0)));
+		assertTrue(map.containsValue(Double.valueOf(1.0)));
+		assertTrue(map.containsValue(Double.valueOf(2.0)));
 		map.put(3, 3.0);
-		assertTrue(map.containsValue(new Double(1.0)));
-		assertTrue(map.containsValue(new Double(2.0)));
-		assertTrue(map.containsValue(new Double(3.0)));
+		assertTrue(map.containsValue(Double.valueOf(1.0)));
+		assertTrue(map.containsValue(Double.valueOf(2.0)));
+		assertTrue(map.containsValue(Double.valueOf(3.0)));
 	}
 
 	@Test
@@ -95,9 +93,9 @@ public class IndexedMapImplTest {
 		int foundKeys = 0;
 		for (Iterator<Entry<Integer,Double>> it = set.iterator(); it.hasNext(); ) {
 			Entry<Integer,Double> entry = it.next();
-			if (	entry.getKey().equals(new Integer(1))
-				|| 	entry.getKey().equals(new Integer(2))
-				|| 	entry.getKey().equals(new Integer(3)))
+			if (	entry.getKey().equals(Integer.valueOf(1))
+				|| 	entry.getKey().equals(Integer.valueOf(2))
+				|| 	entry.getKey().equals(Integer.valueOf(3)))
 				foundKeys++;
 		}
 		assertEquals(3, foundKeys);
@@ -107,15 +105,15 @@ public class IndexedMapImplTest {
 	public void testGetObject() {
 		IndexedMap<Integer, Double> map = new IndexedMapImpl<Integer, Double>();
 		//Test on empty map
-		assertNull(map.get(new Integer(1)));
+		assertNull(map.get(Integer.valueOf(1)));
 		//Fill map
 		map.put(1, 1.0);
 		map.put(2, 2.0);
 		map.put(3, 3.0);
-		assertEquals(new Double(1.0), map.get(new Integer(1)));
-		assertEquals(new Double(2.0), map.get(new Integer(2)));
-		assertEquals(new Double(3.0), map.get(new Integer(3)));
-		assertNull(map.get(new Integer(4)));
+		assertEquals(Double.valueOf(1.0), map.get(Integer.valueOf(1)));
+		assertEquals(Double.valueOf(2.0), map.get(Integer.valueOf(2)));
+		assertEquals(Double.valueOf(3.0), map.get(Integer.valueOf(3)));
+		assertNull(map.get(Integer.valueOf(4)));
 	}
 
 	@Test
@@ -133,9 +131,9 @@ public class IndexedMapImplTest {
 		map.put(1, 1.0);
 		map.put(2, 2.0);
 		map.put(3, 3.0);
-		assertEquals(new Double(1.0), map.getAt(0));
-		assertEquals(new Double(2.0), map.getAt(1));
-		assertEquals(new Double(3.0), map.getAt(2));
+		assertEquals(Double.valueOf(1.0), map.getAt(0));
+		assertEquals(Double.valueOf(2.0), map.getAt(1));
+		assertEquals(Double.valueOf(3.0), map.getAt(2));
 	}
 
 	@Test
@@ -176,17 +174,17 @@ public class IndexedMapImplTest {
 		//Fill map
 		map.put(1, 1.0);
 		assertEquals(1, map.size());
-		assertEquals(new Double(1.0), map.get(new Integer(1)));
+		assertEquals(Double.valueOf(1.0), map.get(Integer.valueOf(1)));
 		map.put(2, 2.0);
 		assertEquals(2, map.size());
-		assertEquals(new Double(2.0), map.get(new Integer(2)));
+		assertEquals(Double.valueOf(2.0), map.get(Integer.valueOf(2)));
 		map.put(3, 3.0);
 		assertEquals(3, map.size());
-		assertEquals(new Double(3.0), map.get(new Integer(3)));
+		assertEquals(Double.valueOf(3.0), map.get(Integer.valueOf(3)));
 		//Put existing key
 		map.put(3, 3.0);
 		assertEquals(3, map.size());
-		assertEquals(new Double(3.0), map.get(new Integer(3)));
+		assertEquals(Double.valueOf(3.0), map.get(Integer.valueOf(3)));
 	}
 
 	@Test
@@ -202,21 +200,21 @@ public class IndexedMapImplTest {
 		//Add to map2
 		map2.putAll(map1);
 		assertEquals(3, map2.size());
-		assertEquals(new Double(1.0), map2.get(new Integer(1)));
+		assertEquals(Double.valueOf(1.0), map2.get(Integer.valueOf(1)));
 	}
 
 	@Test
 	public void testRemoveObject() {
 		IndexedMap<Integer, Double> map = new IndexedMapImpl<Integer, Double>();
 		//Test on empty map
-		assertNull(map.remove(new Integer(1)));
+		assertNull(map.remove(Integer.valueOf(1)));
 		//Fill map
 		map.put(1, 1.0);
 		map.put(2, 2.0);
 		map.put(3, 3.0);
-		assertEquals(new Double(2.0), map.remove(new Integer(2)));
-		assertEquals(new Double(1.0), map.remove(new Integer(1)));
-		assertEquals(new Double(3.0), map.remove(new Integer(3)));
+		assertEquals(Double.valueOf(2.0), map.remove(Integer.valueOf(2)));
+		assertEquals(Double.valueOf(1.0), map.remove(Integer.valueOf(1)));
+		assertEquals(Double.valueOf(3.0), map.remove(Integer.valueOf(3)));
 		assertEquals(0, map.size());
 	}
 

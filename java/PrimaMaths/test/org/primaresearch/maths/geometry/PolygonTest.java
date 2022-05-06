@@ -18,7 +18,6 @@ package org.primaresearch.maths.geometry;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.primaresearch.maths.geometry.Polygon;
 
 public class PolygonTest {
 

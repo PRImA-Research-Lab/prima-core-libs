@@ -28,8 +28,6 @@ import org.junit.Test;
 import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.xml.PageXmlInputOutput;
 import org.primaresearch.dla.page.layout.PageLayout;
-import org.primaresearch.dla.page.layout.converter.ConversionMessage;
-import org.primaresearch.dla.page.layout.converter.ConverterHub;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;
 import org.primaresearch.dla.page.layout.physical.text.impl.TextRegion;
 import org.primaresearch.io.UnsupportedFormatVersionException;
