@@ -18,7 +18,6 @@ package org.primaresearch.dla.page;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.io.xml.PageXmlInputOutput;
 import org.primaresearch.dla.page.layout.physical.impl.TableRegion;
 import org.primaresearch.dla.page.layout.physical.shared.RegionType;

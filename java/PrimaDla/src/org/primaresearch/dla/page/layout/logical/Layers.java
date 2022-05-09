@@ -157,7 +157,7 @@ public class Layers {
 		public int compare(Layer o1, Layer o2) {
 			if (o1 == null || o2 == null)
 				return 0;
-			return new Integer(o1.getZIndex()).compareTo(o2.getZIndex());
+			return Integer.valueOf(o1.getZIndex()).compareTo(o2.getZIndex());
 		}
 	}
 }

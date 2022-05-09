@@ -14,7 +14,6 @@ import org.primaresearch.dla.page.io.PageWriter;
 import org.primaresearch.io.UnsupportedFormatVersionException;
 import org.primaresearch.io.xml.XmlFormatVersion;
 import org.primaresearch.io.xml.XmlModelAndValidatorProvider;
-import org.primaresearch.io.xml.XmlModelAndValidatorProvider.UnsupportedSchemaVersionException;
 import org.primaresearch.io.xml.XmlValidator;
 
 public class XmlPageWriter_AltoTest {

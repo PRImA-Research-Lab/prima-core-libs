@@ -329,7 +329,7 @@ public class SaxPageHandler_Hocr extends SaxPageHandler {
 				else if (part.startsWith("bbox")) {
 					String coords[] = part.split(" ");
 					if (coords.length == 5) {
-						layout.setSize(new Integer(coords[3]), new Integer(coords[4]));	//This should be +1 but they seem to use x2/y2 as width/height
+						layout.setSize(Integer.valueOf(coords[3]), Integer.valueOf(coords[4]));	//This should be +1 but they seem to use x2/y2 as width/height
 					}
 				}
 			}
@@ -428,10 +428,10 @@ public class SaxPageHandler_Hocr extends SaxPageHandler {
 				String parts[] = toplevelParts[i].split(" ");
 				if (parts.length == 5) {
 					ret = new Polygon();
-					int x1 = new Integer(parts[1]);
-					int y1 = new Integer(parts[2]);
-					int x2 = new Integer(parts[3]);
-					int y2 = new Integer(parts[4]);
+					int x1 = Integer.valueOf(parts[1]);
+					int y1 = Integer.valueOf(parts[2]);
+					int x2 = Integer.valueOf(parts[3]);
+					int y2 = Integer.valueOf(parts[4]);
 					ret.addPoint(x1,y1);
 					ret.addPoint(x2,y1);
 					ret.addPoint(x2,y2);

@@ -265,7 +265,7 @@ public class SaxPageHandler_2010_03_19 extends SaxPageHandler {
 	    	currentLogicalGroup = layer;
 			int i;
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_zIndex)) >= 0) {
-				layer.setZIndex(new Integer(atts.getValue(i)));
+				layer.setZIndex(Integer.valueOf(atts.getValue(i)));
 			}
 			parseId(layer, atts);
 	    }
@@ -422,10 +422,10 @@ public class SaxPageHandler_2010_03_19 extends SaxPageHandler {
 		int width = 0;
 		int height = 0;
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_imageWidth)) >= 0) {
-			width = new Integer(atts.getValue(i));
+			width = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_imageHeight)) >= 0) {
-			height = new Integer(atts.getValue(i));
+			height = Integer.valueOf(atts.getValue(i));
 		}
 		page.getLayout().setSize(width, height);
 		
@@ -447,10 +447,10 @@ public class SaxPageHandler_2010_03_19 extends SaxPageHandler {
 		int y=0;
 		int i;
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_x)) >= 0) {
-			x = new Integer(atts.getValue(i));
+			x = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_y)) >= 0) {
-			y = new Integer(atts.getValue(i));
+			y = Integer.valueOf(atts.getValue(i));
 		}
 		currentGeometricObject.getCoords().addPoint(x, y);
 	}

@@ -176,16 +176,16 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	private void createTextLine(Attributes atts) {
 		int i, l=0, t=0, r=0, b=0;
 		if ((i = atts.getIndex(ATTR_l)) >= 0) {
-			l = new Integer(atts.getValue(i));
+			l = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_t)) >= 0) {
-			t = new Integer(atts.getValue(i));
+			t = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_r)) >= 0) {
-			r = new Integer(atts.getValue(i));
+			r = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_b)) >= 0) {
-			b = new Integer(atts.getValue(i));
+			b = Integer.valueOf(atts.getValue(i));
 		}
 		TextLine line = ((TextRegion)currentRegion).createTextLine();
 		Polygon poly = new Polygon();
@@ -329,10 +329,10 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 		int width = 0;
 		int height = 0;
 		if ((i = atts.getIndex(ATTR_width)) >= 0) {
-			width = new Integer(atts.getValue(i));
+			width = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_height)) >= 0) {
-			height = new Integer(atts.getValue(i));
+			height = Integer.valueOf(atts.getValue(i));
 		}
 		page.getLayout().setSize(width, height);
 
@@ -344,7 +344,7 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 					comments = "";
 				else
 					comments += "\n";
-				comments += "Original coords: "+(new Integer(atts.getValue(i)).equals(1) ? "true" : "false");
+				comments += "Original coords: "+(Integer.valueOf(atts.getValue(i)).equals(1) ? "true" : "false");
 			}
 		}
 	}
@@ -358,16 +358,16 @@ public class SaxPageHandler_AbbyyFineReader10 extends SaxPageHandler {
 	
 		int i, l=0, t=0, r=0, b=0;
 		if ((i = atts.getIndex(ATTR_l)) >= 0) {
-			l = new Integer(atts.getValue(i));
+			l = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_t)) >= 0) {
-			t = new Integer(atts.getValue(i));
+			t = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_r)) >= 0) {
-			r = new Integer(atts.getValue(i));
+			r = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(ATTR_b)) >= 0) {
-			b = new Integer(atts.getValue(i));
+			b = Integer.valueOf(atts.getValue(i));
 		}
 		currentRects.add(new Rect(l, t, r, b));
 	}

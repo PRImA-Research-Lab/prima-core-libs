@@ -691,9 +691,9 @@ public class PageLayout {
 					if (o1 == null || o2 == null || o1.getCoords() == null || o2.getCoords() == null
 							|| o1.getCoords().getSize() < 3 || o2.getCoords().getSize() < 3)
 						return 0;
-					return new Integer(o1.getCoords().getBoundingBox().getWidth() 
+					return Integer.valueOf(o1.getCoords().getBoundingBox().getWidth() 
 							* o1.getCoords().getBoundingBox().getWidth()).compareTo(
-							new Integer(o2.getCoords().getBoundingBox().getWidth() 
+							Integer.valueOf(o2.getCoords().getBoundingBox().getWidth() 
 									* o2.getCoords().getBoundingBox().getWidth()));
 				}
 			};

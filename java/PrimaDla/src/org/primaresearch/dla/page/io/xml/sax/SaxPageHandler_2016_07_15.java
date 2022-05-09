@@ -315,7 +315,7 @@ public class SaxPageHandler_2016_07_15 extends SaxPageHandler {
 			int i;
 			//Z-Index
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_zIndex)) >= 0) {
-				layer.setZIndex(new Integer(atts.getValue(i)));
+				layer.setZIndex(Integer.valueOf(atts.getValue(i)));
 			}
 			//Caption
 			if ((i = atts.getIndex(DefaultXmlNames.ATTR_caption)) >= 0) {
@@ -495,10 +495,10 @@ public class SaxPageHandler_2016_07_15 extends SaxPageHandler {
 		int width = 0;
 		int height = 0;
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_imageWidth)) >= 0) {
-			width = new Integer(atts.getValue(i));
+			width = Integer.valueOf(atts.getValue(i));
 		}
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_imageHeight)) >= 0) {
-			height = new Integer(atts.getValue(i));
+			height = Integer.valueOf(atts.getValue(i));
 		}
 		page.getLayout().setSize(width, height);
 		
@@ -689,7 +689,7 @@ public class SaxPageHandler_2016_07_15 extends SaxPageHandler {
 				//Split using comma
 				String[] coords = pointStrings[i].split(",");
 				if (coords.length == 2) {
-					polygon.addPoint(new Integer(coords[0]), new Integer(coords[1]));
+					polygon.addPoint(Integer.valueOf(coords[0]), Integer.valueOf(coords[1]));
 				}
 			}
 		}

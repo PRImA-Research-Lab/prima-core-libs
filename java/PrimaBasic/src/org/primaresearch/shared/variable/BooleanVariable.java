@@ -68,7 +68,7 @@ public class BooleanVariable extends BaseVariable implements Variable {
 	@Override
 	public void parseValue(String valueInTextForm) {
 		try {
-			this.setValue(new BooleanValue(new Boolean(valueInTextForm)));
+			this.setValue(new BooleanValue(Boolean.valueOf(valueInTextForm)));
 		} catch (WrongVariableTypeException e) {
 			//Cannot happen
 			e.printStackTrace();

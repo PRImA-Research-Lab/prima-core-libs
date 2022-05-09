@@ -31,7 +31,7 @@ public class VariableComparator implements Comparator<Variable>, Serializable {
 	@Override
 	public int compare(Variable v1, Variable v2) {
 		if (v1 != null && v2 != null)
-			return (new Integer(v1.getSortIndex())).compareTo(new Integer(v2.getSortIndex()));
+			return (Integer.valueOf(v1.getSortIndex())).compareTo(Integer.valueOf(v2.getSortIndex()));
 		return 0;
 	}
 

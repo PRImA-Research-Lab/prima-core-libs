@@ -57,12 +57,12 @@ public class XmlIdRegister implements IdRegister {
 	private int getCounter(String prefix, boolean increment) {
 		Integer counter = counters.get(prefix);
 		if (counter == null) {
-			counter = new Integer(1);
+			counter = Integer.valueOf(1);
 			counters.put(prefix, counter);
 		}
 		int ret = counter.intValue();
 		if (increment)
-			counters.put(prefix, new Integer(ret+1));
+			counters.put(prefix, Integer.valueOf(ret+1));
 		return ret;
 	}
 

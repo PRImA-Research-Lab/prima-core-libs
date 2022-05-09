@@ -70,7 +70,7 @@ public class IntegerVariable extends BaseVariable implements Variable {
 	@Override
 	public void parseValue(String valueInTextForm) {
 		try {
-			this.setValue(new IntegerValue(new Integer(valueInTextForm)));
+			this.setValue(new IntegerValue(Integer.valueOf(valueInTextForm)));
 		} catch (NumberFormatException e) {
 			this.val = new IntegerValue(0);
 		} catch (WrongVariableTypeException e) {

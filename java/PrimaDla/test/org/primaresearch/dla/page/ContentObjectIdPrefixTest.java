@@ -18,7 +18,6 @@ package org.primaresearch.dla.page;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.primaresearch.dla.page.Page;
 import org.primaresearch.dla.page.layout.PageLayout;
 import org.primaresearch.dla.page.layout.logical.Group;
 import org.primaresearch.dla.page.layout.logical.Layer;
