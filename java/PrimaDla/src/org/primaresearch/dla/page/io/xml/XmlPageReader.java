@@ -143,8 +143,12 @@ public class XmlPageReader extends PageReaderBase implements PageReader {
 		
 		Page page = null;
 		
-		if (lastErrors.hasErrors())
-			throw new UnsupportedFormatVersionException(getErrors().toString());
+		if (lastErrors.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			for (IOError error : getErrors())
+				sb.append(error.getMessage());
+			throw new UnsupportedFormatVersionException(sb.toString());
+		}
 
 		page = pageHandler.getPageObject();
 		
