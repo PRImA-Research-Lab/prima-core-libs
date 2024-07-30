@@ -627,10 +627,10 @@ public class XmlPageWriter_2016_07_15 implements XmlPageWriter {
 				//Type
 				addAttribute(relationNode, DefaultXmlNames.ATTR_type, rel.getRelationType().toString());
 				//Custom
-				if (!rel.getCustomField().isEmpty())
+				if (rel.getCustomField() != null && !rel.getCustomField().isEmpty())
 					addAttribute(relationNode, DefaultXmlNames.ATTR_custom, rel.getCustomField());
 				//Comments
-				if (!rel.getComments().isEmpty())
+				if (rel.getComments() != null && !rel.getComments().isEmpty())
 					addAttribute(relationNode, DefaultXmlNames.ATTR_comments, rel.getComments());
 				
 				//Object 1
