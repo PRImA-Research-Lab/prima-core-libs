@@ -662,7 +662,7 @@ public class SaxPageHandler_2019_07_15 extends SaxPageHandler {
 	}
 	
 	/**
-	 * Adds an alternative image to the list of images of the page object. 
+	 * Adds an alternative image to the list of images of the corresponding object.
 	 */
 	private void handleAlternativeImage(Attributes atts) {
 		if (page.getAlternativeImages() == null)
@@ -672,7 +672,17 @@ public class SaxPageHandler_2019_07_15 extends SaxPageHandler {
 		int i;
 		if ((i = atts.getIndex(DefaultXmlNames.ATTR_filename)) >= 0) {
 			img = new AlternativeImage(atts.getValue(i));
-			page.getAlternativeImages().add(img);
+			if(currentGlyph != null) {
+				currentGlyph.getAlternativeImages().add(img);
+			} else if (currentWord != null) {
+				currentWord.getAlternativeImages().add(img);
+			} else if (currentTextLine != null) {
+				currentTextLine.getAlternativeImages().add(img);
+			} else if (currentRegion != null) {
+				currentRegion.getAlternativeImages().add(img);
+			} else {
+				page.getAlternativeImages().add(img);
+			}
 		}
 		else 
 			return;
